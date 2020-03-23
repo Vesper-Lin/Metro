@@ -27,7 +27,7 @@ public class Metro {
     }
     public static boolean isTwoDigitsValid(String piecePlacement)
     {
-        return true// if the last two digits are between 0 and 7;
+        return true;// if the last two digits are between 0 and 7;
     }
     public static boolean isPiecePlacementWellFormed(String piecePlacement) {
         // FIXME Task 2: determine whether a piece placement is well-formed
