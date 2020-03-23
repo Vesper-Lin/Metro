@@ -49,6 +49,7 @@ public class Metro {
      */
     public static boolean isPlacementSequenceWellFormed(String placement) {
         // FIXME Task 3: determine whether a placement sequence is well-formed
+        //will finish it later
         return false;
     }
 
@@ -82,7 +83,7 @@ public class Metro {
      */
     public static boolean isPlacementSequenceValid(String placementSequence) {
         // FIXME Task 6: determine whether a placement sequence is valid
-        return false;
+        return true;
     }
 
     /**
