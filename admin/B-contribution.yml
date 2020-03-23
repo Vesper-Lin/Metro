@@ -18,9 +18,11 @@ contributions:
 # Sign *your* name and uids here. (Remove entries if you have fewer
 # than three members)
 signatures:
-  - name:Jiawei  Fan
-    uid:u5922620
+
+members:
   - name: Ganaraj Rao
     uid: u7097254
-  - name:
-    uid:
+  - name: Jiawei Fan
+    uid: u5922620
+  - name: Yuxuan Lin
+    uid: u6828533

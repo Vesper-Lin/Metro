@@ -22,6 +22,8 @@ public class Metro {
 
     public static boolean isFourCharacterValid(String piecePlacement)
     {
+        //String pieceType=piecePlacement.substring(0,3);
+
         return true;//if the first four character are letters are between 'a' and 'd'
         //false if not
     }
