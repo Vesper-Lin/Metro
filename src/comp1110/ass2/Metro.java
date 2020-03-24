@@ -20,31 +20,14 @@ public class Metro {
      *  between 'a' and 'd' and the last two digits are between 0 and 7
      */
 
-    public static boolean isFourCharacterValid(String piecePlacement)
-    {
-        //String pieceType=piecePlacement.substring(0,3);
 
-        return true;//if the first four character are letters are between 'a' and 'd'
-        //false if not
-    }
-    public static boolean isTwoDigitsValid(String piecePlacement)
-    {
-        return true;// if the last two digits are between 0 and 7;
-    }
     public static boolean isPiecePlacementWellFormed(String piecePlacement) {
         // FIXME Task 2: determine whether a piece placement is well-formed
         /**
          * Some fields are created below which are accessible for this method
          */
         int NUMBER_OF_CHAR=6; //used to decide the string contains exactly six characters
-        if (piecePlacement.length()==NUMBER_OF_CHAR&&isFourCharacterValid(piecePlacement)&&isTwoDigitsValid(piecePlacement))
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return false;
     }
 
     /**

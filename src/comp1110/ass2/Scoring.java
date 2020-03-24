@@ -4,6 +4,7 @@ public class Scoring {
     int points;
     int startStation;
     int endStation;
+    String piecePlacement;//score is based on piece placement
 
     public int scoring(){
         return 0;
@@ -12,7 +13,7 @@ public class Scoring {
         return false;
     }
 
-    public int declareWinner(){
-        return Player.playerNumber;
+    public void declareWinner(){
+        // will return the player's number who has the highest score later
     }
 }
