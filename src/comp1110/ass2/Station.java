@@ -1,6 +1,7 @@
 package comp1110.ass2;
 
 public class Station {
+    //represents stations on board
     private int numberOfPlayers;
     private int playerNumber;
     private int[] stationOwned;
