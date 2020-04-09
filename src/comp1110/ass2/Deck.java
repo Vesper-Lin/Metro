@@ -1,5 +1,7 @@
 package comp1110.ass2;
 
+import java.util.ArrayList;
+
 public class Deck{
     /** this method returns the initial state of the deck,all tiles are in the deck.
      *  it returns an array which contains TileTypeAndNumber,which shows the name
@@ -39,21 +41,24 @@ public class Deck{
      * a random function to randomly select a tile form the deck. When a tile is selected,
      * setNumber() is used to decrease the number of the selected tile in deck by one
      */
-    public Tile isDrawnTile(Tile[] deck)
+    public String isDrawnTile(Tile[] deck)
     {
-        String tile;
-        int b=deck.length;
-        double a=b*Math.random();
-        int c= (int) Math.round(a);
-        tile=deck[c].getType();
-        for (int i=0;i<24;i++)
+        ArrayList<Tile> adeck=new ArrayList<>();
+        for (Tile f:deck)
         {
-            if(deck[i].getType().equals(tile)&&deck[i].getNumber()>0)
-            {
-                deck[i].setNumber();
-                return deck[i];
-            }
+            adeck.add(f);
         }
-        return deck[0];
+        int b=adeck.size();
+        int flag=1;
+        while (true)
+        {
+            double a=b*Math.random();
+            int c= (int) a;
+            if (adeck.get(c).getNumber()>0) {
+                String tile;
+                tile = adeck.get(c).getType();
+                return tile;
+            }
     }
-}
+    }}
+
