@@ -29,8 +29,37 @@ public class Metro {
         /**
          * Some fields are created below which are accessible for this method
          */
-        int NUMBER_OF_CHAR=6; //used to decide the string contains exactly six characters
-        int flag1=1;
+        int NUMBER_OF_CHAR=6;//used to decide the string contains exactly six characters
+        boolean wellFormed=false;
+        if(piecePlacement.length()==NUMBER_OF_CHAR){
+            String tracks= piecePlacement.substring(0,4);
+            String position =piecePlacement.substring(4,6);
+
+            for(int char_pos =0;char_pos<=3;char_pos++){
+                if(tracks.charAt(char_pos)>=97 && tracks.charAt(char_pos)<=100) {
+                    wellFormed=true;
+                }
+                else{
+                    wellFormed=false;
+                    return wellFormed;
+                }
+            }
+            for(int pos=0;pos<=1;pos++){
+                if(Character.getNumericValue(position.charAt(pos))>=0&& Character.getNumericValue(position.charAt(pos))<=7){
+                    wellFormed=true;
+                }
+                else{
+                    wellFormed=false;
+                    return wellFormed;
+                }
+            }
+
+        }
+        if(wellFormed==true){
+            return true;
+        }
+        return false;
+        /*int flag1=1;
         int flag2=1;
         int flag3=1;
         if (piecePlacement.length()!=NUMBER_OF_CHAR)
@@ -62,7 +91,9 @@ public class Metro {
         else
         {
             return false;
-        }
+        }*/
+
+
     }
 
     /**
