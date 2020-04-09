@@ -1,4 +1,4 @@
-package gitest;
+package gittest;
 
 public class B {
     public String toString(){

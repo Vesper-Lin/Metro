@@ -22,5 +22,9 @@ public class Tile {
     {
         number=number-1;
     }
+    public void addNumber()
+    {
+        number=number+1;
+    }
 }
 

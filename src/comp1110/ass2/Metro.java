@@ -1,5 +1,8 @@
 package comp1110.ass2;
 
+import java.util.ArrayList;
+import java.util.jar.JarOutputStream;
+
 public class Metro {
     /**
      * Task 2
@@ -26,8 +29,71 @@ public class Metro {
         /**
          * Some fields are created below which are accessible for this method
          */
-        int NUMBER_OF_CHAR=6; //used to decide the string contains exactly six characters
+        int NUMBER_OF_CHAR=6;//used to decide the string contains exactly six characters
+        boolean wellFormed=false;
+        if(piecePlacement.length()==NUMBER_OF_CHAR){
+            String tracks= piecePlacement.substring(0,4);
+            String position =piecePlacement.substring(4,6);
+
+            for(int char_pos =0;char_pos<=3;char_pos++){
+                if(tracks.charAt(char_pos)>=97 && tracks.charAt(char_pos)<=100) {
+                    wellFormed=true;
+                }
+                else{
+                    wellFormed=false;
+                    return wellFormed;
+                }
+            }
+            for(int pos=0;pos<=1;pos++){
+                if(Character.getNumericValue(position.charAt(pos))>=0&& Character.getNumericValue(position.charAt(pos))<=7){
+                    wellFormed=true;
+                }
+                else{
+                    wellFormed=false;
+                    return wellFormed;
+                }
+            }
+
+        }
+        if(wellFormed==true){
+            return true;
+        }
         return false;
+        /*int flag1=1;
+        int flag2=1;
+        int flag3=1;
+        if (piecePlacement.length()!=NUMBER_OF_CHAR)
+        {
+            flag1=0;
+        }
+        for (int i=0;i<4;i++)
+        {
+            String a=piecePlacement.substring(i,i+1);
+            if (a.compareTo("a")<0||a.compareTo("d")>0)
+            {
+                flag2=0;
+                break;
+            }
+        }
+        for (int i=0;i<2;i++)
+        {
+            String a=piecePlacement.substring(i+4,i+5);
+            if (a.compareTo("0")<0||a.compareTo("7")>0)
+            {
+                flag3=0;
+                break;
+            }
+        }
+        if (flag1==1&&flag2==1&&flag3==1)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }*/
+
+
     }
 
     /**
@@ -45,15 +111,70 @@ public class Metro {
      */
     public static boolean isPlacementSequenceWellFormed(String placement) {
         // FIXME Task 3: determine whether a placement sequence is well-formed
-        //will finish it later
-        return false;
+        Deck adeck=new Deck();
+        Tile[] deck=adeck.getInitialDeck();
+        if (placement.length()%6!=0)
+        {
+            return false;
+        }
+        int numberOfPiece=placement.length()/6;
+        for (int i=0;i<numberOfPiece;i++)
+        {
+            String testPiece=placement.substring(6*i,6*i+6);
+            if (!isPiecePlacementWellFormed(testPiece))
+            {
+                return false;
+            }
+        }
+        int[] mark=new int[numberOfPiece];
+        ArrayList<Tile> tile=new ArrayList<>();
+        for (int i=0;i<numberOfPiece;i++)
+        {
+            if (mark[i]==0)
+            {
+                Tile newtile=new Tile(placement.substring(6*i,6*i+4),1);
+            for (int j=i+1;j<numberOfPiece-1;j++)
+            {
+                if (placement.substring(6*j,6*j+4).equals(placement.substring(6*i,6*i+4)))
+                {
+                    newtile.addNumber();
+                    mark[j]=1;
+                }
+            }
+            tile.add(newtile);
+            }
+        }
+        int[] flag=new int[tile.size()];//test if the piece is actually from deck
+        for (Tile e:tile)
+        {
+            for(Tile f:deck)
+            {
+                if (e.getType().equals(f.getType()))
+                {
+                    int index=tile.indexOf(e);
+                    flag[index]=1;
+                    if (e.getNumber()>f.getNumber())
+                    {
+                        return false;
+                    }
+                }
+            }
+        }
+        for (int c:flag)////test if the piece is actually from deck
+        {
+            if (c==0)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
      * Task 5
      * Draw a random tile from the deck.
      *
-     * @param placementSequence a String representing the sequence of tiles
+     * @param placementSequence a String representing the sequience of tiles
      *                          that have already been played
      * @param totalHands        a String representing all tiles (if any) in
      *                          all players' hands
@@ -61,7 +182,57 @@ public class Metro {
      */
     public static String drawFromDeck(String placementSequence, String totalHands) {
         // FIXME Task 5: draw a random tile from the deck
-        return "";
+        int handNumber=totalHands.length()/4;
+        StringBuilder atotalHands= new StringBuilder(totalHands);
+        for (int i=0;i<handNumber;i++)
+        {
+            atotalHands.insert(4+6*i,"00");
+        }
+        System.out.println(atotalHands.toString());
+        totalHands=atotalHands.toString();
+        String totalPieces=placementSequence+totalHands;
+        System.out.println(totalPieces);
+        int numberOfPiece=totalPieces.length()/6;
+        int[] mark=new int[numberOfPiece];
+        ArrayList<Tile> tile=new ArrayList<>();
+        for (int i=0;i<numberOfPiece;i++)
+        {
+            if (mark[i]==0)
+            {
+                Tile newtile=new Tile(totalPieces.substring(6*i,6*i+4),1);
+                for (int j=i+1;j<numberOfPiece-1;j++)
+                {
+                    if (totalPieces.substring(6*j,6*j+4).equals(totalPieces.substring(6*i,6*i+4)))
+                    {
+                        newtile.addNumber();
+                        mark[j]=1;
+                    }
+                }
+                tile.add(newtile);
+            }
+        }
+        Deck adeck=new Deck();
+        Tile[] deck=adeck.getInitialDeck();
+        for (Tile e:tile)
+        {
+            for(Tile f:deck)
+            {
+                if (e.getType().equals(f.getType()))
+                {
+                    for (int i=0;i<e.getNumber();i++)
+                    {
+                        f.setNumber();
+                    }
+                }
+            }
+        }
+        for (Tile e:deck)
+        {
+            System.out.println(e.getType()+e.getNumber());
+        }
+        String drawnTile;
+        drawnTile=adeck.isDrawnTile(deck);
+        return drawnTile;
     }
 
     /**
