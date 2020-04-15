@@ -1,5 +1,6 @@
 package comp1110.ass2.gui;
 
+import comp1110.ass2.Metro;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -8,8 +9,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+
+import java.awt.*;
 
 /**
  * A very simple viewer for piece placements in the Metro game.
@@ -27,9 +35,32 @@ public class Viewer extends Application {
     private static final String URI_BASE = "assets/";
 
     private final Group root = new Group();
+    private final Group board = new Group();
     private final Group controls = new Group();
+    private final Group placement = new Group();
     private TextField textField;
 
+    class DrawPiece extends ImageView{
+        String pieceType;
+        DrawPiece(String placementPiece){
+            this.pieceType = placementPiece;
+            setFitHeight(SQUARE_SIZE);
+            setFitWidth(SQUARE_SIZE);
+            this.setImage(new Image(Viewer.class.getResource(URI_BASE + pieceType + ".jpg").toString()));
+        }
+    }
+
+    void drawBoard(){
+        for (int row = 0; row < 10; row++) {
+            for (int col = 0; col < 10; col++) {
+                Rectangle r = new Rectangle(SQUARE_SIZE, SQUARE_SIZE);
+                r.setLayoutX(col * SQUARE_SIZE + 162);
+                r.setLayoutY(row * SQUARE_SIZE);
+                r.setStyle("-fx-fill: white; -fx-stroke: black; -fx-stroke-width: 1;");
+                board.getChildren().add(r);
+            }
+        }
+    }
     /**
      * Draw a placement in the window, removing any previously drawn one
      *
@@ -37,6 +68,26 @@ public class Viewer extends Application {
      */
     void makePlacement(String placement) {
         // FIXME Task 4: implement the simple placement viewer
+        this.placement.getChildren().clear();
+
+        if (!Metro.isPlacementSequenceWellFormed(placement)||!Metro.isPlacementSequenceValid(placement)){
+            System.out.println("Error: Invalid Placement");
+            return;
+        }
+        if (placement.length()==0){
+            return;
+        }
+        for (int i=0; i<placement.length()-5; i+=6){
+            DrawPiece drawPiece = new DrawPiece(placement.substring(i, i+4));
+
+            int x = placement.charAt(i+4)-'0';
+            int y = placement.charAt(i+5)-'0';
+
+            drawPiece.setLayoutY((x+1) * SQUARE_SIZE);
+            drawPiece.setLayoutX((y+1) * SQUARE_SIZE + 162);
+
+            this.placement.getChildren().add(drawPiece);
+        }
     }
 
     /**
@@ -67,8 +118,11 @@ public class Viewer extends Application {
         primaryStage.setTitle("FocusGame Viewer");
         Scene scene = new Scene(root, VIEWER_WIDTH, VIEWER_HEIGHT);
 
+        root.getChildren().add(board);
         root.getChildren().add(controls);
+        root.getChildren().add(placement);
 
+        drawBoard();
         makeControls();
 
         primaryStage.setScene(scene);
