@@ -177,26 +177,26 @@ public class Viewer extends Application {
      */
     void makePlacement(String placement) {
         // FIXME Task 4: implement the simple placement viewer
+
         this.placement.getChildren().clear();
 
-        if (!Metro.isPlacementSequenceWellFormed(placement)||!Metro.isPlacementSequenceValid(placement)){
-            System.out.println("Error: Invalid Placement");
+        if (Metro.isPlacementSequenceWellFormed(placement) && Metro.isPlacementSequenceValid(placement)){
+            if (placement.length()!=0){
+                for (int i=0; i<placement.length()-5; i+=6){
+                    DrawPiece drawPiece = new DrawPiece(placement.substring(i, i+4));
+
+                    int x = placement.charAt(i+4)-'0';
+                    int y = placement.charAt(i+5)-'0';
+
+                    drawPiece.setLayoutY((x+1) * SQUARE_SIZE);
+                    drawPiece.setLayoutX((y+1) * SQUARE_SIZE + 162);
+
+                    this.placement.getChildren().add(drawPiece);
+                }
+            }
             return;
         }
-        if (placement.length()==0){
-            return;
-        }
-        for (int i=0; i<placement.length()-5; i+=6){
-            DrawPiece drawPiece = new DrawPiece(placement.substring(i, i+4));
-
-            int x = placement.charAt(i+4)-'0';
-            int y = placement.charAt(i+5)-'0';
-
-            drawPiece.setLayoutY((x+1) * SQUARE_SIZE);
-            drawPiece.setLayoutX((y+1) * SQUARE_SIZE + 162);
-
-            this.placement.getChildren().add(drawPiece);
-        }
+        System.out.println("Error: Invalid Placement");
     }
 
     /**
