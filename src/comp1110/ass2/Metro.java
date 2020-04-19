@@ -59,7 +59,7 @@ public class Metro {
             return true;
         }
         return false;
-        /*int flag1=1;
+        /*int flag1=1; //first version of task 2
         int flag2=1;
         int flag3=1;
         if (piecePlacement.length()!=NUMBER_OF_CHAR)
@@ -112,7 +112,7 @@ public class Metro {
     public static boolean isPlacementSequenceWellFormed(String placement) {
         // FIXME Task 3: determine whether a placement sequence is well-formed
         Deck adeck=new Deck();
-        Tile[] deck=adeck.getInitialDeck();
+        Tile[] deck=adeck.getInitialDeck(); //get the initial deck which contains all tiles
         if (placement.length()%6!=0)
         {
             return false;
@@ -121,14 +121,14 @@ public class Metro {
         for (int i=0;i<numberOfPiece;i++)
         {
             String testPiece=placement.substring(6*i,6*i+6);
-            if (!isPiecePlacementWellFormed(testPiece))
+            if (!isPiecePlacementWellFormed(testPiece)) //determine if each piece placement in the placement is valid or not
             {
                 return false;
             }
         }
-        int[] mark=new int[numberOfPiece];
+        int[] mark=new int[numberOfPiece]; //a marker used to mark the tile which has been tested
         ArrayList<Tile> tile=new ArrayList<>();
-        for (int i=0;i<numberOfPiece;i++)
+        for (int i=0;i<numberOfPiece;i++) //an algorithm thought of to calculate the number of each type of tile in the placement
         {
             if (mark[i]==0)
             {
@@ -149,18 +149,18 @@ public class Metro {
         {
             for(Tile f:deck)
             {
-                if (e.getType().equals(f.getType()))
+                if (e.getType().equals(f.getType())) //firstly test the tile type in the placement is from the initial deck
                 {
                     int index=tile.indexOf(e);
-                    flag[index]=1;
-                    if (e.getNumber()>f.getNumber())
+                    flag[index]=1;//if the deck has this type of tile, mark the tile as 1
+                    if (e.getNumber()>f.getNumber()) //to meet the requirement that "- For any piece x, there can exist no more instances of x on the board than instances of x in the deck."
                     {
                         return false;
                     }
                 }
             }
         }
-        for (int c:flag)////test if the piece is actually from deck
+        for (int c:flag)////test if the tile is actually from deck, if one tile is not marked as 1, then this placement is not valid
         {
             if (c==0)
             {
@@ -183,19 +183,19 @@ public class Metro {
     public static String drawFromDeck(String placementSequence, String totalHands) {
         // FIXME Task 5: draw a random tile from the deck
         int handNumber=totalHands.length()/4;
-        StringBuilder atotalHands= new StringBuilder(totalHands);
+        StringBuilder atotalHands= new StringBuilder(totalHands);//use StringBuilder because want to modify String totalhands
         for (int i=0;i<handNumber;i++)
         {
-            atotalHands.insert(4+6*i,"00");
+            atotalHands.insert(4+6*i,"00");//add "00" to the end of each tile in hand,"00" represents they are not placed yet
         }
         System.out.println(atotalHands.toString());
-        totalHands=atotalHands.toString();
-        String totalPieces=placementSequence+totalHands;
+        totalHands=atotalHands.toString();//convert back to String, but have "00"s after each tile
+        String totalPieces=placementSequence+totalHands;//add the placementSequence and totalHands together
         System.out.println(totalPieces);
         int numberOfPiece=totalPieces.length()/6;
-        int[] mark=new int[numberOfPiece];
+        int[] mark=new int[numberOfPiece];//Similar to Task 4, mark is used to mark the tile which has been tested
         ArrayList<Tile> tile=new ArrayList<>();
-        for (int i=0;i<numberOfPiece;i++)
+        for (int i=0;i<numberOfPiece;i++)//similar to the code in task 4, calculate the number of each type of tile
         {
             if (mark[i]==0)
             {
@@ -211,9 +211,9 @@ public class Metro {
                 tile.add(newtile);
             }
         }
-        Deck adeck=new Deck();
-        Tile[] deck=adeck.getInitialDeck();
-        for (Tile e:tile)
+        Deck adeck=new Deck();//initialize a Deck in order to call the method in this class, maybe can change it to a static method later. But both looks fine to me.
+        Tile[] deck=adeck.getInitialDeck();//Call the method to get the initial deck.
+        for (Tile e:tile)//remove the tiles which have been placed or held in hand from the deck
         {
             for(Tile f:deck)
             {
@@ -221,17 +221,13 @@ public class Metro {
                 {
                     for (int i=0;i<e.getNumber();i++)
                     {
-                        f.setNumber();
+                        f.setNumber();//decrease this type of tile's number in deck by one, because it has been placed or held in hand
                     }
                 }
             }
         }
-        for (Tile e:deck)
-        {
-            System.out.println(e.getType()+e.getNumber());
-        }
         String drawnTile;
-        drawnTile=adeck.isDrawnTile(deck);
+        drawnTile=adeck.isDrawnTile(deck);//adeck is the new deck which contains the tiles can be randomly selected
         return drawnTile;
     }
 

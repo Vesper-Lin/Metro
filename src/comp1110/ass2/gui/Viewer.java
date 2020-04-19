@@ -16,6 +16,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.awt.*;
@@ -55,15 +57,22 @@ public class Viewer extends Application {
     }
 
     void drawBoard(){
-        /* draw the main body of the board (without stations and corners) */
         board.getChildren().clear();
-        for (int row = 0; row < 10; row++) {
-            for (int col = 0; col < 10; col++) {
+        for (int row = 0; row < 10; row++)
+            /* draw the main body of the board (without stations and corners) */
+            {
+                for (int col = 0; col < 10; col++) {
                 Rectangle r = new Rectangle(SQUARE_SIZE, SQUARE_SIZE);
                 r.setLayoutX(col * SQUARE_SIZE + MOVE_RIGHT);
                 r.setLayoutY(row * SQUARE_SIZE);
-                r.setStyle("-fx-fill: white; -fx-stroke: black; -fx-stroke-width: 1;");
+                r.setStyle("-fx-fill: black; -fx-stroke: white; -fx-stroke-width: 1;");
+                Text coordinate = new Text("("+(row-1)+","+(col-1)+")");
+                coordinate.setFill(Color.WHITE);
+                coordinate.setFont(Font.font("Tahoma", 20));
+                coordinate.setLayoutX(col * SQUARE_SIZE +MOVE_RIGHT+15 );
+                coordinate.setLayoutY(row * SQUARE_SIZE +45);
                 board.getChildren().add(r);
+                board.getChildren().add(coordinate);
             }
         }
 

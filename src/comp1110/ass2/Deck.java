@@ -37,9 +37,23 @@ public class Deck{
         return initialDeck;
     }
 
-    /** this method will be used when a player draw a tile from the deck, it contains
+    /**
+     * this method will be used when a player draw a tile from the deck, it contains
      * a random function to randomly select a tile form the deck. When a tile is selected,
      * setNumber() is used to decrease the number of the selected tile in deck by one
+     *
+     * Additionally, the parameter deck is a array of tiles representing the current
+     * deck condition, which may not be the initial deck.
+     *
+     * This method will firstly convert ths Till[] into an ArrayList, the reason to do
+     * that is in consideration of the later situation when the number of a specific
+     * tile type is 0, then this tile type can be easily removed from the ArrayList.
+     * Here, a certain type of tile which has 0 tile has not been removed yet. This method
+     * only select the tile which has number greater than 0;
+     *
+     *
+     * @param deck
+     * @return A string which represents the tile type of the randomly selected tile
      */
     public String isDrawnTile(Tile[] deck)
     {
@@ -54,7 +68,8 @@ public class Deck{
         {
             double a=b*Math.random();
             int c= (int) a;
-            if (adeck.get(c).getNumber()>0) {
+            if (adeck.get(c).getNumber()>0) //only select a certain type of tile if its number is greater than 0
+            {
                 String tile;
                 tile = adeck.get(c).getType();
                 return tile;
