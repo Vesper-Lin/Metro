@@ -4,9 +4,9 @@ D2C Feedback:
 
 0.25 / 0.25 for compliance with deliverables statement (correct files submitted)
 
-0.25 / 0.5 for task 2 isPiecePlacementWellFormed()
+0.5 / 0.5 for task 2 isPiecePlacementWellFormed()
 
-0.25 / 0.5 Task 3 isPlacementSequenceWellFormed()
+0.5 / 0.5 Task 3 isPlacementSequenceWellFormed()
 
 0.5 / 0.5 Task 4 viewer
 
