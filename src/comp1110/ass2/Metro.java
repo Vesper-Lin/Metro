@@ -1,6 +1,7 @@
 package comp1110.ass2;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.jar.JarOutputStream;
 
 public class Metro {
@@ -254,7 +255,11 @@ public class Metro {
      */
     public static boolean isPlacementSequenceValid(String placementSequence) {
         // FIXME Task 6: determine whether a placement sequence is valid
-        return true;
+
+     Board board = new Board();
+     if(board.getStatus(placementSequence)) return true;
+     else return false;
+
     }
 
     /**
