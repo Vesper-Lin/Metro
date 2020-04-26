@@ -2,7 +2,6 @@
   <library name="lib">
     <CLASSES>
       <root url="file://$PATH_TO_FX$" />
-      <root url="jar://$PATH_TO_FX$!/" />
     </CLASSES>
     <JAVADOC />
     <NATIVE>

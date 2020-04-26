@@ -1,6 +1,9 @@
 package comp1110.ass2;
 
+import org.w3c.dom.ls.LSOutput;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 
@@ -30,5 +33,10 @@ public class Test {
         System.out.println(Placement.noMoreInstance("dddd11dddd22dddd33"));
         Random v=new Random();
         System.out.println(v.nextInt(2));
+        System.out.println(Placement.isNeighbour("aaaa60","aaaa70"));
+        String ab="cbcb05cbaa73bcdd57bbad63ccda04bcbc02badb17ddbc76aaaa07bbbb01dada66cdac53acba12";
+        String ac="ccda04";
+        System.out.println(Placement.isFromStartStation(ab,ac));
+
     }
 }

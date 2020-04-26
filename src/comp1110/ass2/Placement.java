@@ -79,6 +79,67 @@ public class Placement {
         return true;
     }
 
+    /**
+     * This method will determine if two tiles are next to each other or not
+     * each tile is represented by a string which has length of 6.
+     * @author Jiawei Fan
+     * @param tile1
+     * @param tile2
+     * @return return true if two tiles are neighbours of each other
+     *         otherwise,return false
+     */
+    public static boolean isNeighbour(String tile1,String tile2) {
+        int row1 = Integer.parseInt(tile1.substring(4, 5));
+        int col1 = Integer.parseInt(tile1.substring(5, 6));
+        int row2 = Integer.parseInt(tile2.substring(4, 5));
+        int col2 = Integer.parseInt(tile2.substring(5, 6));
+        if (row1 == row2 && col1 == col2) {
+            return false;
+        }
+        if (row1 == row2 || col1 == col2) {
+            if (Math.abs(row1 - row2) == 1 || Math.abs(col1 - col2) == 1) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * This method will determine if the one piecePlacement is from the edge
+     * station or not. This method will be beneficial for scoring later because
+     * scoring is from edge station.
+     * @Author Jiawei Fan
+     * @param placement
+     * @param piecePlacement
+     * @return return true if the tile is placed from a edge station
+     *         return false if the tile is not connected to the edge station or
+     *         it is connected to the edge station but it is connected to the
+     *         edge station because it is placed on a square adjacent to another
+     *         tile.
+     */
+    public static boolean isFromStartStation(String placement,String piecePlacement)
+    {
+        int row = Integer.parseInt(piecePlacement.substring(4, 5));
+        int col = Integer.parseInt(piecePlacement.substring(5, 6));
+        if (row==0||row==7||col==0||col==7)
+        {//then this tile is placed on the edge of the board
+            int index=placement.indexOf(piecePlacement);
+            int numberOfEarlierTiles=index/6;
+            for (int i=0;i<numberOfEarlierTiles;i++)
+            {
+                String testPiecePlacement=placement.substring(6*i,6*i+6);//test each piece placement before this placement
+                if (isNeighbour(testPiecePlacement,piecePlacement))//determine if the placement has neighbor or not
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
     /**
      * if the first four character are letters are between 'a' and 'd',return true

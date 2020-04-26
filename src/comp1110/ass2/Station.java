@@ -37,6 +37,41 @@ public class Station {
         return  InitialStation;
     }
 
+    /**
+     * This method is used to get the coordinates of the Station
+     * @author Jiawei Fan
+     * @param stationNumber
+     * @return int[2] which contains the coordinates of the station
+     */
+    public static int[] getStationCoordinate(int stationNumber)
+    {
+        int[] stationCoordinate=new int[2];
+        if (stationNumber>=1&&stationNumber<=8)
+        {
+            stationCoordinate[0]=0;
+            stationCoordinate[1]=8-stationNumber;
+        }
+        else if (stationNumber>=9&&stationNumber<=16)
+        {
+            stationCoordinate[0]=stationNumber-9;
+            stationCoordinate[1]=0;
+        }
+        else if (stationNumber>=17&&stationNumber<=24)
+        {
+            stationCoordinate[0]=7;
+            stationCoordinate[1]=stationNumber-17;
+        }
+        else if (stationNumber>=25&&stationNumber<=32)
+        {
+            stationCoordinate[0]=32-stationNumber;
+            stationCoordinate[1]=7;
+        }
+        else
+        {
+            return null;
+        }
+        return stationCoordinate;
+    }
     public int getNumberOfPlayers()
     {
         return numberOfPlayers;
