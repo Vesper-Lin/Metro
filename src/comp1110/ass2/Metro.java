@@ -250,6 +250,12 @@ public class Metro {
      */
     public static boolean isPlacementSequenceValid(String placementSequence) {
         // FIXME Task 6: determine whether a placement sequence is valid
+        Board board = new Board();
+        boolean status=board.getStatus(placementSequence);
+        if(status==false){
+            return false;
+        }
+        else
         return true;
     }
 
