@@ -8,7 +8,7 @@ public class Deck {
      * @author Jiawei Fan
      * this method returns the initial state of the deck,all tiles are in the deck.
      * it returns an Arrarlist which contains all the tiles in the deck. Tile is
-     * represented by its type.
+     * represented by its type
      */
     public static ArrayList<String> getInitialDeck() {
         ArrayList<String> initialDeck = new ArrayList<>();
