@@ -1,6 +1,7 @@
 package comp1110.ass2;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.jar.JarOutputStream;
 
 public class Metro {
@@ -59,7 +60,7 @@ public class Metro {
             return true;
         }
         return false;
-        /*int flag1=1; //first version of task 2
+        /*int flag1=1;
         int flag2=1;
         int flag3=1;
         if (piecePlacement.length()!=NUMBER_OF_CHAR)
