@@ -42,7 +42,7 @@ public class Placement {
                     return false;
                 }
             }
-            return true;//if each piece pass the test, therefore each piece is well formed
+            return true;//if each piece pass the test, then each piece is well formed
         }
         else
         {
