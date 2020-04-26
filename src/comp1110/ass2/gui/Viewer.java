@@ -9,6 +9,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -28,6 +29,7 @@ import java.awt.*;
  * NOTE: This class is separate from your main game class.  This
  * class does not play a game, it just illustrates various piece
  * placements.
+ * @author Yuxuan Lin(u6828533)
  */
 public class Viewer extends Application {
     /* board layout */
@@ -44,6 +46,8 @@ public class Viewer extends Application {
     private final Group controls = new Group();
     private final Group placement = new Group();
     private TextField textField;
+
+    private final Slider players = new Slider();
 
     class DrawPiece extends ImageView{
         /* draw the taken piece */
@@ -254,6 +258,25 @@ public class Viewer extends Application {
         hb.setLayoutX(130);
         hb.setLayoutY(VIEWER_HEIGHT - 50);
         controls.getChildren().add(hb);
+
+        players.setMin(2);
+        players.setMax(6);
+        players.setValue(2);
+        players.setShowTickLabels(true);
+        players.setShowTickMarks(true);
+        players.setMajorTickUnit(1);
+        players.setMinorTickCount(0);
+        players.setSnapToTicks(true);
+
+        players.setLayoutX(VIEWER_WIDTH-MOVE_RIGHT);
+        players.setLayoutY(VIEWER_HEIGHT - 50);
+        controls.getChildren().add(players);
+
+        final Label playersCaption = new Label("Number of Players:");
+        playersCaption.setTextFill(Color.GREY);
+        playersCaption.setLayoutX(VIEWER_WIDTH-1.7*MOVE_RIGHT);
+        playersCaption.setLayoutY(VIEWER_HEIGHT - 50);
+        controls.getChildren().add(playersCaption);
     }
 
     @Override
