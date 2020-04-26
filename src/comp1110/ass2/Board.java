@@ -107,7 +107,7 @@ public int allocateStation(Player player){
                 }
             }
         }
-        //TODO: Check for tile alignments
+        //Check for tile alignments
 
 
 
