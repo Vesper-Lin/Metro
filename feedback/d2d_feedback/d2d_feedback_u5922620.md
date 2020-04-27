@@ -21,8 +21,6 @@ Mark:
 1.75 / 2
 
 Comments:
-- Selected lots of code - in the future try to pick one section that you think 
-is your best work - e.g. a single method or class. 
 - Fill out all the param descriptions (really nice to java docs being used)
 - You can delete lines 51 and 57 in Station, have a look a the warning messages. 
 - Could tidy "getInitialDeck" by using another method with a for loop, and passing in 
