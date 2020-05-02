@@ -1,9 +1,5 @@
 package comp1110.ass2;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.jar.JarOutputStream;
-
 public class Metro {
     /**
      * Task 2
@@ -30,9 +26,9 @@ public class Metro {
         /**
          * Some fields are created below which are accessible for this method
          */
-        int NUMBER_OF_CHAR=6;//used to decide the string contains exactly six characters
+        int number_of_char=6;//used to decide the string contains exactly six characters
         boolean wellFormed=false;
-        if(piecePlacement.length()==NUMBER_OF_CHAR){
+        if(piecePlacement.length()==number_of_char){
             String tracks= piecePlacement.substring(0,4);
             String position =piecePlacement.substring(4,6);
 
@@ -56,10 +52,7 @@ public class Metro {
             }
 
         }
-        if(wellFormed==true){
-            return true;
-        }
-        return false;
+        return wellFormed;
 
     }
 
