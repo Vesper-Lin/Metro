@@ -141,8 +141,17 @@ public class Metro {
      * @return an array containing the scores for all players
      */
     public static int[] getScore(String placementSequence, int numberOfPlayers) {
-        // FIXME Task 7: determine the current score for the game
-        return new int[0];
+        int[] scoreArray=new int[numberOfPlayers];
+        ArrayList<PlayerStationAndPlacement> placementArray=Scoring.getEachPlayerPlacement(numberOfPlayers,placementSequence);
+        int index=0;
+        for (PlayerStationAndPlacement x:placementArray)
+        {
+            int score;
+            score=Scoring.getScore(x,placementSequence);
+            scoreArray[index]=score;
+            index++;
+        }
+        return scoreArray;
     }
 
     /**

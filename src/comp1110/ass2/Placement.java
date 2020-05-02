@@ -4,10 +4,10 @@ package comp1110.ass2;
 import java.util.ArrayList;
 
 public class Placement {
-
     /* This class is intended to handle the methods and checks related to the placing of tiles*/
     public static String piecePlacement;
-
+    public static final int LENGTH_OF_ONE_PlACEMENT=6;
+    public static final int LENGTH_OF_TILE_TYPE=4;
 
     /**
      * This method is to determine if the placement has a length of
@@ -33,9 +33,9 @@ public class Placement {
     {
         if (isPlacementLengthValid(placement))
         {
-            for (int i=0;i<placement.length()/6;i++)
+            for (int i=0;i<placement.length()/LENGTH_OF_ONE_PlACEMENT;i++)
             {
-                String testPiece=placement.substring(6*i,6*i+6);
+                String testPiece=placement.substring(LENGTH_OF_ONE_PlACEMENT*i,LENGTH_OF_ONE_PlACEMENT*i+LENGTH_OF_ONE_PlACEMENT);
                 if (!Metro.isPiecePlacementWellFormed(testPiece))
                 //determine if each piece placement in the placement is valid or not
                 {
@@ -63,10 +63,10 @@ public class Placement {
     public static boolean noMoreInstance(String placement)
     {
         ArrayList<String> initialDeck=Deck.getInitialDeck();
-        int numberOfPiece=placement.length()/6;
+        int numberOfPiece=placement.length()/LENGTH_OF_ONE_PlACEMENT;
         for (int i=0;i<numberOfPiece;i++)
         {//test each piece to ensure that there are no more instances of one piece on the board than in the deck
-            String testPiece=placement.substring(6*i,6*i+4);
+            String testPiece=placement.substring(LENGTH_OF_ONE_PlACEMENT*i,LENGTH_OF_ONE_PlACEMENT*i+LENGTH_OF_TILE_TYPE);
             if (initialDeck.indexOf(testPiece)<0)
             {// if there is no this piece in the initial deck return false
                 return false;
@@ -81,7 +81,9 @@ public class Placement {
 
     /**
      * This method will determine if two tiles are next to each other or not
-     * each tile is represented by a string which has length of 6.
+     * each tile is represented by a string which has length of 6. The first
+     * four characters represent its type and the last two character represent
+     * its row and column.
      * @author Jiawei Fan
      * @param tile1
      * @param tile2
@@ -89,10 +91,10 @@ public class Placement {
      *         otherwise,return false
      */
     public static boolean isNeighbour(String tile1,String tile2) {
-        int row1 = Integer.parseInt(tile1.substring(4, 5));
-        int col1 = Integer.parseInt(tile1.substring(5, 6));
-        int row2 = Integer.parseInt(tile2.substring(4, 5));
-        int col2 = Integer.parseInt(tile2.substring(5, 6));
+        int row1 = Integer.parseInt(tile1.substring(LENGTH_OF_TILE_TYPE, LENGTH_OF_TILE_TYPE+1));
+        int col1 = Integer.parseInt(tile1.substring(LENGTH_OF_TILE_TYPE+1, LENGTH_OF_TILE_TYPE+2));
+        int row2 = Integer.parseInt(tile2.substring(LENGTH_OF_TILE_TYPE, LENGTH_OF_TILE_TYPE+1));
+        int col2 = Integer.parseInt(tile2.substring(LENGTH_OF_TILE_TYPE+1, LENGTH_OF_TILE_TYPE+2));
         if (row1 == row2 && col1 == col2) {
             return false;
         }
@@ -104,42 +106,30 @@ public class Placement {
         return false;
     }
 
-    /**
-     * This method will determine if the one piecePlacement is from the edge
-     * station or not. This method will be beneficial for scoring later because
-     * scoring is from edge station.
-     * @Author Jiawei Fan
-     * @param placement
-     * @param piecePlacement
-     * @return return true if the tile is placed from a edge station
-     *         return false if the tile is not connected to the edge station or
-     *         it is connected to the edge station but it is connected to the
-     *         edge station because it is placed on a square adjacent to another
-     *         tile.
-     */
-    public static boolean isFromStartStation(String placement,String piecePlacement)
+    public static String getNeighbourDirection(String tile,String testTile)
     {
-        int row = Integer.parseInt(piecePlacement.substring(4, 5));
-        int col = Integer.parseInt(piecePlacement.substring(5, 6));
-        if (row==0||row==7||col==0||col==7)
-        {//then this tile is placed on the edge of the board
-            int index=placement.indexOf(piecePlacement);
-            int numberOfEarlierTiles=index/6;
-            for (int i=0;i<numberOfEarlierTiles;i++)
-            {
-                String testPiecePlacement=placement.substring(6*i,6*i+6);//test each piece placement before this placement
-                if (isNeighbour(testPiecePlacement,piecePlacement))//determine if the placement has neighbor or not
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-        else
+        int row1 = Integer.parseInt(tile.substring(LENGTH_OF_TILE_TYPE, LENGTH_OF_TILE_TYPE+1));
+        int col1 = Integer.parseInt(tile.substring(LENGTH_OF_TILE_TYPE+1, LENGTH_OF_TILE_TYPE+2));
+        int row2 = Integer.parseInt(testTile.substring(LENGTH_OF_TILE_TYPE, LENGTH_OF_TILE_TYPE+1));
+        int col2 = Integer.parseInt(testTile.substring(LENGTH_OF_TILE_TYPE+1, LENGTH_OF_TILE_TYPE+2));
+        if (row2-row1==-1)
         {
-            return false;
+            return "N";
         }
+        if (row2-row1==1)
+        {
+            return "S";
+        }
+        if (col2-col1==-1) {
+            return "W";
+        }
+        if (col2-col1==1) {
+            return "E";
+        }
+        return "";
     }
+
+
 
     /**
      * if the first four character are letters are between 'a' and 'd',return true

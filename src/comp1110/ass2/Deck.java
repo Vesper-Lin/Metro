@@ -4,6 +4,19 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Deck {
+    /**This method is helpful when adding the known tiles into the deck, by using a for loop, passing
+     * tile type and numbers and current deck, this number of tiles will add into the deck.
+     * @author Jiawei Fan
+     * @return currentDeck
+     */
+    public static ArrayList<String> addIntoDeck(ArrayList<String> currentDeck,String tileType,int numberOfThisType)
+    {
+        for (int i=0;i<numberOfThisType;i++)
+        {
+            currentDeck.add(tileType);
+        }
+        return currentDeck;
+    }
     /**
      * @author Jiawei Fan
      * This method returns the initial state of the deck,all tiles are in the deck.
@@ -11,92 +24,56 @@ public class Deck {
      * represented by its type.
      */
     public static ArrayList<String> getInitialDeck() {
-        ArrayList<String> initialDeck = new ArrayList<>();
+        ArrayList<String> deck = new ArrayList<>();
         //There are four copies of tile "aacb"
-        initialDeck.add("aacb");
-        initialDeck.add("aacb");
-        initialDeck.add("aacb");
-        initialDeck.add("aacb");
+        addIntoDeck(deck,"aacb",4);
         //There are four copies of tile "cbaa"
-        initialDeck.add("cbaa");
-        initialDeck.add("cbaa");
-        initialDeck.add("cbaa");
-        initialDeck.add("cbaa");
+        addIntoDeck(deck,"cbaa",4);
         //There are four copies of tile "acba"
-        initialDeck.add("acba");
-        initialDeck.add("acba");
-        initialDeck.add("acba");
-        initialDeck.add("acba");
+        addIntoDeck(deck,"acba",4);
         //There are four copies of tile "baac"
-        initialDeck.add("baac");
-        initialDeck.add("baac");
-        initialDeck.add("baac");
-        initialDeck.add("baac");
+        addIntoDeck(deck,"baac",4);
         //There are four copies of tile "aaaa"
-        initialDeck.add("aaaa");
-        initialDeck.add("aaaa");
-        initialDeck.add("aaaa");
-        initialDeck.add("aaaa");
+        addIntoDeck(deck,"aaaa",4);
         //There are three copies of tile "cbcb"
-        initialDeck.add("cbcb");
-        initialDeck.add("cbcb");
-        initialDeck.add("cbcb");
+        addIntoDeck(deck,"cbcb",3);
         //There are three copies of tile "bcbc"
-        initialDeck.add("bcbc");
-        initialDeck.add("bcbc");
-        initialDeck.add("bcbc");
+        addIntoDeck(deck,"bcbc",3);
         //There are two copies of tile "cccc"
-        initialDeck.add("cccc");
-        initialDeck.add("cccc");
+        addIntoDeck(deck,"cccc",2);
         //There are two copies of tile "bbbb"
-        initialDeck.add("bbbb");
-        initialDeck.add("bbbb");
+        addIntoDeck(deck,"bbbb",2);
         //There are two copies of tile "dacc"
-        initialDeck.add("dacc");
-        initialDeck.add("dacc");
+        addIntoDeck(deck,"dacc",2);
         //There are two copies of tile "cdac"
-        initialDeck.add("cdac");
-        initialDeck.add("cdac");
+        addIntoDeck(deck,"cdac",2);
         //There are two copies of tile "ccda"
-        initialDeck.add("ccda");
-        initialDeck.add("ccda");
+        addIntoDeck(deck,"ccda",2);
         //There are two copies of tile "accd"
-        initialDeck.add("accd");
-        initialDeck.add("accd");
+        addIntoDeck(deck,"accd",2);
         //There are two copies of tile "dbba"
-        initialDeck.add("dbba");
-        initialDeck.add("dbba");
+        addIntoDeck(deck,"dbba",2);
         //There are two copies of tile "adbb"
-        initialDeck.add("adbb");
-        initialDeck.add("adbb");
+        addIntoDeck(deck,"adbb",2);
         //There are two copies of tile "badb"
-        initialDeck.add("badb");
-        initialDeck.add("badb");
+        addIntoDeck(deck,"badb",2);
         //There are two copies of tile "bbad"
-        initialDeck.add("bbad");
-        initialDeck.add("bbad");
+        addIntoDeck(deck,"bbad",2);
         //There are two copies of tile "ddbc"
-        initialDeck.add("ddbc");
-        initialDeck.add("ddbc");
+        addIntoDeck(deck,"ddbc",2);
         //There are two copies of tile "cddb"
-        initialDeck.add("cddb");
-        initialDeck.add("cddb");
+        addIntoDeck(deck,"cddb",2);
         //There are two copies of tile "bcdd"
-        initialDeck.add("bcdd");
-        initialDeck.add("bcdd");
+        addIntoDeck(deck,"bcdd",2);
         //There are two copies of tile "dbcd"
-        initialDeck.add("dbcd");
-        initialDeck.add("dbcd");
+        addIntoDeck(deck,"dbcd",2);
         //There are two copies of tile "adad"
-        initialDeck.add("adad");
-        initialDeck.add("adad");
+        addIntoDeck(deck,"adad",2);
         //There are two copies of tile "dada"
-        initialDeck.add("dada");
-        initialDeck.add("dada");
+        addIntoDeck(deck,"dada",2);
         //There are two copies of tile "dddd"
-        initialDeck.add("dddd");
-        initialDeck.add("dddd");
-        return initialDeck;
+        addIntoDeck(deck,"dddd",2);
+        return deck;
     }
 
     /**
@@ -142,8 +119,7 @@ public class Deck {
         ArrayList<String> currentDeck=getCurrentDeck(placementSequence,totalHands);//get the current deck
         Random random=new Random();//get a random object
         int index=random.nextInt(currentDeck.size());//call random method
-        String selectedPiece=currentDeck.get(index);//get the selected piece depending on the random index
-        return selectedPiece;
+        return  currentDeck.get(index);//get the selected piece depending on the random index
     }
 
 }

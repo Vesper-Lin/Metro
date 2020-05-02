@@ -2,29 +2,14 @@ package comp1110.ass2;
 
 public class Tile {
 //determine the numbers of pieces for this type in the deck at the beginning
-    private String type;
-    private int number;
+    private String placement;
 
-    public Tile(String type, int number) {
-        this.type = type;
-        this.number = number;
+    public Tile(String placement) {
+        this.placement=placement;
     }
 
-    public String getType()
-    {
-        return type;
-    }
-    public int getNumber()
-    {
-        return number;
-    }
-    public void setNumber()
-    {
-        number=number-1;
-    }
-    public void addNumber()
-    {
-        number=number+1;
+    public String getPlacement() {
+        return placement;
     }
 }
 
