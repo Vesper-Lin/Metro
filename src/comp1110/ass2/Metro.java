@@ -19,7 +19,7 @@ public class Metro {
 
     /**
      * Two methods used to decided whether the first four character are letters
-     *  between 'a' and 'd' and the last two digits are between 0 and 7
+     * between 'a' and 'd' and the last two digits are between 0 and 7
      */
 
 
@@ -28,27 +28,25 @@ public class Metro {
         /**
          * Some fields are created below which are accessible for this method
          */
-        int number_of_char=6;//used to decide the string contains exactly six characters
-        boolean wellFormed=false;
-        if(piecePlacement.length()==number_of_char){
-            String tracks= piecePlacement.substring(0,4);
-            String position =piecePlacement.substring(4,6);
+        int number_of_char = 6;//used to decide the string contains exactly six characters
+        boolean wellFormed = false;
+        if (piecePlacement.length() == number_of_char) {
+            String tracks = piecePlacement.substring(0, 4);
+            String position = piecePlacement.substring(4, 6);
 
-            for(int char_pos =0;char_pos<=3;char_pos++){
-                if(tracks.charAt(char_pos)>=97 && tracks.charAt(char_pos)<=100) {
-                    wellFormed=true;
-                }
-                else{
-                    wellFormed=false;
+            for (int char_pos = 0; char_pos <= 3; char_pos++) {
+                if (tracks.charAt(char_pos) >= 97 && tracks.charAt(char_pos) <= 100) {
+                    wellFormed = true;
+                } else {
+                    wellFormed = false;
                     return wellFormed;
                 }
             }
-            for(int pos=0;pos<=1;pos++){
-                if(Character.getNumericValue(position.charAt(pos))>=0&& Character.getNumericValue(position.charAt(pos))<=7){
-                    wellFormed=true;
-                }
-                else{
-                    wellFormed=false;
+            for (int pos = 0; pos <= 1; pos++) {
+                if (Character.getNumericValue(position.charAt(pos)) >= 0 && Character.getNumericValue(position.charAt(pos)) <= 7) {
+                    wellFormed = true;
+                } else {
+                    wellFormed = false;
                     return wellFormed;
                 }
             }
@@ -66,20 +64,18 @@ public class Metro {
      * - It must be composed of well-formed tile placements.
      * - For any piece x, there can exist no more instances of x on the board
      * than instances of x in the deck.
-     * @author Jiawei Fan
+     *
      * @param placement A String representing the placement of all tiles on the
      *                  board
      * @return true if this placement sequence is well-formed
+     * @author Jiawei Fan
      */
     public static boolean isPlacementSequenceWellFormed(String placement) {
         // FIXME Task 3: determine whether a placement sequence is well-formed
-        if (Placement.isPlacementWellFormed(placement))
-        {//after checking that each piece in the placement is valid. Check the requirement that for each piece,
-         //there can be more pieces on the board than on in the deck
+        if (Placement.isPlacementWellFormed(placement)) {//after checking that each piece in the placement is valid. Check the requirement that for each piece,
+            //there can be more pieces on the board than on in the deck
             return Placement.noMoreInstance(placement);
-        }
-        else
-        {// return false if the placement is not well formed
+        } else {// return false if the placement is not well formed
             return false;
         }
     }
@@ -87,16 +83,17 @@ public class Metro {
     /**
      * Task 5
      * Draw a random tile from the deck.
-     * @author Jiawei Fan
+     *
      * @param placementSequence a String representing the sequience of tiles
      *                          that have already been played
      * @param totalHands        a String representing all tiles (if any) in
      *                          all players' hands
      * @return a random tile from the deck
+     * @author Jiawei Fan
      */
     public static String drawFromDeck(String placementSequence, String totalHands) {
         // FIXME Task 5: draw a random tile from the deck
-        return Deck.drawFromCurrentDeck(placementSequence,totalHands);
+        return Deck.drawFromCurrentDeck(placementSequence, totalHands);
     }
 
     /**
@@ -120,11 +117,11 @@ public class Metro {
         // FIXME Task 6: determine whether a placement sequence is valid
         Board board = new Board();
         ArrayList<String> tilePlaced = new ArrayList<>();
-        if(board.isEmpty(placementSequence)){
+        if (board.isEmpty(placementSequence)) {
             return true;
         }
 
-        board.slice(placementSequence,tilePlaced);
+        board.slice(placementSequence, tilePlaced);
         ArrayList<String> positions = new ArrayList<>();
         //board.getTiles(tilePlaced,tiles);
         board.getPositions(tilePlaced, positions);
@@ -142,16 +139,17 @@ public class Metro {
      * @param placementSequence a String representing the sequence of piece placements made so far in the game
      * @param numberOfPlayers   The number of players in the game
      * @return an array containing the scores for all players
+     * @author Jiawei Fan
      */
     public static int[] getScore(String placementSequence, int numberOfPlayers) {
-        int[] scoreArray=new int[numberOfPlayers];
-        ArrayList<PlayerStationAndPlacement> placementArray=Scoring.getEachPlayerPlacement(numberOfPlayers,placementSequence);
-        int index=0;
-        for (PlayerStationAndPlacement x:placementArray)
-        {
+        int[] scoreArray = new int[numberOfPlayers];
+        ArrayList<PlayerStationAndPlacement> placementArray = Scoring.getEachPlayerPlacement(numberOfPlayers, placementSequence);//get each player's information including number of player in
+        // the game,player number,the staions the player owns and the placement the player has already placed
+        int index = 0;
+        for (PlayerStationAndPlacement x : placementArray) {//test each player's information
             int score;
-            score=Scoring.getScore(x,placementSequence);
-            scoreArray[index]=score;
+            score = Scoring.getScore(x, placementSequence);//get score of each player
+            scoreArray[index] = score;
             index++;
         }
         return scoreArray;
