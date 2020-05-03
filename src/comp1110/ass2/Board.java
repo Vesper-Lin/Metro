@@ -1,112 +1,114 @@
 package comp1110.ass2;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.HashSet;
 
 public class Board {
+    static int LENGTH_OF_PIECE = 6;
+    /**
+     * This method will divide the long placement sequense in to piece placement,
+     * which is represented by a string which has length of 6. These strings are stored
+     * in ArrayList tilePlaced.
+     *  </>The first four characters represent its type and the last two character represent
+     * its row and column.
+     * @author Ganaraj Rao
+     * @param placementSequence:
+     * @param tilePlaced:
+     * @return none
+     */
+    public void slice(String placementSequence, ArrayList<String> tilePlaced) {
+        String s1 = placementSequence;
+        if (s1.length() <= LENGTH_OF_PIECE) {
+            tilePlaced.add(s1);
 
-
-
-String piecePlacement;
-    int stations;
-    int centralStations;
-    int position;
-    int dimension;
-    String placement;
-    public void resetBoard(){
-        //resets the board
-    }
-
-
-public boolean isValid(){
-        //checks if position is valid and returns true and false
-    return  false;
-}
-public String getPlacementSequenceString(){
-        //returns placement sequence string
-        return placement;
-}
-    public int getStation(){
-        //returns the Station name; identify parameter may be Player name.
-        return 0;
-    }
-public int allocateStation(Player player){
-        //allocates Stations to a player.
-    return 0;
-}
-
-
-public boolean getStatus(String placementSequence) {
-/*    - No tile can overlap another tile, or any of the central stations.
-            * - A tile cannot be placed next to one of the central squares unless it
-            * continues or completes an existing track.
-            * - If a tile is on an edge of the board, it cannot contain a track that
-            * results in a station looping back to itself, UNLESS that tile could not
- *              have been placed elsewhere.
- * - If a tile is on a corner of the board, it cannot contain a track that
-            * links the two stations adjacent to that corner, UNLESS that tile could
-            * not have been placed elsewhere.
- */
-    //check for positions
-    boolean status=true;//declare a flag to track status
-    boolean[][] board =new boolean[8][8];//declare the board as empty; false= empty.
-    List<String> s = new ArrayList<String>();//declare a String list to save the long string as a array of placementstrings
-    //split and save the placementSequence
-    int i = 0;
-    while (i < placementSequence.length()) {
-        s.add(placementSequence.substring(i, i + 6));
-        i = i + 6;
-    }
-    //declare a 2D array to record the positions in the placementSequence
-   int[][] positions= new int[s.size()][2];
-    //Declare an array to store tile types
-   String[] tiles = new String[s.size()];
-    int[] num = new int[s.size()];
-    int z = 0;
-    //Store the values into tile array
-    for (String s1 : s) {
-        if (z < s.size()) {
-            tiles[z] = s1.substring(0, 4);
+        } else {
+            tilePlaced.add(s1.substring(0, LENGTH_OF_PIECE));
+            s1 = s1.substring(LENGTH_OF_PIECE);
+            slice(s1, tilePlaced);
         }
-        z=z+1;
     }
 
-    int a=0;
-    int num1;//variable to record the y co-ordinate
-    int num2;//variable to record the x co-ordinate
-    //split and save the numerics inside the placement sequence to positions array and check with the boolean matrix
-    for(int b=0;b<s.size();b++){
-        num1=Integer.parseInt(s.get(a).substring(4,5));
-        num2= Integer.parseInt(s.get(a).substring(5,6));
-        a++;
-        for(int y1=0;y1<8;y1++){
-            for(int x1=0;x1<8;x1++){
-                //check only for elements which are present in placement sequence
-                if(y1==num2&&x1==num1){
-                    //check if the location already is occupied to avoid overlap
-                    if(!board[y1][x1]){
-                        board[y1][x1]=true;//set as occupied
-                    }
-                    else{
-                        status=false;//return false if overlap
+    /**
+     * This method will extract the positions from the piece placement string,
+     * which is represented by a string which has length of 2. These strings are stored
+     * in ArrayList position
+     *
+     * @author Ganaraj Rao
+     * @param tilePlaced:
+     * @param positions:
+     * @return none
+     */
+
+    public void getPositions(ArrayList<String> tilePlaced, ArrayList<String> positions) {
+        for (String s : tilePlaced) {
+            positions.add(s.substring(4, 6));
+        }
+    }
+    /**
+     * This method will check if tiles overlap among themselves or with
+     * the central Stations.
+     *
+     * @author Ganaraj Rao
+     * @param positions:
+     * @return True is there is overlap; if no overlapping false.
+     */
+    public boolean checkOverlap(ArrayList<String> positions) {
+        boolean overlap = false;
+        HashSet<String> check = new HashSet<>();
+        for (String s : positions) {
+            if (!check.add(s)) {
+                overlap = true;
+            }
+            if (positions.contains("33") || positions.contains("34") || positions.contains("43") || positions.contains("44")) {
+                overlap = true;
+            }
+        }
+        return overlap;
+    }
+
+    public boolean isEmpty(String placementSequence) {
+        boolean isEmpty = false;
+        if (placementSequence.length() == 0) {
+            isEmpty = true;
+        }
+        return isEmpty;
+    }
+    /**
+     * This method checks if the tiles are placed next to the centrals stations.
+     * If they are placed, they have a corresponding neighbor, which will continue the loop.
+     *
+     * @author Ganaraj Rao
+     * @param positions:
+     * @return True is there is neighbouring tile available; if no neighbouring tile is available returns false.
+     */
+
+    public boolean checkCS(ArrayList<String> positions) {
+        boolean finalStatus = false;
+        HashMap<String, String[]> border = new HashMap<>();
+        border.put("23", new String[]{"22", "13"});
+        border.put("24", new String[]{"14", "25"});
+        border.put("35", new String[]{"25", "36"});
+        border.put("45", new String[]{"46", "55"});
+        border.put("54", new String[]{"55", "64"});
+        border.put("53", new String[]{"63", "52"});
+        border.put("42", new String[]{"52", "41"});
+        border.put("32", new String[]{"31", "22"});
+
+        for (String bT : border.keySet()) {
+            if (positions.contains(bT)) {
+                String[] borders = border.get(bT);
+                for (String pos : positions) {
+                    for (String s : borders) {
+                        if (s.equals(pos)) {
+                            finalStatus = true;
+                            break;
+                        }
                     }
                 }
             }
         }
-        for(int y=0;y<2;y++){
-            if(y==0){
-                positions[b][y]= num1;
-            }
-            else{
-                positions[b][y]= num2;
-            }
-        }
+        return finalStatus;
     }
-
-    //Check for tile alignments
-
-
-
-    return status;
 }
-}
+

@@ -119,12 +119,20 @@ public class Metro {
     public static boolean isPlacementSequenceValid(String placementSequence) {
         // FIXME Task 6: determine whether a placement sequence is valid
         Board board = new Board();
-        boolean status=board.getStatus(placementSequence);
-        if(status==false){
-            return false;
+        ArrayList<String> tilePlaced = new ArrayList<>();
+        if(board.isEmpty(placementSequence)){
+            return true;
         }
-        else
-        return true;
+
+        board.slice(placementSequence,tilePlaced);
+        ArrayList<String> positions = new ArrayList<>();
+        //board.getTiles(tilePlaced,tiles);
+        board.getPositions(tilePlaced, positions);
+        boolean overlap = board.checkOverlap(positions);
+        boolean checkCS = board.checkCS(positions);
+
+        //checkpoint
+        return !overlap && checkCS;
     }
 
     /**
