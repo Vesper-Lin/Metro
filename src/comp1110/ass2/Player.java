@@ -17,4 +17,24 @@ public class Player {
         this.numberOfPlayer = numberOfPlayer;
         this.playerNumber = playerNumber;
     }
+
+    /**
+     * This method decides whether the two parameters, numberOfPlayer and playerNumber, within Player Class,
+     * are valid or not.
+     * numberOfPlayer should be between 2 and 6.
+     * playerNumber should be between 1 and 6.
+     * playerNumber is smaller or equal to numberOfPlayer.
+     *
+     * @author Yuxuan Lin
+     */
+    static boolean testPlayer(int numberOfPlayer, int playerNumber){
+        if (numberOfPlayer>=2 && numberOfPlayer<=6){
+            if (playerNumber>=1 && playerNumber<=6){
+                if (playerNumber <= numberOfPlayer){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }
