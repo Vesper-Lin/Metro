@@ -210,7 +210,8 @@ public class Viewer extends Application {
         this.placement.getChildren().clear();
         /* remove any previously drawn placement */
 
-        if (Metro.isPlacementSequenceWellFormed(placement) && Metro.isPlacementSequenceValid(placement)){
+        if (true//Metro.isPlacementSequenceWellFormed(placement) && Metro.isPlacementSequenceValid(placement)
+        ){
             /* check whether the placement is valid */
 
             if (placement.length()!=0){
