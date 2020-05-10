@@ -12,12 +12,26 @@ author:
 
 # Write the class or method being reviewed here.
 #
-component: Write here
+component: Scoring.Java
 
 # Write a list of review comments here.
 #
 comments:
-  - Write here
+  - Positives:
+      1. The code was well structured
+      2. Good usage of comments was visible
+      3. Careful planning of coding visible, good strategies and usage of OOPS concepts visible
+      4. Good usage of Collections and Generics to improve the performance
+
+    Points to improve:
+      1. Though not extensive, author tends to use the variable name as i fairly. This can be renamed to a much more relevant variable name.
+          It would help in legibility of code.
+      2. Author has taken care to comment well. However, inline comments could be restricted to short, crisp sentences.
+          Detailed description can be moved to before a block of code, if the author feels the necessity to explain in detail.
+          Eg Line number 283.
+
+    Overall:
+      The coding is of good standard and author displays good grasp of programming practices and data structures
 
 
 

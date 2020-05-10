@@ -27,6 +27,9 @@ public class Metro {
         // FIXME Task 2: determine whether a piece placement is well-formed
         /**
          * Some fields are created below which are accessible for this method
+         * @param piecePlacement: a 6 character long string
+         * @return True if well formed
+         *          False if not well formed
          */
         int number_of_char = 6;//used to decide the string contains exactly six characters
         boolean wellFormed = false;
@@ -112,6 +115,7 @@ public class Metro {
      *
      * @param placementSequence A sequence of placements on the board.
      * @return Whether this placement string is valid.
+     * @author Ganaraj Rao
      */
     public static boolean isPlacementSequenceValid(String placementSequence) {
         // FIXME Task 6: determine whether a placement sequence is valid
