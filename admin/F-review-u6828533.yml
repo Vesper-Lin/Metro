@@ -12,12 +12,29 @@ author:
 
 # Write the class or method being reviewed here.
 #
-component: Write here
+component: Board.class
 
 # Write a list of review comments here.
 #
 comments:
-  - Write here
+  - Best features of code is that to implement Task 6 from Metro.class, the decision conditions are seperated to different methods in Board.class.
+    This makes author easier to design and test the code, and better to understand the task.
+    It's good that IDE shows no warnings or errors for the code.
 
+  - The code is mostly well-documented. Each method contains good Javadoc and comments, except for method isEmpty (Line 70).
 
+  - The program decomposition of class and method structure is not adequate and not complete for Task 6.
+    It only implements the two rules of the four rules for Task 6. Two of the four tests failed for Task 6.
+    Thus, more methods should be added in order to to cover all the rules.
 
+  - The code does not follow Java code conventions really well.
+    There exists duplicate and improper naming.
+    For instance, string name s1 (Line 21) from slice method is duplicated with placementSequence (Line 20) and its name makes no sense to end with a number.
+    It's inappropriate to name the class as Board, since the class is only used to determine if a given placement sequence follows the rules of the game.
+    Method name checkCS (Line 86) and string name bT (Line 98-100) are not good names.
+    More magic numbers can be used. For example, integers 4 and 6 (Line 45) can be expressed by LENGTH_OF_PIECE (Line 8).
+
+  - The style is consistent throughout. Author shows skillful use of ArrayList, HashSet and HashMap in all methods.
+
+  - I suggest adding checkEdge and checkCorner methods for next, according to the rules in Task 6.
+    Please remain substantial contribution and don't let Task 6 take too much time.
