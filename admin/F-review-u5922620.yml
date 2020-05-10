@@ -1,0 +1,37 @@
+# Write your name and UID here.
+#
+reviewer:
+    name: Jiawei Fan
+    uid: u5922620
+
+# Write the name of the author of the code here.
+#
+author:
+  name: Yuxuan Lin
+  uid: u6828533
+
+# Write the class or method being reviewed here.
+#
+component: Viewer.class
+
+# Write a list of review comments here.
+#
+comments:
+  -Most methods have java doc and have comments, which is good.
+  -The code follows Java code conventions,variables are properly named, which is also good to see.
+  -The program decomposition is not appropriate. drawBoard method contains all the drawing for the
+  board. Could separate the big method into several small methods. e.g.,drawEdgeStation(),drawCentralStation()
+  and drawTileCover().
+  -Similarly, Lines 268-285 could be separated to two methods outside the makeControll() method. e.g.,
+  drawPlayer() and drawNumberOfPlayerLabel() and call them inside the makeControll() method.
+  -Use of magic numbers e.g., "hb.setLayoutX(130);" could make a global variable HB_COORDINATE_X=130
+  -Not too sure why contains an inner class DrawPiece, could just create a new method called drawTiles() like
+  what you have done for drawBoard() and call it inside the makePlacement().
+  -Read yellow highlighted text, Intellij suggetes to make DrawPiece static.
+  -Please contribute more. Nearly no new useful codes are updated in the past three weeks. As discussed, you
+  can start add more components in Viewer.class such as textbox for each player, tiles held in their hands and
+  tile drawn from deck. Tiles which are drawned from deck can be designed in a way that player drags it to
+  the board like the triangle example that Harriet demonstrated during last lab.
+
+
+

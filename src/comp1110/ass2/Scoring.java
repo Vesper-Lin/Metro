@@ -288,10 +288,10 @@ public class Scoring {
                     int index1 = track.size();//get the size of the track
                     TileEntryAndExit lastTile = track.get(index1 - 1);//get the last tile
                     if (isNextToCentre(lastTile)) {//check if last tile next to center station
-                        plusScore = index1 * 2;//scores doubles
+                        plusScore = index1 * 2;
                     }
                     if (isNextToEdge(lastTile)) {//check if last tile next to edge
-                        plusScore = index1;//score not doubled
+                        plusScore = index1;
                     }
                 }
                 score = score + plusScore;

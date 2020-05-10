@@ -29,6 +29,7 @@ import java.awt.*;
  * NOTE: This class is separate from your main game class.  This
  * class does not play a game, it just illustrates various piece
  * placements.
+ *
  * @author Yuxuan Lin(u6828533)
  */
 public class Viewer extends Application {
@@ -49,10 +50,11 @@ public class Viewer extends Application {
 
     private final Slider players = new Slider();
 
-    class DrawPiece extends ImageView{
+    class DrawPiece extends ImageView {
         /* draw the taken piece */
         String pieceType;
-        DrawPiece(String placementPiece){
+
+        DrawPiece(String placementPiece) {
             this.pieceType = placementPiece;
             setFitHeight(SQUARE_SIZE);
             setFitWidth(SQUARE_SIZE);
@@ -60,67 +62,66 @@ public class Viewer extends Application {
         }
     }
 
-    void drawBoard(){
+    void drawBoard() {
         board.getChildren().clear();
         for (int row = 0; row < 10; row++)
-            /* draw the main body of the board (without stations and corners) */
-            {
-                for (int col = 0; col < 10; col++) {
+            /* draw the main body of the board (without stations and corners) */ {
+            for (int col = 0; col < 10; col++) {
                 Rectangle r = new Rectangle(SQUARE_SIZE, SQUARE_SIZE);
                 r.setLayoutX(col * SQUARE_SIZE + MOVE_RIGHT);
                 r.setLayoutY(row * SQUARE_SIZE);
                 r.setStyle("-fx-fill: black; -fx-stroke: white; -fx-stroke-width: 1;");
-                Text coordinate = new Text("("+(row-1)+","+(col-1)+")");
+                Text coordinate = new Text("(" + (row - 1) + "," + (col - 1) + ")");
                 coordinate.setFill(Color.WHITE);
                 coordinate.setFont(Font.font("Tahoma", 20));
-                coordinate.setLayoutX(col * SQUARE_SIZE +MOVE_RIGHT+15 );
-                coordinate.setLayoutY(row * SQUARE_SIZE +45);
+                coordinate.setLayoutX(col * SQUARE_SIZE + MOVE_RIGHT + 15);
+                coordinate.setLayoutY(row * SQUARE_SIZE + 45);
                 board.getChildren().add(r);
                 board.getChildren().add(coordinate);
             }
         }
 
-        for (int i=1; i<9; i++){
+        for (int i = 1; i < 9; i++) {
             /* draw the stations 1-8 */
             ImageView background = new ImageView();
             background.setImage(new Image(this.getClass().getResource(URI_BASE + "station" + i + ".jpg").toString()));
             background.setFitWidth(SQUARE_SIZE);
             background.setFitHeight(SQUARE_SIZE);
             background.setLayoutY(0);
-            background.setLayoutX(MOVE_RIGHT+ SQUARE_SIZE*(9-i));
-            background.setRotate(RIGHT_ANGLE*2);
+            background.setLayoutX(MOVE_RIGHT + SQUARE_SIZE * (9 - i));
+            background.setRotate(RIGHT_ANGLE * 2);
             board.getChildren().add(background);
         }
-        for (int i=9; i<17; i++){
+        for (int i = 9; i < 17; i++) {
             /* draw the stations 9-16 */
             ImageView background = new ImageView();
             background.setImage(new Image(this.getClass().getResource(URI_BASE + "station" + i + ".jpg").toString()));
             background.setFitWidth(SQUARE_SIZE);
             background.setFitHeight(SQUARE_SIZE);
-            background.setLayoutY(SQUARE_SIZE*(i-8));
+            background.setLayoutY(SQUARE_SIZE * (i - 8));
             background.setLayoutX(MOVE_RIGHT);
             background.setRotate(RIGHT_ANGLE);
             board.getChildren().add(background);
         }
-        for (int i=17; i<25; i++){
+        for (int i = 17; i < 25; i++) {
             /* draw the stations 17-24 */
             ImageView background = new ImageView();
             background.setImage(new Image(this.getClass().getResource(URI_BASE + "station" + i + ".jpg").toString()));
             background.setFitWidth(SQUARE_SIZE);
             background.setFitHeight(SQUARE_SIZE);
-            background.setLayoutY(SQUARE_SIZE*9);
-            background.setLayoutX(MOVE_RIGHT + SQUARE_SIZE*(i-16));
+            background.setLayoutY(SQUARE_SIZE * 9);
+            background.setLayoutX(MOVE_RIGHT + SQUARE_SIZE * (i - 16));
             board.getChildren().add(background);
         }
-        for (int i=25; i<33; i++){
+        for (int i = 25; i < 33; i++) {
             /* draw the stations 25-32 */
             ImageView background = new ImageView();
             background.setImage(new Image(this.getClass().getResource(URI_BASE + "station" + i + ".jpg").toString()));
             background.setFitWidth(SQUARE_SIZE);
             background.setFitHeight(SQUARE_SIZE);
-            background.setLayoutY(SQUARE_SIZE*(33-i));
-            background.setLayoutX(MOVE_RIGHT + SQUARE_SIZE*9);
-            background.setRotate(RIGHT_ANGLE*3);
+            background.setLayoutY(SQUARE_SIZE * (33 - i));
+            background.setLayoutX(MOVE_RIGHT + SQUARE_SIZE * 9);
+            background.setRotate(RIGHT_ANGLE * 3);
             board.getChildren().add(background);
         }
 
@@ -129,9 +130,9 @@ public class Viewer extends Application {
         background.setImage(new Image(this.getClass().getResource(URI_BASE + "centre_station.jpg").toString()));
         background.setFitWidth(SQUARE_SIZE);
         background.setFitHeight(SQUARE_SIZE);
-        background.setLayoutY(SQUARE_SIZE*4);
-        background.setLayoutX(MOVE_RIGHT + SQUARE_SIZE*4);
-        background.setRotate(RIGHT_ANGLE*3);
+        background.setLayoutY(SQUARE_SIZE * 4);
+        background.setLayoutX(MOVE_RIGHT + SQUARE_SIZE * 4);
+        background.setRotate(RIGHT_ANGLE * 3);
         board.getChildren().add(background);
 
         ImageView background2 = new ImageView();
@@ -139,9 +140,9 @@ public class Viewer extends Application {
         background2.setImage(new Image(this.getClass().getResource(URI_BASE + "centre_station.jpg").toString()));
         background2.setFitWidth(SQUARE_SIZE);
         background2.setFitHeight(SQUARE_SIZE);
-        background2.setLayoutY(SQUARE_SIZE*5);
-        background2.setLayoutX(MOVE_RIGHT + SQUARE_SIZE*4);
-        background2.setRotate(RIGHT_ANGLE*2);
+        background2.setLayoutY(SQUARE_SIZE * 5);
+        background2.setLayoutX(MOVE_RIGHT + SQUARE_SIZE * 4);
+        background2.setRotate(RIGHT_ANGLE * 2);
         board.getChildren().add(background2);
 
         ImageView background3 = new ImageView();
@@ -149,8 +150,8 @@ public class Viewer extends Application {
         background3.setImage(new Image(this.getClass().getResource(URI_BASE + "centre_station.jpg").toString()));
         background3.setFitWidth(SQUARE_SIZE);
         background3.setFitHeight(SQUARE_SIZE);
-        background3.setLayoutY(SQUARE_SIZE*5);
-        background3.setLayoutX(MOVE_RIGHT + SQUARE_SIZE*5);
+        background3.setLayoutY(SQUARE_SIZE * 5);
+        background3.setLayoutX(MOVE_RIGHT + SQUARE_SIZE * 5);
         background3.setRotate(RIGHT_ANGLE);
         board.getChildren().add(background3);
 
@@ -159,8 +160,8 @@ public class Viewer extends Application {
         background4.setImage(new Image(this.getClass().getResource(URI_BASE + "centre_station.jpg").toString()));
         background4.setFitWidth(SQUARE_SIZE);
         background4.setFitHeight(SQUARE_SIZE);
-        background4.setLayoutY(SQUARE_SIZE*4);
-        background4.setLayoutX(MOVE_RIGHT + SQUARE_SIZE*5);
+        background4.setLayoutY(SQUARE_SIZE * 4);
+        background4.setLayoutX(MOVE_RIGHT + SQUARE_SIZE * 5);
         board.getChildren().add(background4);
 
         ImageView background5 = new ImageView();
@@ -178,7 +179,7 @@ public class Viewer extends Application {
         background6.setFitWidth(SQUARE_SIZE);
         background6.setFitHeight(SQUARE_SIZE);
         background6.setLayoutY(0);
-        background6.setLayoutX(MOVE_RIGHT + SQUARE_SIZE*9);
+        background6.setLayoutX(MOVE_RIGHT + SQUARE_SIZE * 9);
         board.getChildren().add(background6);
 
         ImageView background7 = new ImageView();
@@ -186,8 +187,8 @@ public class Viewer extends Application {
         background7.setImage(new Image(this.getClass().getResource(URI_BASE + "tile_back_cover.jpg").toString()));
         background7.setFitWidth(SQUARE_SIZE);
         background7.setFitHeight(SQUARE_SIZE);
-        background7.setLayoutY(SQUARE_SIZE*9);
-        background7.setLayoutX(MOVE_RIGHT + SQUARE_SIZE*9);
+        background7.setLayoutY(SQUARE_SIZE * 9);
+        background7.setLayoutX(MOVE_RIGHT + SQUARE_SIZE * 9);
         board.getChildren().add(background7);
 
         ImageView background8 = new ImageView();
@@ -195,14 +196,16 @@ public class Viewer extends Application {
         background8.setImage(new Image(this.getClass().getResource(URI_BASE + "tile_back_cover.jpg").toString()));
         background8.setFitWidth(SQUARE_SIZE);
         background8.setFitHeight(SQUARE_SIZE);
-        background8.setLayoutY(SQUARE_SIZE*9);
+        background8.setLayoutY(SQUARE_SIZE * 9);
         background8.setLayoutX(MOVE_RIGHT);
         board.getChildren().add(background8);
     }
+
     /**
      * Draw a placement in the window, removing any previously drawn one
      *
      * @param placement A valid placement string
+     * @author Yuxuan Lin
      */
     void makePlacement(String placement) {
         // FIXME Task 4: implement the simple placement viewer
@@ -210,24 +213,24 @@ public class Viewer extends Application {
         this.placement.getChildren().clear();
         /* remove any previously drawn placement */
 
-        if (true//Metro.isPlacementSequenceWellFormed(placement) && Metro.isPlacementSequenceValid(placement)
-        ){
+        if (Metro.isPlacementSequenceWellFormed(placement) && Metro.isPlacementSequenceValid(placement)
+        ) {
             /* check whether the placement is valid */
 
-            if (placement.length()!=0){
+            if (placement.length() != 0) {
                 /* check whether the placement is an empty string */
 
-                for (int i=0; i<placement.length()-5; i+=6){
+                for (int i = 0; i < placement.length() - 5; i += 6) {
                     /* divide the placement sequence to pieces */
 
-                    DrawPiece drawPiece = new DrawPiece(placement.substring(i, i+4));
+                    DrawPiece drawPiece = new DrawPiece(placement.substring(i, i + 4));
                     /* draw the taken pieces */
 
-                    int x = placement.charAt(i+4)-'0';
-                    int y = placement.charAt(i+5)-'0';
+                    int x = placement.charAt(i + 4) - '0';
+                    int y = placement.charAt(i + 5) - '0';
 
-                    drawPiece.setLayoutY((x+1) * SQUARE_SIZE);
-                    drawPiece.setLayoutX((y+1) * SQUARE_SIZE + MOVE_RIGHT);
+                    drawPiece.setLayoutY((x + 1) * SQUARE_SIZE);
+                    drawPiece.setLayoutX((y + 1) * SQUARE_SIZE + MOVE_RIGHT);
                     /* draw the pieces to the correct position on the board */
 
                     this.placement.getChildren().add(drawPiece);
@@ -240,6 +243,8 @@ public class Viewer extends Application {
 
     /**
      * Create a basic text field for input and a refresh button.
+     *
+     * @author Yuxuan Lin
      */
     private void makeControls() {
         Label label1 = new Label("Placement:");
@@ -269,13 +274,13 @@ public class Viewer extends Application {
         players.setMinorTickCount(0);
         players.setSnapToTicks(true);
 
-        players.setLayoutX(VIEWER_WIDTH-MOVE_RIGHT);
+        players.setLayoutX(VIEWER_WIDTH - MOVE_RIGHT);
         players.setLayoutY(VIEWER_HEIGHT - 50);
         controls.getChildren().add(players);
 
         final Label playersCaption = new Label("Number of Players:");
         playersCaption.setTextFill(Color.GREY);
-        playersCaption.setLayoutX(VIEWER_WIDTH-1.7*MOVE_RIGHT);
+        playersCaption.setLayoutX(VIEWER_WIDTH - 1.7 * MOVE_RIGHT);
         playersCaption.setLayoutY(VIEWER_HEIGHT - 50);
         controls.getChildren().add(playersCaption);
     }

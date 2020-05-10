@@ -95,7 +95,7 @@ public class Placement {
         }
         if (row1 == row2 || col1 == col2) {
             //when row or col of them are equal
-            //And their distance is exactluy one
+            //And distance between them is exactluy one
             return Math.abs(row1 - row2) == 1 || Math.abs(col1 - col2) == 1;
         }
         return false;
