@@ -22,7 +22,7 @@ comments:
   - Author has taken care to comment well. However, inline comments could be restricted to short, crisp sentences.
     Detailed description can be moved to before a block of code, if the author feels the necessity to explain in detail.
     Eg Line number 283.
-  -The code was well structured.
+  - The code was well structured.
   - Good usage of comments was visible.
   - Careful planning of coding visible, good strategies and usage of OOPS concepts visible.
   - Good usage of Collections and Generics to improve the performance.
