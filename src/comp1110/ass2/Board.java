@@ -163,41 +163,31 @@ public class Board {
         return edgeCheck;
     }
     public boolean cornerCheck(ArrayList<String> positions, ArrayList<String> tilePlaced) {
-        boolean checkCorners = false;
         //create a map of the board with positions as key and tile on position as value
         HashMap<String,String> boardMap = getMap(positions,tilePlaced);
         ArrayList<String> corners = getCorners();
-
+        if (tilePlaced.size()==60)
+        {
+            return true;
+        }
         for (String pos:positions) {
             if (corners.contains(pos)) {
                 String tile = boardMap.get(pos);
-                if(pos.equals("00") && (tile.charAt(0)=='c'||tile.charAt(3)=='b')){
-                    checkCorners = lengthCheck(positions);
-                    return checkCorners;
+                if(pos.equals("00") && (tile.charAt(0)=='c'||tile.charAt(3)=='b'||tile.charAt(0)=='d'||tile.charAt(3)=='d')){
+                    return false;
                 }
-                else if(pos.equals("07")&&(tile.charAt(0)=='b'||tile.charAt(1)=='c')){
-                    checkCorners = lengthCheck(positions);
-                    return checkCorners;
+                else if(pos.equals("07")&&(tile.charAt(0)=='b'||tile.charAt(1)=='c'||tile.charAt(0)=='d'||tile.charAt(1)=='d')){
+                    return false;
                 }
-                else if(pos.equals("70")&& (tile.charAt(2)=='b'||tile.charAt(3)=='c')){
-                    checkCorners = lengthCheck(positions);
-                    return checkCorners;
+                else if(pos.equals("70")&& (tile.charAt(2)=='b'||tile.charAt(3)=='c'||tile.charAt(2)=='d'||tile.charAt(3)=='d')){
+                    return false;
                 }
-                else if(pos.equals("77") && (tile.charAt(1)=='b'||tile.charAt(2)=='c')){
-                    checkCorners = lengthCheck(positions);
-                    return checkCorners;
+                else if(pos.equals("77") && (tile.charAt(1)=='b'||tile.charAt(2)=='c'||tile.charAt(1)=='d'||tile.charAt(2)=='d')){
+                    return false;
                 }
-                else {
-                    checkCorners=true;
-                }
-
-            }
-            else{
-                checkCorners=true;
             }
         }
-
-                return checkCorners;
+        return true;
     }
 
     private boolean lengthCheck(ArrayList<String> positions){
@@ -245,6 +235,34 @@ public class Board {
         for (String s:tilePlaced) {
             tiles.add(s.substring(0,4));
         }
+    }
+
+    public boolean allHaveNeighbours(ArrayList<String> tilePlaced)
+    {
+
+        for (String placement:tilePlaced)
+        {
+            boolean haveNeighbours=false;
+            if (!(placement.substring(4,6).contains("7")||placement.substring(4,6).contains("0")))
+            {
+                for (String placement2:tilePlaced)
+                {
+                    if (Placement.isNeighbour(placement,placement2))
+                    {
+                        haveNeighbours=true;
+                        break;
+                    }
+                }
+            }
+            else {
+                haveNeighbours=true;
+            }
+            if (!haveNeighbours)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 }
 

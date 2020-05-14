@@ -135,9 +135,10 @@ public class Metro {
         boolean checkCS = board.checkCS(positions);
         boolean checkEdges = board.checkEdges(positions,tiles);
         boolean cornerCheck = board.cornerCheck(positions,tiles);
+        boolean haveNeighbours = board.allHaveNeighbours(tilePlaced);
 
         //checkpoint
-        return !overlap && checkCS && checkEdges &&(cornerCheck);
+        return !overlap && checkCS && checkEdges &&cornerCheck&&haveNeighbours;
     }
 
     /**
