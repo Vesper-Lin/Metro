@@ -3,10 +3,44 @@ package comp1110.ass2;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 
-public class Board {
+public class BoardTest {
     static int LENGTH_OF_PIECE = 6;
+
+    public static void main(String[] args) {
+        Board board = new Board();
+        String placementSequence = "acba57bcbc00baac10dacc56";
+        boolean isEmpty = false;
+        ArrayList<String> tilePlaced = new ArrayList<>();
+        if (board.isEmpty(placementSequence)) {
+            //return true;
+            isEmpty =true;
+
+        }
+
+        board.slice(placementSequence, tilePlaced);
+        ArrayList<String>tiles = new ArrayList<>();
+        ArrayList<String> positions = new ArrayList<>();
+
+        board.getTiles(tilePlaced,tiles);
+        board.getPositions(tilePlaced, positions);
+        boolean overlap = board.checkOverlap(positions);
+        boolean checkCS = board.checkCS(positions);
+        boolean checkEdges = board.checkEdges(positions,tiles);
+        boolean cornerCheck = board.cornerCheck(positions,tiles);
+
+        if(overlap==false && checkCS ==true && checkEdges == true && cornerCheck == true){
+            System.out.println("All is well");
+        }
+        else {
+            System.out.println("overlap: "+overlap);
+            System.out.println("checkCS: "+checkCS);
+            System.out.println("checkEdges: "+checkEdges);
+            System.out.println("cornerCheck: "+cornerCheck);
+        }
+
+    }
+
     /**
      * This method will divide the long placement sequense in to piece placement,
      * which is represented by a string which has length of 6. These strings are stored
@@ -118,8 +152,8 @@ public class Board {
 
 
     public boolean checkEdges(ArrayList<String> positions, ArrayList<String> tilePlaced) {
-       boolean edgeCheck = true;
-       //create a map of the board with positions as key and tile on position as value
+        boolean edgeCheck = true;
+        //create a map of the board with positions as key and tile on position as value
         HashMap<String,String> boardMap = getMap(positions,tilePlaced);
         //get the edge tiles
         ArrayList<String> edgeTiles = getEdgeTiles();
@@ -197,7 +231,7 @@ public class Board {
             }
         }
 
-                return checkCorners;
+        return checkCorners;
     }
 
     private boolean lengthCheck(ArrayList<String> positions){
@@ -240,7 +274,7 @@ public class Board {
         return edgeTiles;
     }
 
-//TODO: write the comment
+    //TODO: write the comment
     public void getTiles(ArrayList<String> tilePlaced, ArrayList<String> tiles) {
         for (String s:tilePlaced) {
             tiles.add(s.substring(0,4));

@@ -126,14 +126,18 @@ public class Metro {
         }
 
         board.slice(placementSequence, tilePlaced);
+        ArrayList<String>tiles = new ArrayList<>();
         ArrayList<String> positions = new ArrayList<>();
-        //board.getTiles(tilePlaced,tiles);
+
+        board.getTiles(tilePlaced,tiles);
         board.getPositions(tilePlaced, positions);
         boolean overlap = board.checkOverlap(positions);
         boolean checkCS = board.checkCS(positions);
+        boolean checkEdges = board.checkEdges(positions,tiles);
+        boolean cornerCheck = board.cornerCheck(positions,tiles);
 
         //checkpoint
-        return !overlap && checkCS;
+        return !overlap && checkCS && checkEdges &&(cornerCheck);
     }
 
     /**
