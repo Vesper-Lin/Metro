@@ -9,7 +9,8 @@ public class BoardTest {
 
     public static void main(String[] args) {
         Board board = new Board();
-        String placementSequence = "acba57bcbc00baac10dacc56";
+        String placementSequence = "dddd03acba57bbbb06cccc67";
+        //String placementSequence = "badb73";
         boolean isEmpty = false;
         ArrayList<String> tilePlaced = new ArrayList<>();
         if (board.isEmpty(placementSequence)) {
@@ -28,8 +29,9 @@ public class BoardTest {
         boolean checkCS = board.checkCS(positions);
         boolean checkEdges = board.checkEdges(positions,tiles);
         boolean cornerCheck = board.cornerCheck(positions,tiles);
+        boolean neighbours = board.allHaveNeighbours(tilePlaced);
 
-        if(overlap==false && checkCS ==true && checkEdges == true && cornerCheck == true){
+        if(overlap==false && checkCS ==true && checkEdges == true && cornerCheck == true && neighbours == true){
             System.out.println("All is well");
         }
         else {
@@ -37,6 +39,7 @@ public class BoardTest {
             System.out.println("checkCS: "+checkCS);
             System.out.println("checkEdges: "+checkEdges);
             System.out.println("cornerCheck: "+cornerCheck);
+            System.out.println("neighbour:" +neighbours);
         }
 
     }
@@ -279,6 +282,34 @@ public class BoardTest {
         for (String s:tilePlaced) {
             tiles.add(s.substring(0,4));
         }
+    }
+
+    public boolean allHaveNeighbours(ArrayList<String> tilePlaced)
+    {
+
+        for (String placement:tilePlaced)
+        {
+            boolean haveNeighbours=false;
+            if (!(placement.substring(4,6).contains("7")||placement.substring(4,6).contains("0")))
+            {
+                for (String placement2:tilePlaced)
+                {
+                    if (Placement.isNeighbour(placement,placement2))
+                    {
+                        haveNeighbours=true;
+                        break;
+                    }
+                }
+            }
+            else {
+                haveNeighbours=true;
+            }
+            if (!haveNeighbours)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 }
 

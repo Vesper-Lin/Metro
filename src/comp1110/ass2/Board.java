@@ -126,29 +126,34 @@ public class Board {
 
         //System.out.println(edgeTiles);
         //check if any tile is placed on the edge. If yes, check for loop back
+        int tileNumber =0;
         for (String pos:positions) {
             if (edgeTiles.contains(pos)) {
                 String tile = boardMap.get(pos);
-                if(pos.charAt(0)==0 && tile.charAt(0)=='d'){
+                if(tile.equals("dddd")&&tileNumber ==0){
+                    edgeCheck=true;
+                }
+
+                else if(pos.charAt(0)=='0' && tile.charAt(0)=='d'){
                     if(!lengthCheck(positions)){
                         edgeCheck = false;
                         return edgeCheck;
                     }
                 }
-                else if(pos.charAt(1)==7 && tile.charAt(1)=='d'){
+                else if(pos.charAt(1)=='7' && tile.charAt(1)=='d'){
                     if(!lengthCheck(positions)){
-                        edgeCheck = false;
-                        return edgeCheck;
+                        return false;
                     }
                 }
-                else if(pos.charAt(0)==7 && tile.charAt(2)=='d'){
-                    if(!lengthCheck(positions)){
-                        edgeCheck = false;
-                        return edgeCheck;
+                else if(pos.charAt(0)=='7' && tile.charAt(2)=='d'){
+                    if (!lengthCheck(positions)) {
+                       edgeCheck = false;
+                       return edgeCheck;
                     }
 
+
                 }
-                else if(pos.charAt(1)==0 && tile.charAt(3)=='d'){
+                else if(pos.charAt(1)=='0' && tile.charAt(3)=='d'){
                     if(!lengthCheck(positions)){
                         edgeCheck = false;
                         return edgeCheck;
@@ -156,7 +161,7 @@ public class Board {
                 }
 
             }
-
+            tileNumber++;
         }
 
 

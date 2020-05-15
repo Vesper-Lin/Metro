@@ -138,7 +138,7 @@ public class Metro {
         boolean haveNeighbours = board.allHaveNeighbours(tilePlaced);
 
         //checkpoint
-        return !overlap && checkCS && checkEdges &&cornerCheck&&haveNeighbours;
+        return !overlap && checkCS && checkEdges &&cornerCheck && haveNeighbours;
     }
 
     /**
