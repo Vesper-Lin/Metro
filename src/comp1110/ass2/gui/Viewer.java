@@ -37,6 +37,10 @@ public class Viewer extends Application {
     private static final int VIEWER_WIDTH = 1024;
     private static final int VIEWER_HEIGHT = 768;
     private static final int RIGHT_ANGLE = 90;
+    private double X;
+    private double Y;
+    private double mouseX;
+    private double mouseY;
 
     private static final String URI_BASE = "assets/";
 
@@ -242,9 +246,25 @@ public class Viewer extends Application {
         drawTile.setImage(new Image(this.getClass().getResource(URI_BASE + "station" + 1 + ".jpg").toString()));
         drawTile.setFitWidth(SQUARE_SIZE);
         drawTile.setFitHeight(SQUARE_SIZE);
-        drawTile.setLayoutX(SQUARE_SIZE*12);
-        drawTile.setLayoutY(SQUARE_SIZE*7);
+        X = SQUARE_SIZE*12;
+        Y = SQUARE_SIZE*7;
+        drawTile.setLayoutX(X);
+        drawTile.setLayoutY(Y);
         controls.getChildren().add(drawTile);
+
+        drawTile.setOnMousePressed(event -> {
+            mouseX = event.getSceneX();
+            mouseY = event.getSceneY();
+        });
+
+        drawTile.setOnMouseDragged(event -> {
+            drawTile.setLayoutX(drawTile.getLayoutX()+ event.getSceneX()- mouseX);
+            drawTile.setLayoutY(drawTile.getLayoutY()+ event.getSceneY()- mouseY);
+            mouseX = event.getSceneX();
+            mouseY = event.getSceneY();
+        });
+
+
     }
 
 
