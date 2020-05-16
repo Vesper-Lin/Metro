@@ -48,7 +48,7 @@ public class Viewer extends Application {
 
     private final Slider players = new Slider();
 
-    class DrawPiece extends ImageView{
+    static class DrawPiece extends ImageView{
         /* draw the taken piece */
         String pieceType;
         DrawPiece(String placementPiece){
@@ -218,7 +218,7 @@ public class Viewer extends Application {
                 for (int i=0; i<placement.length()-5; i+=6){
                     /* divide the placement sequence to pieces */
 
-                    DrawPiece drawPiece = new DrawPiece(placement.substring(i, i+4));
+                    DrawPiece drawPiece = new DrawPiece(placement.substring(i, i + 4));
                     /* draw the taken pieces */
 
                     int x = placement.charAt(i+4)-'0';
@@ -239,7 +239,7 @@ public class Viewer extends Application {
     /**
      * Create a basic text field for input and a refresh button.
      */
-    private void makeControls() {
+    void makeControls() {
         Label label1 = new Label("Placement:");
         textField = new TextField();
         textField.setPrefWidth(300);
