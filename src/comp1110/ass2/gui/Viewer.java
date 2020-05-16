@@ -236,6 +236,18 @@ public class Viewer extends Application {
         System.out.println("Error: Invalid Placement");
     }
 
+    void drawTile() {
+        ImageView drawTile;
+        drawTile = new ImageView();
+        drawTile.setImage(new Image(this.getClass().getResource(URI_BASE + "station" + 1 + ".jpg").toString()));
+        drawTile.setFitWidth(SQUARE_SIZE);
+        drawTile.setFitHeight(SQUARE_SIZE);
+        drawTile.setLayoutX(SQUARE_SIZE*12);
+        drawTile.setLayoutY(SQUARE_SIZE*7);
+        controls.getChildren().add(drawTile);
+    }
+
+
     /**
      * Create a basic text field for input and a refresh button.
      */
@@ -267,15 +279,19 @@ public class Viewer extends Application {
         players.setMinorTickCount(0);
         players.setSnapToTicks(true);
 
-        players.setLayoutX(SQUARE_SIZE*10);
+        players.setLayoutX(SQUARE_SIZE*12);
         players.setLayoutY(VIEWER_HEIGHT - 50);
         controls.getChildren().add(players);
 
         final Label playersCaption = new Label("Number of Players:");
-        playersCaption.setTextFill(Color.GREY);
-        playersCaption.setLayoutX(SQUARE_SIZE*8.5);
+        playersCaption.setLayoutX(SQUARE_SIZE*10.5);
         playersCaption.setLayoutY(VIEWER_HEIGHT - 50);
         controls.getChildren().add(playersCaption);
+
+        final Label currentTileCaption = new Label("Current Tile:");
+        currentTileCaption.setLayoutX(SQUARE_SIZE*10.5);
+        currentTileCaption.setLayoutY(SQUARE_SIZE*7);
+        controls.getChildren().add(currentTileCaption);
 
         Label label1 = new Label("Player 1");
         Button button1 = new Button("hand");
@@ -283,6 +299,7 @@ public class Viewer extends Application {
         });
         Button button2 = new Button("draw");
         button2.setOnAction(e -> {
+            drawTile();
         });
         Button button3 = new Button("place");
         button3.setOnAction(e -> {
