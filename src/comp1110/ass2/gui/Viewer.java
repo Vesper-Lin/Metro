@@ -240,7 +240,7 @@ public class Viewer extends Application {
      * Create a basic text field for input and a refresh button.
      */
     void makeControls() {
-        Label label1 = new Label("Placement:");
+        Label label0 = new Label("Placement:");
         textField = new TextField();
         textField.setPrefWidth(300);
         Button button = new Button("Refresh");
@@ -252,7 +252,7 @@ public class Viewer extends Application {
             }
         });
         HBox hb = new HBox();
-        hb.getChildren().addAll(label1, textField, button);
+        hb.getChildren().addAll(label0, textField, button);
         hb.setSpacing(10);
         hb.setLayoutX(130);
         hb.setLayoutY(VIEWER_HEIGHT - 50);
@@ -276,6 +276,24 @@ public class Viewer extends Application {
         playersCaption.setLayoutX(SQUARE_SIZE*8.5);
         playersCaption.setLayoutY(VIEWER_HEIGHT - 50);
         controls.getChildren().add(playersCaption);
+
+        Label label1 = new Label("Player 1");
+        Button button1 = new Button("hand");
+        button1.setOnAction(e -> {
+        });
+        Button button2 = new Button("draw");
+        button2.setOnAction(e -> {
+        });
+        Button button3 = new Button("place");
+        button3.setOnAction(e -> {
+        });
+
+        HBox p1 = new HBox();
+        p1.getChildren().addAll(label1, button1, button2, button3);
+        p1.setSpacing(20);
+        p1.setLayoutX(SQUARE_SIZE*10.5);
+        p1.setLayoutY(SQUARE_SIZE);
+        controls.getChildren().add(p1);
     }
 
     @Override
