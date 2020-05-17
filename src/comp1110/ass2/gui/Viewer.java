@@ -248,8 +248,8 @@ public class Viewer extends Application {
         drawTile.setImage(new Image(this.getClass().getResource(URI_BASE + "station" + 1 + ".jpg").toString()));
         drawTile.setFitWidth(SQUARE_SIZE);
         drawTile.setFitHeight(SQUARE_SIZE);
-        X = SQUARE_SIZE*12;
-        Y = SQUARE_SIZE*7;
+        X = SQUARE_SIZE * 12;
+        Y = SQUARE_SIZE * 7;
         drawTile.setLayoutX(X);
         drawTile.setLayoutY(Y);
         controls.getChildren().add(drawTile);
@@ -260,21 +260,29 @@ public class Viewer extends Application {
         });
 
         drawTile.setOnMouseDragged(event -> {
-            drawTile.setLayoutX(drawTile.getLayoutX()+ event.getSceneX()- mouseX);
-            drawTile.setLayoutY(drawTile.getLayoutY()+ event.getSceneY()- mouseY);
+            drawTile.setLayoutX(drawTile.getLayoutX() + event.getSceneX() - mouseX);
+            drawTile.setLayoutY(drawTile.getLayoutY() + event.getSceneY() - mouseY);
             mouseX = event.getSceneX();
             mouseY = event.getSceneY();
         });
 
         drawTile.setOnMouseReleased(event -> {
-            row_closest = (int) Math.round(drawTile.getLayoutX()/SQUARE_SIZE);
-            col_closest = (int) Math.round(drawTile.getLayoutY()/SQUARE_SIZE);
+            if (drawTile.getLayoutX() >= 0.5 * SQUARE_SIZE && drawTile.getLayoutX() <= 8.5 * SQUARE_SIZE
+                    && drawTile.getLayoutY() >= 0.5 * SQUARE_SIZE && drawTile.getLayoutY() <= 8.5 * SQUARE_SIZE
+                    && !(drawTile.getLayoutX() >= 3.5 * SQUARE_SIZE && drawTile.getLayoutX() <= 5.5 * SQUARE_SIZE
+                    && drawTile.getLayoutY() >= 3.5 * SQUARE_SIZE && drawTile.getLayoutY() <= 5.5 * SQUARE_SIZE)) {
+                row_closest = (int) Math.round(drawTile.getLayoutX() / SQUARE_SIZE);
+                col_closest = (int) Math.round(drawTile.getLayoutY() / SQUARE_SIZE);
 
-            int dx = SQUARE_SIZE * row_closest;
-            int dy = SQUARE_SIZE * col_closest;
+                int dx = SQUARE_SIZE * row_closest;
+                int dy = SQUARE_SIZE * col_closest;
 
-            drawTile.setLayoutX(dx);
-            drawTile.setLayoutY(dy);
+                drawTile.setLayoutX(dx);
+                drawTile.setLayoutY(dy);
+            } else {
+                drawTile.setLayoutX(X);
+                drawTile.setLayoutY(Y);
+            }
         });
     }
 
