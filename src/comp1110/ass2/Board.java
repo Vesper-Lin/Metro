@@ -3,10 +3,11 @@ package comp1110.ass2;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 
 public class Board {
     static int LENGTH_OF_PIECE = 6;
+    static int TOTAL_ROW =8;
+    static int TOTAL_COL =8;
     /**
      * This method will divide the long placement sequense in to piece placement,
      * which is represented by a string which has length of 6. These strings are stored
@@ -268,6 +269,25 @@ public class Board {
             }
         }
         return true;
+    }
+
+    public HashMap<String, Boolean> getBoardMap(String placementSequence){
+        boolean occupied;
+        ArrayList<String> tilePlaced = new ArrayList<>();
+        ArrayList<String> positions = new ArrayList<>();
+        slice(placementSequence, tilePlaced);
+        getPositions(tilePlaced,positions);
+        HashMap<String,Boolean> boardMap = new HashMap<>();
+        for(int row=0;row<TOTAL_ROW;row++){
+            for(int col=0;col<TOTAL_COL;col++){
+              String s = String.valueOf(row)+String.valueOf(col);
+              boardMap.put(s,false);
+            }
+        }
+        for (String pos:positions) {
+            boardMap.put(pos,true);
+        }
+        return boardMap;
     }
 }
 

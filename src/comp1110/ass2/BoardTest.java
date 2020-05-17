@@ -30,6 +30,7 @@ public class BoardTest {
         boolean checkEdges = board.checkEdges(positions,tiles);
         boolean cornerCheck = board.cornerCheck(positions,tiles);
         boolean neighbours = board.allHaveNeighbours(tilePlaced);
+        HashMap<String, Boolean> boardMap = board.getBoardMap(placementSequence);
 
         if(overlap==false && checkCS ==true && checkEdges == true && cornerCheck == true && neighbours == true){
             System.out.println("All is well");
