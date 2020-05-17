@@ -41,6 +41,8 @@ public class Viewer extends Application {
     private double Y;
     private double mouseX;
     private double mouseY;
+    private int row_closest;
+    private int col_closest;
 
     private static final String URI_BASE = "assets/";
 
@@ -264,7 +266,16 @@ public class Viewer extends Application {
             mouseY = event.getSceneY();
         });
 
+        drawTile.setOnMouseReleased(event -> {
+            row_closest = (int) Math.round(drawTile.getLayoutX()/SQUARE_SIZE);
+            col_closest = (int) Math.round(drawTile.getLayoutY()/SQUARE_SIZE);
 
+            int dx = SQUARE_SIZE * row_closest;
+            int dy = SQUARE_SIZE * col_closest;
+
+            drawTile.setLayoutX(dx);
+            drawTile.setLayoutY(dy);
+        });
     }
 
 
