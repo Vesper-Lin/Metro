@@ -1,6 +1,7 @@
 package comp1110.ass2.gui;
 
 import comp1110.ass2.Board;
+import comp1110.ass2.Deck;
 import comp1110.ass2.Metro;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -14,14 +15,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
-import java.awt.*;
+import java.util.Random;
 
 /**
  * A very simple viewer for piece placements in the Metro game.
@@ -245,7 +244,12 @@ public class Viewer extends Application {
     void drawTile() {
         ImageView drawTile;
         drawTile = new ImageView();
-        drawTile.setImage(new Image(this.getClass().getResource(URI_BASE + "station" + 1 + ".jpg").toString()));
+
+        Random random = new Random();
+        int i = random.nextInt(Deck.getInitialDeck().size());
+        String random_tile_type = Deck.getInitialDeck().get(i);
+
+        drawTile.setImage(new Image(this.getClass().getResource(URI_BASE + random_tile_type + ".jpg").toString()));
         drawTile.setFitWidth(SQUARE_SIZE);
         drawTile.setFitHeight(SQUARE_SIZE);
         X = SQUARE_SIZE * 12;
