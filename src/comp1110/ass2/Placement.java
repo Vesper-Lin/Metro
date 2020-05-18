@@ -2,6 +2,8 @@ package comp1110.ass2;
 
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Map;
 
 public class Placement {
     /* This class is intended to handle the methods and checks related to the placing of tiles*/
@@ -131,4 +133,156 @@ public class Placement {
         }
         return "";//two tiles are not neightbors, actually this will never be reached becaue isNeighbor method will be called as the precondition of this method in another main.
     }
+
+    public static int[]  getStartStationForThisPlayer (String placement, int numberOfPlayer)
+    {
+        int numberOfPlacement = placement.length() / Placement.LENGTH_OF_ONE_PlACEMENT;//number of placements already placed
+        int remaindarPlacementNumber = numberOfPlacement % numberOfPlayer;//extra placements, which is also the index of Player
+        int playerNumber=remaindarPlacementNumber+1;
+        Map<String, int[]> stationMap= Station.getInitialStationMap();
+        String numberOfPlayerString=numberOfPlayer+"";
+        String playerNumberString=playerNumber+"";
+        return stationMap.get(numberOfPlayerString+playerNumberString);
+    }
+
+    public static ArrayList<String> getSpareStartStation(String placement,int nuberOfPlayer)
+    {
+        ArrayList<String> spareStartStation=new ArrayList<>();
+        int[] startStation=getStartStationForThisPlayer(placement,nuberOfPlayer);
+        for (int value : startStation) {
+            if (!placement.contains(StationNumber.fromStationNumber(value))) {
+                spareStartStation.add(StationNumber.fromStationNumber(value));
+            }
+        }
+        return spareStartStation;
+    }
+
+    public static boolean isLoopBacktoEdge(String piecePlacement)
+    {
+        if (piecePlacement.contains("0")||piecePlacement.contains("7"))
+        {
+            String row=piecePlacement.substring(4,5);
+            String column=piecePlacement.substring(5,6);
+            if (row.equals("0")&&column.compareTo("7")<0&&column.compareTo("0")>0)
+            {
+                return piecePlacement.substring(0,1).equals("d");
+            }
+            if (column.equals("7")&&row.compareTo("7")<0&&row.compareTo("0")>0)
+            {
+                return piecePlacement.substring(1,2).equals("d");
+            }
+            if (row.equals("7")&&column.compareTo("0")>0&&column.compareTo("7")<0)
+            {
+                return piecePlacement.substring(2,3).equals("d");
+            }
+            if (column.equals("0")&&row.compareTo("0")>0&&row.compareTo("7")<0)
+            {
+                return piecePlacement.substring(3,4).equals("d");
+            }
+            if (row.equals("0")&&column.equals("0"))
+            {
+                return piecePlacement.substring(3,4).equals("b")||piecePlacement.substring(0,1).equals("c")||piecePlacement.substring(3,4).equals("d")||piecePlacement.substring(0,1).equals("d");
+            }
+            if (row.equals("0")&&column.equals("7"))
+            {
+                return piecePlacement.substring(0,1).equals("b")||piecePlacement.substring(1,2).equals("c")||piecePlacement.substring(0,1).equals("d")||piecePlacement.substring(1,2).equals("d");
+            }
+            if (row.equals("7")&&column.equals("7"))
+            {
+                return piecePlacement.substring(1,2).equals("b")||piecePlacement.substring(2,3).equals("c")||piecePlacement.substring(1,2).equals("d")||piecePlacement.substring(2,3).equals("d");
+            }
+            if (row.equals("7")&&column.equals("0"))
+            {
+                return piecePlacement.substring(2,3).equals("b")||piecePlacement.substring(3,4).equals("c")||piecePlacement.substring(2,3).equals("d")||piecePlacement.substring(3,4).equals("d");
+            }
+        }
+        return false;
+    }
+
+    public static boolean hasNeighbor(String piecePlacement,String placement)
+    {
+        int numberOfPlacements=placement.length()/6;
+        for (int i=0;i<numberOfPlacements;i++)
+        {
+            String testPlacement=placement.substring(6*i,6*i+6);
+            if (isNeighbour(piecePlacement,testPlacement))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+
+    //simple valid means if it is next to edge station it is not loop back to edge station or has a neighbor and if it is not next to edge, it has neighbors
+    public static boolean isSimpleValid(String placement,String piecePlacement)
+    {
+        if (piecePlacement.contains("0")||piecePlacement.contains("7"))
+        {
+            return !isLoopBacktoEdge(piecePlacement);
+        }
+        else
+        {
+            return hasNeighbor(piecePlacement, placement);
+        }
+    }
+
+
+
+    public static ArrayList<String> getValidMovePlace(String placement, String piece, int numberOfPlayer)
+    {
+        ArrayList<String> boardCoordinates=Station.getBoardCoordinates();
+        boardCoordinates.removeIf(placement::contains);
+        ArrayList<String> spareStartStation=getSpareStartStation(placement,numberOfPlayer);
+        ArrayList<String> aboardCoordinates = new ArrayList<>(boardCoordinates);
+        for (String coordinate:boardCoordinates)
+        {
+            if (coordinate.contains("0")||coordinate.contains("7"))
+            {
+                String testPiece=piece+coordinate;
+                if (!spareStartStation.contains(coordinate))
+                {
+                    if (!hasNeighbor(testPiece, placement))
+                    {
+                        aboardCoordinates.remove(coordinate);
+                    }
+                }
+
+            }
+            else
+            {
+                String testPiecePlacement= placement +piece+coordinate;
+                if (!Metro.isPlacementSequenceValid(testPiecePlacement))
+                {
+                    aboardCoordinates.remove(coordinate);
+                }
+            }
+        }
+        return aboardCoordinates;
+    }
+
+    public static boolean cannotPlaceElsewhere(String placement, String piece, int numberOfPlayer)
+    {
+        ArrayList<String> validPlaces=getValidMovePlace(placement,piece,numberOfPlayer);
+        for (String each:validPlaces)
+        {
+            if (isSimpleValid(placement,piece+each))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static ArrayList<String> getFinalValidPlace(String placement, String piece, int numberOfPlayer)
+    {
+       ArrayList<String> validMove=getValidMovePlace(placement,piece,numberOfPlayer);
+        if (!cannotPlaceElsewhere(placement, piece, numberOfPlayer)) {
+            validMove.removeIf(each -> !isSimpleValid(placement, piece + each));
+        }
+        return validMove;
+    }
 }
+
+

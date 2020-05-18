@@ -1,6 +1,7 @@
 package comp1110.ass2;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Metro {
     /**
@@ -126,19 +127,19 @@ public class Metro {
         }
 
         board.slice(placementSequence, tilePlaced);
-        ArrayList<String>tiles = new ArrayList<>();
+        ArrayList<String> tiles = new ArrayList<>();
         ArrayList<String> positions = new ArrayList<>();
 
-        board.getTiles(tilePlaced,tiles);
+        board.getTiles(tilePlaced, tiles);
         board.getPositions(tilePlaced, positions);
         boolean overlap = board.checkOverlap(positions);
         boolean checkCS = board.checkCS(positions);
-        boolean checkEdges = board.checkEdges(positions,tiles);
-        boolean cornerCheck = board.cornerCheck(positions,tiles);
+        boolean checkEdges = board.checkEdges(positions, tiles);
+        boolean cornerCheck = board.cornerCheck(positions, tiles);
         boolean haveNeighbours = board.allHaveNeighbours(tilePlaced);
 
         //checkpoint
-        return !overlap && checkCS && checkEdges &&cornerCheck && haveNeighbours;
+        return !overlap && checkCS && checkEdges && cornerCheck && haveNeighbours;
     }
 
     /**
@@ -175,6 +176,10 @@ public class Metro {
      */
     public static String generateMove(String placementSequence, String piece, int numberOfPlayers) {
         // FIXME Task 9: generate a valid move
-        return "";
+        ArrayList<String> validPlace = Placement.getFinalValidPlace(placementSequence, piece, numberOfPlayers);
+        int numberOfValidPlaces = validPlace.size();
+        Random random = new Random();
+        int index = random.nextInt(numberOfValidPlaces);
+        return piece + validPlace.get(index);
     }
 }

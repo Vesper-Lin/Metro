@@ -1,6 +1,8 @@
 package comp1110.ass2;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 public class Station {
@@ -37,5 +39,23 @@ public class Station {
         return playerStationMap;
     }
 
-
+    public static ArrayList<String> getBoardCoordinates()
+    {
+        ArrayList<String> coordinateList=new ArrayList<>();
+        for (int i=0;i<8;i++)
+        {
+            for (int j=0;j<8;j++)
+            {
+                String row=i+"";
+                String column=j+"";
+                String coordinate=row+column;
+                coordinateList.add(coordinate);
+            }
+        }
+        coordinateList.remove("33");
+        coordinateList.remove("34");
+        coordinateList.remove("43");
+        coordinateList.remove("44");
+        return coordinateList;
+    }
 }
