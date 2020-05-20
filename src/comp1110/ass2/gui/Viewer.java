@@ -361,6 +361,20 @@ public class Viewer extends Application {
         primaryStage.setTitle("FocusGame Viewer");
         Scene scene = new Scene(root, VIEWER_WIDTH, VIEWER_HEIGHT);
 
+        Button buttonX = new Button("Game Restart");
+        buttonX.setStyle("-fx-text-fill: red");
+        buttonX.setOnAction(e -> {
+            Viewer viewer = new Viewer();
+            viewer.start(new Stage());
+            primaryStage.close();
+        });
+
+        HBox restart = new HBox();
+        restart.getChildren().addAll(buttonX);
+        restart.setLayoutX(SQUARE_SIZE*12);
+        restart.setLayoutY(0);
+        controls.getChildren().add(restart);
+
         root.getChildren().add(board);
         root.getChildren().add(controls);
         root.getChildren().add(placement);
