@@ -1,6 +1,5 @@
 package comp1110.ass2.gui;
 
-import comp1110.ass2.Board;
 import comp1110.ass2.Deck;
 import comp1110.ass2.Metro;
 import javafx.application.Application;
@@ -10,16 +9,18 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
 import java.util.Random;
 
 /**
@@ -45,13 +46,14 @@ public class Viewer extends Application {
 
     private static final String URI_BASE = "assets/";
 
-    private final Group root = new Group();
+    private final Group root1 = new Group();
+    private final Group root2 = new Group();
+    private final Group root3 = new Group();
     private final Group board = new Group();
     private final Group controls = new Group();
     private final Group placement = new Group();
     private TextField textField;
 
-    private final Slider players = new Slider();
 
     static class DrawPiece extends ImageView{
         /* draw the taken piece */
@@ -313,24 +315,6 @@ public class Viewer extends Application {
         hb.setLayoutY(VIEWER_HEIGHT - 50);
         controls.getChildren().add(hb);
 
-        players.setMin(2);
-        players.setMax(6);
-        players.setValue(2);
-        players.setShowTickLabels(true);
-        players.setShowTickMarks(true);
-        players.setMajorTickUnit(1);
-        players.setMinorTickCount(0);
-        players.setSnapToTicks(true);
-
-        players.setLayoutX(SQUARE_SIZE*12);
-        players.setLayoutY(VIEWER_HEIGHT - 50);
-        controls.getChildren().add(players);
-
-        final Label playersCaption = new Label("Number of Players:");
-        playersCaption.setLayoutX(SQUARE_SIZE*10.5);
-        playersCaption.setLayoutY(VIEWER_HEIGHT - 50);
-        controls.getChildren().add(playersCaption);
-
         final Label currentTileCaption = new Label("Current Tile:");
         currentTileCaption.setLayoutX(SQUARE_SIZE*10.5);
         currentTileCaption.setLayoutY(SQUARE_SIZE*7);
@@ -358,8 +342,7 @@ public class Viewer extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("FocusGame Viewer");
-        Scene scene = new Scene(root, VIEWER_WIDTH, VIEWER_HEIGHT);
+        primaryStage.setTitle("Metro Game Viewer");
 
         Button buttonX = new Button("Game Restart");
         buttonX.setStyle("-fx-text-fill: red");
@@ -368,22 +351,99 @@ public class Viewer extends Application {
             viewer.start(new Stage());
             primaryStage.close();
         });
+        buttonX.setLayoutX(SQUARE_SIZE*12);
+        buttonX.setLayoutY(0);
+        controls.getChildren().add(buttonX);
 
-        HBox restart = new HBox();
-        restart.getChildren().addAll(buttonX);
-        restart.setLayoutX(SQUARE_SIZE*12);
-        restart.setLayoutY(0);
-        controls.getChildren().add(restart);
+        //2 Players scene2
+        Scene scene2 = new Scene(root2, VIEWER_WIDTH, VIEWER_HEIGHT);
 
-        root.getChildren().add(board);
-        root.getChildren().add(controls);
-        root.getChildren().add(placement);
-        /* draw the board, controls and placement */
+
 
         drawBoard();
         makeControls();
 
-        primaryStage.setScene(scene);
+        root2.getChildren().add(board);
+        root2.getChildren().add(controls);
+        root2.getChildren().add(placement);
+
+
+
+        //Welcome Scene1
+        ImageView background = new ImageView();
+        background.setImage(new Image(this.getClass().getResource(URI_BASE + "tile_back_cover.jpg").toString()));
+        background.setFitWidth(VIEWER_HEIGHT);
+        background.setFitHeight(VIEWER_HEIGHT);
+        root1.getChildren().add(background);
+
+        Text welcome = new Text("Welcome!");
+        welcome.setFont(Font.font("Segoe UI", FontWeight.BOLD, 50));
+        welcome.setStyle("-fx-text-fill: crimson");
+        welcome.setOpacity(0.5);
+        welcome.setLayoutX(SQUARE_SIZE*11.1);
+        welcome.setLayoutY(SQUARE_SIZE);
+        root1.getChildren().add(welcome);
+
+        Text instruction = new Text("Please choose the number");
+        instruction.setFont(Font.font("Segoe UI", 20));
+        instruction.setOpacity(0.2);
+        instruction.setLayoutX(SQUARE_SIZE*11.1);
+        instruction.setLayoutY(SQUARE_SIZE*1.8);
+        root1.getChildren().add(instruction);
+
+        Text instruction2 = new Text("of the players to start.");
+        instruction2.setFont(Font.font("Segoe UI", 20));
+        instruction2.setOpacity(0.2);
+        instruction2.setLayoutX(SQUARE_SIZE*11.1);
+        instruction2.setLayoutY(SQUARE_SIZE*2.3);
+        root1.getChildren().add(instruction2);
+
+        Button button2 = new Button("2 Players");
+        button2.setOnAction(e -> {
+            primaryStage.setScene(scene2);
+        });
+        button2.setFont(Font.font("Segoe UI",15));
+
+        Button button3 = new Button("3 Players");
+        button3.setOnAction(e -> {
+
+        });
+        button3.setFont(Font.font("Segoe UI", 15));
+
+        Button button4 = new Button("4 Players");
+        button4.setOnAction(e -> {
+
+        });
+        button4.setFont(Font.font("Segoe UI", 15));
+
+        Button button5= new Button("5 Players");
+        button5.setOnAction(e -> {
+
+        });
+        button5.setFont(Font.font("Segoe UI", 15));
+
+        Button button6= new Button("6 Players");
+        button6.setOnAction(e -> {
+
+        });
+        button6.setFont(Font.font("Segoe UI", 15));
+
+        Button buttonComp= new Button("AI Player");
+        buttonComp.setOnAction(e -> {
+
+        });
+        buttonComp.setFont(Font.font("Segoe UI", FontWeight.BOLD, 15));
+        buttonComp.setStyle("-fx-text-fill: crimson");
+
+        VBox vb = new VBox();
+        vb.getChildren().addAll(button2, button3, button4, button5, button6, buttonComp);
+        vb.setSpacing(SQUARE_SIZE*0.8);
+        vb.setLayoutX(SQUARE_SIZE * 12.2);
+        vb.setLayoutY(SQUARE_SIZE * 3);
+        root1.getChildren().add(vb);
+
+        Scene scene1 = new Scene(root1, VIEWER_WIDTH, VIEWER_HEIGHT);
+        primaryStage.setScene(scene1);
         primaryStage.show();
     }
 }
