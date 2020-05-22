@@ -22,15 +22,15 @@ public class GameEngine {
             //create instances of computer
             for(int playerNumber =0;playerNumber<playerCount-1;playerNumber++){
 
-                players.add(new Computer(playerNumber,PlayerStation.getPlayerStationArrayList(playerCount).get(playerNumber).getStationOwned()));
+                players.add(new Computer(playerNumber,PlayerStation.getPlayerStationArrayList(playerCount).get(playerNumber).getStationOwned(),playerCount));
             }
-            players.add(new ManualPlayer(playerCount-1,PlayerStation.getPlayerStationArrayList(playerCount).get(playerCount-1).getStationOwned()));
+            players.add(new ManualPlayer(playerCount-1,PlayerStation.getPlayerStationArrayList(playerCount).get(playerCount-1).getStationOwned(),playerCount));
         }
         if(mode.equals("Manual")){
             //create instances of manual player
             for(int playerNumber =0;playerNumber<playerCount;playerNumber++){
 
-                players.add(new ManualPlayer(playerNumber,PlayerStation.getPlayerStationArrayList(playerCount).get(playerNumber).getStationOwned()));
+                players.add(new ManualPlayer(playerNumber,PlayerStation.getPlayerStationArrayList(playerCount).get(playerNumber).getStationOwned(),playerCount));
             }
         }
         //method to load deck
@@ -53,18 +53,18 @@ public class GameEngine {
         String placementSequence ="";
         while(win==false){
 
-            for(int i =0;i<=60;i++){
+            for(int i =0;i<60;i++){
 
                     if (players.get(token) instanceof Computer) {
                         Computer player1 = (Computer) players.get(token);
-                        placementSequence = player1.compMeth(placementSequence, "");
+                        placementSequence = placementSequence+player1.compMeth(placementSequence, "");
                         System.out.println("Movement by computer " + i + " is :" + placementSequence);
                         passtoken(token,playerCount,token);
 
                     }
                     else {
                         ManualPlayer player1 = (ManualPlayer) players.get(token);
-                        placementSequence = player1.manMeth(placementSequence, "");
+                        placementSequence =placementSequence+placementSequence+ player1.manMeth(placementSequence, "");
                         System.out.println("Movement by manual " + i + " is :" + placementSequence);
                         passtoken(token,playerCount,token);
 
