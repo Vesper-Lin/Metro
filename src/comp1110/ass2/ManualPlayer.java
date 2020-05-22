@@ -13,8 +13,9 @@ public class ManualPlayer{
     public String manMeth(String placementSequence, String totalHands){
         String sr = Metro.drawFromDeck(placementSequence,totalHands);
         System.out.println(sr);
-        System.out.println(Metro.generateMove(placementSequence,sr,playerCount));
-        placementSequence = Metro.generateMove(placementSequence,sr,playerCount);
+        //System.out.println(Metro.generateMove(placementSequence,sr,playerCount));
+        String move = Metro.generateMove(placementSequence,sr,playerCount);
+        placementSequence = placementSequence+move;
         return placementSequence;
     }
 

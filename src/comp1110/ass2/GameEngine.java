@@ -57,16 +57,16 @@ public class GameEngine {
 
                     if (players.get(token) instanceof Computer) {
                         Computer player1 = (Computer) players.get(token);
-                        placementSequence = placementSequence+player1.compMeth(placementSequence, "");
+                        placementSequence = player1.compMeth(placementSequence, "");
                         System.out.println("Movement by computer " + i + " is :" + placementSequence);
-                        passtoken(token,playerCount,token);
+                        token = passtoken(token,playerCount);
 
                     }
                     else {
                         ManualPlayer player1 = (ManualPlayer) players.get(token);
-                        placementSequence =placementSequence+placementSequence+ player1.manMeth(placementSequence, "");
+                        placementSequence =player1.manMeth(placementSequence, "");
                         System.out.println("Movement by manual " + i + " is :" + placementSequence);
-                        passtoken(token,playerCount,token);
+                        token=  passtoken(token,playerCount);
 
                     }
 
@@ -79,17 +79,15 @@ public class GameEngine {
 
     }
 
-    private static void passtoken(int token, int playerCount, int token1) {
-        if(token<playerCount){
-            token1 =token+1;
+    private static int passtoken(int token, int playerCount) {
+        if(token<playerCount-1){
+            token =token+1;
         }
         else{
-            token1=0;
+            token=0;
         }
+        return token;
     }
 
-    public void passtoken(int token,int playerCount){
 
-
-    }
 }

@@ -14,8 +14,10 @@ public class Computer {
 
         String sr = Metro.drawFromDeck(placementSequence,totalHands);
         //System.out.println(sr);
-        System.out.println(Metro.generateMove("",sr,playerCount));
-        placementSequence = Metro.generateMove("",sr,playerCount);
+        //System.out.println(Metro.generateMove("",sr,playerCount));
+        String move = Metro.generateMove(placementSequence,sr,playerCount);
+        placementSequence = placementSequence+move;
         return placementSequence;
+
     }
 }
