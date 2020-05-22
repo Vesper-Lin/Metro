@@ -23,6 +23,7 @@ public class test {
         System.out.println(Placement.getFinalValidPlace("", "cccc", 2));
         //bbbb03dddd13accd04dbcd75adbb02bcbc60cbaa76aacb06dbba16cddb14aaaa17adad61cbcb05ccda51
         //cccc77
+        System.out.println(Metro.drawFromDeck("",""));
     }
 
 
