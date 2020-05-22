@@ -1,6 +1,5 @@
 package comp1110.ass2.gui;
 
-import comp1110.ass2.Deck;
 import comp1110.ass2.Metro;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -20,8 +19,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
-import java.util.Random;
 
 /**
  * A very simple viewer for piece placements in the Metro game.
@@ -43,6 +40,10 @@ public class Viewer extends Application {
     private double mouseY;
     private int row_closest;
     private int col_closest;
+    private String allPlacement="";
+    private String tile;
+    private int numeberOfPlayer;
+    private String coordinateOfTile;
 
     private static final String URI_BASE = "assets/";
 
@@ -247,13 +248,19 @@ public class Viewer extends Application {
         System.out.println("Error: Invalid Placement");
     }
 
-    void drawTile() {
+
+    String drawFromDeck(String allPlacement)
+    {
+        return Metro.drawFromDeck(allPlacement,"");
+    }
+    void drawTile(String random_tile_type) {
         ImageView drawTile;
         drawTile = new ImageView();
 
-        Random random = new Random();
-        int i = random.nextInt(Deck.getInitialDeck().size());
-        String random_tile_type = Deck.getInitialDeck().get(i);
+//        Random random = new Random();
+//        int i = random.nextInt(Deck.getInitialDeck().size());
+//        String random_tile_type = Deck.getInitialDeck().get(i);
+
 
         drawTile.setImage(new Image(this.getClass().getResource(URI_BASE + random_tile_type + ".jpg").toString()));
         drawTile.setFitWidth(SQUARE_SIZE);
@@ -293,6 +300,9 @@ public class Viewer extends Application {
                 drawTile.setLayoutX(X);
                 drawTile.setLayoutY(Y);
             }
+            int rowCoordinate=row_closest-1;
+            int colCoorinate=col_closest-1;
+            coordinateOfTile=colCoorinate+""+rowCoordinate+"";
         });
     }
 
@@ -334,7 +344,6 @@ public class Viewer extends Application {
         });
         Button button12 = new Button("draw");
         button12.setOnAction(e -> {
-            drawTile();
         });
         Button button13 = new Button("place");
         button13.setOnAction(e -> {
@@ -354,7 +363,6 @@ public class Viewer extends Application {
         });
         Button button22 = new Button("draw");
         button22.setOnAction(e -> {
-            drawTile();
         });
         Button button23 = new Button("place");
         button23.setOnAction(e -> {
@@ -367,7 +375,10 @@ public class Viewer extends Application {
         p2.setLayoutY(SQUARE_SIZE * 2);
         root2.getChildren().add(p2);
     }
+    void getPlayerRoot(int numeberOfPlayer)
+    {
 
+    }
     void player3(){
         Label label1 = new Label("Player 1");
 
@@ -376,10 +387,15 @@ public class Viewer extends Application {
         });
         Button button12 = new Button("draw");
         button12.setOnAction(e -> {
-            drawTile();
+            String drawntile=drawFromDeck(allPlacement);
+            tile=drawntile;
+            drawTile(drawntile);
         });
         Button button13 = new Button("place");
         button13.setOnAction(e -> {
+            allPlacement=allPlacement+tile+coordinateOfTile;
+            System.out.println(allPlacement);
+
         });
 
         HBox p1 = new HBox();
@@ -396,10 +412,14 @@ public class Viewer extends Application {
         });
         Button button22 = new Button("draw");
         button22.setOnAction(e -> {
-            drawTile();
+            String drawntile=drawFromDeck(allPlacement);
+            tile=drawntile;
+            drawTile(drawntile);
         });
         Button button23 = new Button("place");
         button23.setOnAction(e -> {
+            allPlacement=allPlacement+tile+coordinateOfTile;
+            System.out.println(allPlacement);
         });
 
         HBox p2 = new HBox();
@@ -416,10 +436,14 @@ public class Viewer extends Application {
         });
         Button button32 = new Button("draw");
         button32.setOnAction(e -> {
-            drawTile();
+            String drawntile=drawFromDeck(allPlacement);
+            tile=drawntile;
+            drawTile(drawntile);
         });
         Button button33 = new Button("place");
         button33.setOnAction(e -> {
+            allPlacement=allPlacement+tile+coordinateOfTile;
+            System.out.println(allPlacement);
         });
 
         HBox p3 = new HBox();
@@ -438,7 +462,6 @@ public class Viewer extends Application {
         });
         Button button12 = new Button("draw");
         button12.setOnAction(e -> {
-            drawTile();
         });
         Button button13 = new Button("place");
         button13.setOnAction(e -> {
@@ -458,7 +481,6 @@ public class Viewer extends Application {
         });
         Button button22 = new Button("draw");
         button22.setOnAction(e -> {
-            drawTile();
         });
         Button button23 = new Button("place");
         button23.setOnAction(e -> {
@@ -478,7 +500,6 @@ public class Viewer extends Application {
         });
         Button button32 = new Button("draw");
         button32.setOnAction(e -> {
-            drawTile();
         });
         Button button33 = new Button("place");
         button33.setOnAction(e -> {
@@ -498,7 +519,6 @@ public class Viewer extends Application {
         });
         Button button42 = new Button("draw");
         button42.setOnAction(e -> {
-            drawTile();
         });
         Button button43 = new Button("place");
         button43.setOnAction(e -> {
@@ -520,7 +540,6 @@ public class Viewer extends Application {
         });
         Button button12 = new Button("draw");
         button12.setOnAction(e -> {
-            drawTile();
         });
         Button button13 = new Button("place");
         button13.setOnAction(e -> {
@@ -540,7 +559,6 @@ public class Viewer extends Application {
         });
         Button button22 = new Button("draw");
         button22.setOnAction(e -> {
-            drawTile();
         });
         Button button23 = new Button("place");
         button23.setOnAction(e -> {
@@ -560,7 +578,6 @@ public class Viewer extends Application {
         });
         Button button32 = new Button("draw");
         button32.setOnAction(e -> {
-            drawTile();
         });
         Button button33 = new Button("place");
         button33.setOnAction(e -> {
@@ -580,7 +597,6 @@ public class Viewer extends Application {
         });
         Button button42 = new Button("draw");
         button42.setOnAction(e -> {
-            drawTile();
         });
         Button button43 = new Button("place");
         button43.setOnAction(e -> {
@@ -600,7 +616,6 @@ public class Viewer extends Application {
         });
         Button button52 = new Button("draw");
         button52.setOnAction(e -> {
-            drawTile();
         });
         Button button53 = new Button("place");
         button53.setOnAction(e -> {
@@ -622,7 +637,6 @@ public class Viewer extends Application {
         });
         Button button12 = new Button("draw");
         button12.setOnAction(e -> {
-            drawTile();
         });
         Button button13 = new Button("place");
         button13.setOnAction(e -> {
@@ -642,7 +656,6 @@ public class Viewer extends Application {
         });
         Button button22 = new Button("draw");
         button22.setOnAction(e -> {
-            drawTile();
         });
         Button button23 = new Button("place");
         button23.setOnAction(e -> {
@@ -662,7 +675,7 @@ public class Viewer extends Application {
         });
         Button button32 = new Button("draw");
         button32.setOnAction(e -> {
-            drawTile();
+
         });
         Button button33 = new Button("place");
         button33.setOnAction(e -> {
@@ -682,7 +695,7 @@ public class Viewer extends Application {
         });
         Button button42 = new Button("draw");
         button42.setOnAction(e -> {
-            drawTile();
+
         });
         Button button43 = new Button("place");
         button43.setOnAction(e -> {
@@ -702,7 +715,6 @@ public class Viewer extends Application {
         });
         Button button52 = new Button("draw");
         button52.setOnAction(e -> {
-            drawTile();
         });
         Button button53 = new Button("place");
         button53.setOnAction(e -> {
@@ -722,7 +734,7 @@ public class Viewer extends Application {
         });
         Button button62 = new Button("draw");
         button62.setOnAction(e -> {
-            drawTile();
+
         });
         Button button63 = new Button("place");
         button63.setOnAction(e -> {
