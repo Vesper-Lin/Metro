@@ -49,6 +49,10 @@ public class Viewer extends Application {
     private final Group root1 = new Group();
     private final Group root2 = new Group();
     private final Group root3 = new Group();
+    private final Group root4 = new Group();
+    private final Group root5 = new Group();
+    private final Group root6 = new Group();
+    private final Group rootComp = new Group();
     private final Group board = new Group();
     private final Group controls = new Group();
     private final Group placement = new Group();
@@ -315,59 +319,426 @@ public class Viewer extends Application {
         hb.setLayoutY(VIEWER_HEIGHT - 50);
         controls.getChildren().add(hb);
 
-        final Label currentTileCaption = new Label("Current Tile:");
+        //Current Tile Label
+        Label currentTileCaption = new Label("Current Tile:");
         currentTileCaption.setLayoutX(SQUARE_SIZE*10.5);
         currentTileCaption.setLayoutY(SQUARE_SIZE*7);
         controls.getChildren().add(currentTileCaption);
+    }
 
+    void player2(){
         Label label1 = new Label("Player 1");
-        Button button1 = new Button("hand");
-        button1.setOnAction(e -> {
+
+        Button button11 = new Button("hand");
+        button11.setOnAction(e -> {
         });
-        Button button2 = new Button("draw");
-        button2.setOnAction(e -> {
+        Button button12 = new Button("draw");
+        button12.setOnAction(e -> {
             drawTile();
         });
-        Button button3 = new Button("place");
-        button3.setOnAction(e -> {
+        Button button13 = new Button("place");
+        button13.setOnAction(e -> {
         });
 
         HBox p1 = new HBox();
-        p1.getChildren().addAll(label1, button1, button2, button3);
+        p1.getChildren().addAll(label1, button11, button12, button13);
         p1.setSpacing(20);
         p1.setLayoutX(SQUARE_SIZE*10.5);
         p1.setLayoutY(SQUARE_SIZE);
-        controls.getChildren().add(p1);
+        root2.getChildren().add(p1);
+
+        Label label2 = new Label("Player 2");
+
+        Button button21 = new Button("hand");
+        button21.setOnAction(e -> {
+        });
+        Button button22 = new Button("draw");
+        button22.setOnAction(e -> {
+            drawTile();
+        });
+        Button button23 = new Button("place");
+        button23.setOnAction(e -> {
+        });
+
+        HBox p2 = new HBox();
+        p2.getChildren().addAll(label2, button21, button22, button23);
+        p2.setSpacing(20);
+        p2.setLayoutX(SQUARE_SIZE*10.5);
+        p2.setLayoutY(SQUARE_SIZE * 2);
+        root2.getChildren().add(p2);
+    }
+
+    void player3(){
+        Label label1 = new Label("Player 1");
+
+        Button button11 = new Button("hand");
+        button11.setOnAction(e -> {
+        });
+        Button button12 = new Button("draw");
+        button12.setOnAction(e -> {
+            drawTile();
+        });
+        Button button13 = new Button("place");
+        button13.setOnAction(e -> {
+        });
+
+        HBox p1 = new HBox();
+        p1.getChildren().addAll(label1, button11, button12, button13);
+        p1.setSpacing(20);
+        p1.setLayoutX(SQUARE_SIZE*10.5);
+        p1.setLayoutY(SQUARE_SIZE);
+        root3.getChildren().add(p1);
+
+        Label label2 = new Label("Player 2");
+
+        Button button21 = new Button("hand");
+        button21.setOnAction(e -> {
+        });
+        Button button22 = new Button("draw");
+        button22.setOnAction(e -> {
+            drawTile();
+        });
+        Button button23 = new Button("place");
+        button23.setOnAction(e -> {
+        });
+
+        HBox p2 = new HBox();
+        p2.getChildren().addAll(label2, button21, button22, button23);
+        p2.setSpacing(20);
+        p2.setLayoutX(SQUARE_SIZE*10.5);
+        p2.setLayoutY(SQUARE_SIZE * 2);
+        root3.getChildren().add(p2);
+
+        Label label3 = new Label("Player 3");
+
+        Button button31 = new Button("hand");
+        button31.setOnAction(e -> {
+        });
+        Button button32 = new Button("draw");
+        button32.setOnAction(e -> {
+            drawTile();
+        });
+        Button button33 = new Button("place");
+        button33.setOnAction(e -> {
+        });
+
+        HBox p3 = new HBox();
+        p3.getChildren().addAll(label3, button31, button32, button33);
+        p3.setSpacing(20);
+        p3.setLayoutX(SQUARE_SIZE*10.5);
+        p3.setLayoutY(SQUARE_SIZE * 3);
+        root3.getChildren().add(p3);
+    }
+
+    void player4(){
+        Label label1 = new Label("Player 1");
+
+        Button button11 = new Button("hand");
+        button11.setOnAction(e -> {
+        });
+        Button button12 = new Button("draw");
+        button12.setOnAction(e -> {
+            drawTile();
+        });
+        Button button13 = new Button("place");
+        button13.setOnAction(e -> {
+        });
+
+        HBox p1 = new HBox();
+        p1.getChildren().addAll(label1, button11, button12, button13);
+        p1.setSpacing(20);
+        p1.setLayoutX(SQUARE_SIZE*10.5);
+        p1.setLayoutY(SQUARE_SIZE);
+        root4.getChildren().add(p1);
+
+        Label label2 = new Label("Player 2");
+
+        Button button21 = new Button("hand");
+        button21.setOnAction(e -> {
+        });
+        Button button22 = new Button("draw");
+        button22.setOnAction(e -> {
+            drawTile();
+        });
+        Button button23 = new Button("place");
+        button23.setOnAction(e -> {
+        });
+
+        HBox p2 = new HBox();
+        p2.getChildren().addAll(label2, button21, button22, button23);
+        p2.setSpacing(20);
+        p2.setLayoutX(SQUARE_SIZE*10.5);
+        p2.setLayoutY(SQUARE_SIZE * 2);
+        root4.getChildren().add(p2);
+
+        Label label3 = new Label("Player 3");
+
+        Button button31 = new Button("hand");
+        button31.setOnAction(e -> {
+        });
+        Button button32 = new Button("draw");
+        button32.setOnAction(e -> {
+            drawTile();
+        });
+        Button button33 = new Button("place");
+        button33.setOnAction(e -> {
+        });
+
+        HBox p3 = new HBox();
+        p3.getChildren().addAll(label3, button31, button32, button33);
+        p3.setSpacing(20);
+        p3.setLayoutX(SQUARE_SIZE*10.5);
+        p3.setLayoutY(SQUARE_SIZE * 3);
+        root4.getChildren().add(p3);
+
+        Label label4 = new Label("Player 4");
+
+        Button button41 = new Button("hand");
+        button41.setOnAction(e -> {
+        });
+        Button button42 = new Button("draw");
+        button42.setOnAction(e -> {
+            drawTile();
+        });
+        Button button43 = new Button("place");
+        button43.setOnAction(e -> {
+        });
+
+        HBox p4 = new HBox();
+        p4.getChildren().addAll(label4, button41, button42, button43);
+        p4.setSpacing(20);
+        p4.setLayoutX(SQUARE_SIZE*10.5);
+        p4.setLayoutY(SQUARE_SIZE * 4);
+        root4.getChildren().add(p4);
+    }
+
+    void player5(){
+        Label label1 = new Label("Player 1");
+
+        Button button11 = new Button("hand");
+        button11.setOnAction(e -> {
+        });
+        Button button12 = new Button("draw");
+        button12.setOnAction(e -> {
+            drawTile();
+        });
+        Button button13 = new Button("place");
+        button13.setOnAction(e -> {
+        });
+
+        HBox p1 = new HBox();
+        p1.getChildren().addAll(label1, button11, button12, button13);
+        p1.setSpacing(20);
+        p1.setLayoutX(SQUARE_SIZE*10.5);
+        p1.setLayoutY(SQUARE_SIZE);
+        root5.getChildren().add(p1);
+
+        Label label2 = new Label("Player 2");
+
+        Button button21 = new Button("hand");
+        button21.setOnAction(e -> {
+        });
+        Button button22 = new Button("draw");
+        button22.setOnAction(e -> {
+            drawTile();
+        });
+        Button button23 = new Button("place");
+        button23.setOnAction(e -> {
+        });
+
+        HBox p2 = new HBox();
+        p2.getChildren().addAll(label2, button21, button22, button23);
+        p2.setSpacing(20);
+        p2.setLayoutX(SQUARE_SIZE*10.5);
+        p2.setLayoutY(SQUARE_SIZE * 2);
+        root5.getChildren().add(p2);
+
+        Label label3 = new Label("Player 3");
+
+        Button button31 = new Button("hand");
+        button31.setOnAction(e -> {
+        });
+        Button button32 = new Button("draw");
+        button32.setOnAction(e -> {
+            drawTile();
+        });
+        Button button33 = new Button("place");
+        button33.setOnAction(e -> {
+        });
+
+        HBox p3 = new HBox();
+        p3.getChildren().addAll(label3, button31, button32, button33);
+        p3.setSpacing(20);
+        p3.setLayoutX(SQUARE_SIZE*10.5);
+        p3.setLayoutY(SQUARE_SIZE * 3);
+        root5.getChildren().add(p3);
+
+        Label label4 = new Label("Player 4");
+
+        Button button41 = new Button("hand");
+        button41.setOnAction(e -> {
+        });
+        Button button42 = new Button("draw");
+        button42.setOnAction(e -> {
+            drawTile();
+        });
+        Button button43 = new Button("place");
+        button43.setOnAction(e -> {
+        });
+
+        HBox p4 = new HBox();
+        p4.getChildren().addAll(label4, button41, button42, button43);
+        p4.setSpacing(20);
+        p4.setLayoutX(SQUARE_SIZE*10.5);
+        p4.setLayoutY(SQUARE_SIZE * 4);
+        root5.getChildren().add(p4);
+
+        Label label5 = new Label("Player 5");
+
+        Button button51 = new Button("hand");
+        button51.setOnAction(e -> {
+        });
+        Button button52 = new Button("draw");
+        button52.setOnAction(e -> {
+            drawTile();
+        });
+        Button button53 = new Button("place");
+        button53.setOnAction(e -> {
+        });
+
+        HBox p5 = new HBox();
+        p5.getChildren().addAll(label5, button51, button52, button53);
+        p5.setSpacing(20);
+        p5.setLayoutX(SQUARE_SIZE*10.5);
+        p5.setLayoutY(SQUARE_SIZE * 5);
+        root5.getChildren().add(p5);
+    }
+
+    void player6(){
+        Label label1 = new Label("Player 1");
+
+        Button button11 = new Button("hand");
+        button11.setOnAction(e -> {
+        });
+        Button button12 = new Button("draw");
+        button12.setOnAction(e -> {
+            drawTile();
+        });
+        Button button13 = new Button("place");
+        button13.setOnAction(e -> {
+        });
+
+        HBox p1 = new HBox();
+        p1.getChildren().addAll(label1, button11, button12, button13);
+        p1.setSpacing(20);
+        p1.setLayoutX(SQUARE_SIZE*10.5);
+        p1.setLayoutY(SQUARE_SIZE);
+        root6.getChildren().add(p1);
+
+        Label label2 = new Label("Player 2");
+
+        Button button21 = new Button("hand");
+        button21.setOnAction(e -> {
+        });
+        Button button22 = new Button("draw");
+        button22.setOnAction(e -> {
+            drawTile();
+        });
+        Button button23 = new Button("place");
+        button23.setOnAction(e -> {
+        });
+
+        HBox p2 = new HBox();
+        p2.getChildren().addAll(label2, button21, button22, button23);
+        p2.setSpacing(20);
+        p2.setLayoutX(SQUARE_SIZE*10.5);
+        p2.setLayoutY(SQUARE_SIZE * 2);
+        root6.getChildren().add(p2);
+
+        Label label3 = new Label("Player 3");
+
+        Button button31 = new Button("hand");
+        button31.setOnAction(e -> {
+        });
+        Button button32 = new Button("draw");
+        button32.setOnAction(e -> {
+            drawTile();
+        });
+        Button button33 = new Button("place");
+        button33.setOnAction(e -> {
+        });
+
+        HBox p3 = new HBox();
+        p3.getChildren().addAll(label3, button31, button32, button33);
+        p3.setSpacing(20);
+        p3.setLayoutX(SQUARE_SIZE*10.5);
+        p3.setLayoutY(SQUARE_SIZE * 3);
+        root6.getChildren().add(p3);
+
+        Label label4 = new Label("Player 4");
+
+        Button button41 = new Button("hand");
+        button41.setOnAction(e -> {
+        });
+        Button button42 = new Button("draw");
+        button42.setOnAction(e -> {
+            drawTile();
+        });
+        Button button43 = new Button("place");
+        button43.setOnAction(e -> {
+        });
+
+        HBox p4 = new HBox();
+        p4.getChildren().addAll(label4, button41, button42, button43);
+        p4.setSpacing(20);
+        p4.setLayoutX(SQUARE_SIZE*10.5);
+        p4.setLayoutY(SQUARE_SIZE * 4);
+        root6.getChildren().add(p4);
+
+        Label label5 = new Label("Player 5");
+
+        Button button51 = new Button("hand");
+        button51.setOnAction(e -> {
+        });
+        Button button52 = new Button("draw");
+        button52.setOnAction(e -> {
+            drawTile();
+        });
+        Button button53 = new Button("place");
+        button53.setOnAction(e -> {
+        });
+
+        HBox p5 = new HBox();
+        p5.getChildren().addAll(label5, button51, button52, button53);
+        p5.setSpacing(20);
+        p5.setLayoutX(SQUARE_SIZE*10.5);
+        p5.setLayoutY(SQUARE_SIZE * 5);
+        root6.getChildren().add(p5);
+
+        Label label6 = new Label("Player 6");
+
+        Button button61 = new Button("hand");
+        button61.setOnAction(e -> {
+        });
+        Button button62 = new Button("draw");
+        button62.setOnAction(e -> {
+            drawTile();
+        });
+        Button button63 = new Button("place");
+        button63.setOnAction(e -> {
+        });
+
+        HBox p6 = new HBox();
+        p6.getChildren().addAll(label6, button61, button62, button63);
+        p6.setSpacing(20);
+        p6.setLayoutX(SQUARE_SIZE*10.5);
+        p6.setLayoutY(SQUARE_SIZE * 6);
+        root6.getChildren().add(p6);
     }
 
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Metro Game Viewer");
-
-        Button buttonX = new Button("Game Restart");
-        buttonX.setStyle("-fx-text-fill: red");
-        buttonX.setOnAction(e -> {
-            Viewer viewer = new Viewer();
-            viewer.start(new Stage());
-            primaryStage.close();
-        });
-        buttonX.setLayoutX(SQUARE_SIZE*12);
-        buttonX.setLayoutY(0);
-        controls.getChildren().add(buttonX);
-
-        //2 Players scene2
-        Scene scene2 = new Scene(root2, VIEWER_WIDTH, VIEWER_HEIGHT);
-
-
-
-        drawBoard();
-        makeControls();
-
-        root2.getChildren().add(board);
-        root2.getChildren().add(controls);
-        root2.getChildren().add(placement);
-
-
 
         //Welcome Scene1
         ImageView background = new ImageView();
@@ -400,37 +771,43 @@ public class Viewer extends Application {
 
         Button button2 = new Button("2 Players");
         button2.setOnAction(e -> {
-            primaryStage.setScene(scene2);
+            Stage2();
+            primaryStage.close();
         });
         button2.setFont(Font.font("Segoe UI",15));
 
         Button button3 = new Button("3 Players");
         button3.setOnAction(e -> {
-
+            Stage3();
+            primaryStage.close();
         });
         button3.setFont(Font.font("Segoe UI", 15));
 
         Button button4 = new Button("4 Players");
         button4.setOnAction(e -> {
-
+            Stage4();
+            primaryStage.close();
         });
         button4.setFont(Font.font("Segoe UI", 15));
 
         Button button5= new Button("5 Players");
         button5.setOnAction(e -> {
-
+            Stage5();
+            primaryStage.close();
         });
         button5.setFont(Font.font("Segoe UI", 15));
 
         Button button6= new Button("6 Players");
         button6.setOnAction(e -> {
-
+            Stage6();
+            primaryStage.close();
         });
         button6.setFont(Font.font("Segoe UI", 15));
 
         Button buttonComp= new Button("AI Player");
         buttonComp.setOnAction(e -> {
-
+            StageComp();
+            primaryStage.close();
         });
         buttonComp.setFont(Font.font("Segoe UI", FontWeight.BOLD, 15));
         buttonComp.setStyle("-fx-text-fill: crimson");
@@ -443,7 +820,175 @@ public class Viewer extends Application {
         root1.getChildren().add(vb);
 
         Scene scene1 = new Scene(root1, VIEWER_WIDTH, VIEWER_HEIGHT);
+
         primaryStage.setScene(scene1);
         primaryStage.show();
+    }
+
+    public void Stage2(){
+        Stage stage2 = new Stage();
+        stage2.setTitle("Metro: 2 Human Players");
+
+        drawBoard();
+        makeControls();
+
+        //Game Restart Button
+        Button buttonX = new Button("Game Restart");
+        buttonX.setStyle("-fx-text-fill: red");
+        buttonX.setOnAction(e -> {
+            Viewer viewer = new Viewer();
+            viewer.start(new Stage());
+            stage2.close();
+        });
+        buttonX.setLayoutX(SQUARE_SIZE*12);
+        buttonX.setLayoutY(0);
+        controls.getChildren().add(buttonX);
+
+        //2 Players scene2
+        Scene scene = new Scene(root2, VIEWER_WIDTH, VIEWER_HEIGHT);
+
+        root2.getChildren().add(board);
+        root2.getChildren().add(controls);
+        root2.getChildren().add(placement);
+
+        player2();
+
+        stage2.setScene(scene);
+        stage2.show();
+    }
+
+    public void Stage3(){
+        Stage stage3 = new Stage();
+        stage3.setTitle("Metro: 3 Human Players");
+
+        drawBoard();
+        makeControls();
+
+        //Game Restart Button
+        Button buttonX = new Button("Game Restart");
+        buttonX.setStyle("-fx-text-fill: red");
+        buttonX.setOnAction(e -> {
+            Viewer viewer = new Viewer();
+            viewer.start(new Stage());
+            stage3.close();
+        });
+        buttonX.setLayoutX(SQUARE_SIZE*12);
+        buttonX.setLayoutY(0);
+        controls.getChildren().add(buttonX);
+
+
+        //3 Players scene3
+        Scene scene = new Scene(root3, VIEWER_WIDTH, VIEWER_HEIGHT);
+
+        player3();
+
+        root3.getChildren().add(board);
+        root3.getChildren().add(controls);
+        root3.getChildren().add(placement);
+
+        stage3.setScene(scene);
+        stage3.show();
+    }
+
+    public void Stage4(){
+        Stage stage4 = new Stage();
+        stage4.setTitle("Metro: 4 Human Players");
+
+        drawBoard();
+        makeControls();
+
+        //Game Restart Button
+        Button buttonX = new Button("Game Restart");
+        buttonX.setStyle("-fx-text-fill: red");
+        buttonX.setOnAction(e -> {
+            Viewer viewer = new Viewer();
+            viewer.start(new Stage());
+            stage4.close();
+        });
+        buttonX.setLayoutX(SQUARE_SIZE*12);
+        buttonX.setLayoutY(0);
+        controls.getChildren().add(buttonX);
+
+
+        //4 Players scene
+        Scene scene = new Scene(root4, VIEWER_WIDTH, VIEWER_HEIGHT);
+
+        player4();
+
+        root4.getChildren().add(board);
+        root4.getChildren().add(controls);
+        root4.getChildren().add(placement);
+
+        stage4.setScene(scene);
+        stage4.show();
+    }
+
+    public void Stage5(){
+        Stage stage5 = new Stage();
+        stage5.setTitle("Metro: 5 Human Players");
+
+        drawBoard();
+        makeControls();
+
+        //Game Restart Button
+        Button buttonX = new Button("Game Restart");
+        buttonX.setStyle("-fx-text-fill: red");
+        buttonX.setOnAction(e -> {
+            Viewer viewer = new Viewer();
+            viewer.start(new Stage());
+            stage5.close();
+        });
+        buttonX.setLayoutX(SQUARE_SIZE*12);
+        buttonX.setLayoutY(0);
+        controls.getChildren().add(buttonX);
+
+
+        //5 Players scene
+        Scene scene = new Scene(root5, VIEWER_WIDTH, VIEWER_HEIGHT);
+
+        player5();
+
+        root5.getChildren().add(board);
+        root5.getChildren().add(controls);
+        root5.getChildren().add(placement);
+
+        stage5.setScene(scene);
+        stage5.show();
+    }
+
+    public void Stage6(){
+        Stage stage6 = new Stage();
+        stage6.setTitle("Metro: 6 Human Players");
+
+        drawBoard();
+        makeControls();
+
+        //Game Restart Button
+        Button buttonX = new Button("Game Restart");
+        buttonX.setStyle("-fx-text-fill: red");
+        buttonX.setOnAction(e -> {
+            Viewer viewer = new Viewer();
+            viewer.start(new Stage());
+            stage6.close();
+        });
+        buttonX.setLayoutX(SQUARE_SIZE*12);
+        buttonX.setLayoutY(0);
+        controls.getChildren().add(buttonX);
+
+
+        //6 Players scene
+        Scene scene = new Scene(root6, VIEWER_WIDTH, VIEWER_HEIGHT);
+
+        player6();
+
+        root6.getChildren().add(board);
+        root6.getChildren().add(controls);
+        root6.getChildren().add(placement);
+
+        stage6.setScene(scene);
+        stage6.show();
+    }
+
+    public void StageComp(){
     }
 }
