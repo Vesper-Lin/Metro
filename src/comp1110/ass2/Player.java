@@ -18,6 +18,14 @@ public class Player {
         this.playerNumber = playerNumber;
     }
 
+    public int getNumberOfPlayer() {
+        return numberOfPlayer;
+    }
+
+    public int getPlayerNumber() {
+        return playerNumber;
+    }
+
     /**
      * This method decides whether the two parameters, numberOfPlayer and playerNumber, within Player Class,
      * are valid or not.

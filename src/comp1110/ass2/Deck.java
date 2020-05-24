@@ -119,6 +119,10 @@ public class Deck {
      */
     public static String drawFromCurrentDeck(String placementSequence, String totalHands) {
         ArrayList<String> currentDeck = getCurrentDeck(placementSequence, totalHands);//get the current deck
+        if (currentDeck.size()==0)
+        {
+            return "";
+        }
         Random random = new Random();//get a random object
         int index = random.nextInt(currentDeck.size());//call random method
         return currentDeck.get(index);//get the selected piece depending on the random index
