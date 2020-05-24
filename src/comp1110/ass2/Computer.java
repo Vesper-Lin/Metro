@@ -1,20 +1,23 @@
 package comp1110.ass2;
 
-import java.util.ArrayList;
+public class Computer {
+    private int playerNumber;
+    private int[] stationsOwned;
+    private int playerCount;
 
-public class Computer extends Player implements PlayerInt{
-    public Computer(int numberOfPlayer, int playerNumber) {
-        super(numberOfPlayer, playerNumber);
+    public Computer(int playerNumber, int[] stationsOwned,int playerCount){
+        this.playerNumber = playerNumber;
+        this.stationsOwned = stationsOwned;
+        this.playerCount = playerCount;
     }
+    public String compMeth(String placementSequence, String totalHands){
 
-
-
-    @Override
-    public void getPlayerStations() {
-        }
-
-    @Override
-    public void play() {
+        String sr = Metro.drawFromDeck(placementSequence,totalHands);
+        //System.out.println(sr);
+        //System.out.println(Metro.generateMove("",sr,playerCount));
+        String move = Metro.generateMove(placementSequence,sr,playerCount);
+        placementSequence = placementSequence+move;
+        return placementSequence;
 
     }
 }
