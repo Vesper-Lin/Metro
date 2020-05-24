@@ -27,10 +27,11 @@ import java.util.ArrayList;
 /**
  * A very simple viewer for piece placements in the Metro game.
  * <p>
- * NOTE: This class is separate from your main game class.  This
- * class does not play a game, it just illustrates various piece
+ * Metro game gui, by entering a number between 2 t0 6, players
+ * of the game can be set to this number.
  * placements.
  * @author Yuxuan Lin(u6828533)
+ * @author Jiawei Fan
  */
 public class Viewer extends Application {
     /* board layout */
@@ -42,7 +43,7 @@ public class Viewer extends Application {
     private StringBuilder placementStringBuilder=new StringBuilder();
     private String[] totalHandArray =new String[6];
 
-    private static final String URI_BASE = "assets/";
+    private static final String URI_BASE = "assets/"; 
 
     private final Group root1 = new Group();
     private final Group root2 = new Group();
@@ -267,25 +268,14 @@ public class Viewer extends Application {
                 }
                 int numberOfPlacement=placementStringBuilder.toString().length()/6;
                 int turnIndex=numberOfPlacement%numeberOfPlayer;
-                System.out.println(turnIndex);
-                if (totalHandArray[turnIndex]!=null)
-                {
-                    //do something
-                    AddElement.DraggableRectangle c=new AddElement.DraggableRectangle(root,totalHandArray[turnIndex],placementStringBuilder,numeberOfPlayer,validPlaces,totalHandArray,turnIndex,scoreGroup,flagGroup);
-                    validPlaces.getChildren().add(c);
-                }
-                else
-                {
-                    //do something
                     totalHandArray[turnIndex]=drawnTile;
-                    AddElement.DraggableRectangle b=new AddElement.DraggableRectangle(root,drawnTile,placementStringBuilder,numeberOfPlayer,validPlaces,totalHandArray,turnIndex,scoreGroup,flagGroup);
+                    AddElement.DraggableRectangle b=new AddElement.DraggableRectangle(root,drawnTile,placementStringBuilder,numeberOfPlayer,validPlaces,totalHandArray,turnIndex,button,scoreGroup,flagGroup);
                     validPlaces.getChildren().add(b);
-                }
             }
         });
         button.setLayoutX(11.2*SQUARE_SIZE);
         button.setLayoutY(10*SQUARE_SIZE);
-        root.getChildren().add(button);
+        validPlaces.getChildren().add(button);
         for (int i=1;i<=numeberOfPlayer;i++)
         {
             String playerNumber=i+"";

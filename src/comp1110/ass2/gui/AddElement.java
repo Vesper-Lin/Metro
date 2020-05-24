@@ -139,7 +139,8 @@ public class AddElement {
         double mouseX;
         double mouseY;
 
-        public DraggableRectangle(Group root, String tile, StringBuilder placementStringBuilder, int numberOfPlayer, Group validRectangle, String[] totalHandArray, int index,Group scoreGroup,Group flagGroup) {
+        public DraggableRectangle(Group root, String tile, StringBuilder placementStringBuilder, int numberOfPlayer, Group validRectangle, String[] totalHandArray, int index,Button button1,Group scoreGroup,Group flagGroup) {
+            validRectangle.getChildren().clear();
             Button button = new Button("Draw again");
             button.setStyle("-fx-base: pink;");
             Image image = new Image(this.getClass().getResource(URI_BASE + tile + ".jpg").toString());
@@ -163,7 +164,7 @@ public class AddElement {
             {
                 this.setLayoutX(event.getSceneX() + mouseX);
                 this.setLayoutY(event.getSceneY() + mouseY);
-                root.getChildren().remove(button);
+                validRectangle.getChildren().remove(button);
             });
 
             this.setOnMouseReleased(event ->
@@ -187,12 +188,14 @@ public class AddElement {
                 placementStringBuilder.append(tile);
                 placementStringBuilder.append(row);
                 placementStringBuilder.append(col);
-                System.out.println(placementStringBuilder.toString());
                 int turnIndex = (placementStringBuilder.length() / 6) % numberOfPlayer;
                 addFlag(root,flagGroup,turnIndex);
                 if (totalHandArray[turnIndex] != null) {
-                    System.out.println(totalHandArray[turnIndex] + "hahaha");
-                    root.getChildren().add(new AddElement.DraggableRectangle(root, totalHandArray[turnIndex], placementStringBuilder, numberOfPlayer, validRectangle, totalHandArray, turnIndex,scoreGroup,flagGroup));
+                    validRectangle.getChildren().add(new AddElement.DraggableRectangle(root, totalHandArray[turnIndex], placementStringBuilder, numberOfPlayer, validRectangle, totalHandArray, turnIndex,button1,scoreGroup,flagGroup));
+                }
+                else
+                {
+                    validRectangle.getChildren().add(button1);
                 }
                 addScore(root,scoreGroup,placementStringBuilder.toString(),numberOfPlayer);
             });
@@ -203,13 +206,13 @@ public class AddElement {
                 @Override
                 public void handle(ActionEvent e) {
                     validRectangle.getChildren().clear();
-                    DraggableRectangle2 a = new DraggableRectangle2(root, drawnTile, placementStringBuilder, numberOfPlayer, validRectangle, totalHandArray, index, button, scoreGroup,flagGroup);
-                    root.getChildren().add(a);
+                    DraggableRectangle2 a = new DraggableRectangle2(root, drawnTile, placementStringBuilder, numberOfPlayer, validRectangle, totalHandArray, button1,button, scoreGroup,flagGroup);
+                    validRectangle.getChildren().add(a);
                 }
             });
             button.setLayoutX(12.5 * SQUARE_SIZE);
             button.setLayoutY(10 * SQUARE_SIZE);
-            root.getChildren().add(button);
+            validRectangle.getChildren().add(button);
         }
     }
 
@@ -217,7 +220,8 @@ public class AddElement {
         double mouseX;
         double mouseY;
 
-        public DraggableRectangle2(Group root, String tile, StringBuilder placementStringBuilder, int numberOfPlayer, Group validRectangle, String[] totalHandArray, int index, Button button,Group scoreGroup,Group flagGroup) {
+        public DraggableRectangle2(Group root, String tile, StringBuilder placementStringBuilder, int numberOfPlayer, Group validRectangle, String[] totalHandArray,Button button1,Button button,Group scoreGroup,Group flagGroup) {
+            validRectangle.getChildren().clear();
             Image image = new Image(this.getClass().getResource(URI_BASE + tile + ".jpg").toString());
             this.setFitHeight(SQUARE_SIZE);
             this.setFitWidth(SQUARE_SIZE);
@@ -239,12 +243,18 @@ public class AddElement {
             {
                 this.setLayoutX(event.getSceneX() + mouseX);
                 this.setLayoutY(event.getSceneY() + mouseY);
-                root.getChildren().remove(button);
+                validRectangle.getChildren().remove(button);
             });
 
             this.setOnMouseReleased(event ->
             {
                 Rectangle closest = cloestRectangle(this.getLayoutX(), this.getLayoutY(),Placement.getFinalValidPlace(placementStringBuilder.toString(), tile, numberOfPlayer));
+                ImageView image1 = new ImageView(this.getClass().getResource(URI_BASE + tile + ".jpg").toString());
+                image1.setLayoutX(closest.getLayoutX());
+                image1.setLayoutY(closest.getLayoutY());
+                image1.setFitWidth(SQUARE_SIZE);
+                image1.setFitHeight(SQUARE_SIZE);
+                root.getChildren().add(image1);
                 this.setLayoutX(closest.getLayoutX());
                 this.setLayoutY(closest.getLayoutY());
                 validRectangle.getChildren().clear();
@@ -256,13 +266,17 @@ public class AddElement {
                 placementStringBuilder.append(tile);
                 placementStringBuilder.append(row);
                 placementStringBuilder.append(col);
-                System.out.println(placementStringBuilder.toString());
                 int turnIndex = (placementStringBuilder.length() / 6) % numberOfPlayer;
                 addScore(root,scoreGroup,placementStringBuilder.toString(),numberOfPlayer);
                 addFlag(root,flagGroup,turnIndex);
                 if (totalHandArray[turnIndex] != null) {
-                    System.out.println(totalHandArray[turnIndex] + "hahaha");
-                    root.getChildren().add(new AddElement.DraggableRectangle(root, totalHandArray[turnIndex], placementStringBuilder, numberOfPlayer, validRectangle, totalHandArray, turnIndex,scoreGroup,flagGroup));
+                    validRectangle.getChildren().clear();
+                    validRectangle.getChildren().remove(button1);
+                    validRectangle.getChildren().add(new AddElement.DraggableRectangle(root, totalHandArray[turnIndex], placementStringBuilder, numberOfPlayer, validRectangle, totalHandArray, turnIndex,button1,scoreGroup,flagGroup));
+                }
+                else
+                {
+                    validRectangle.getChildren().add(button1);
                 }
 
             });
