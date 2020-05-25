@@ -35,16 +35,21 @@ public class GameEngine {
         }
         //method to load deck
         ArrayList<String> initialDeck = Deck.getInitialDeck();
-        //method to start game
 
-        play(initialDeck,playerCount,players);
+
         //method to run the game
+        String finalBoardSequence = play(initialDeck,playerCount,players);
+
         // method to store final result
+        int[] scores = Metro.getScore(finalBoardSequence, playerCount);
+        for(int player =0;player<playerCount;player++){
+            System.out.println("Score for player number "+player+" is: "+scores[player]);
+        }
 
 
     }
 
-    private static void play(ArrayList<String> initialDeck, int playerCount, ArrayList<Object> players) {
+    private static String play(ArrayList<String> initialDeck, int playerCount, ArrayList<Object> players) {
 
         int token =Token.getToken();
         System.out.println(token);
@@ -64,9 +69,12 @@ public class GameEngine {
                     }
                     else {
                         ManualPlayer player1 = (ManualPlayer) players.get(token);
-                        placementSequence =player1.manMeth(placementSequence, "");
+                        if(Metro.isPlacementSequenceValid(player1.manMeth(placementSequence, ""))){
+                            placementSequence =player1.manMeth(placementSequence, "");
+                        }
                         System.out.println("Movement by manual " + i + " is :" + placementSequence);
                         token=  passtoken(token,playerCount);
+
 
                     }
 
@@ -76,7 +84,7 @@ public class GameEngine {
         }
 
 
-
+    return placementSequence;
     }
 
     private static int passtoken(int token, int playerCount) {
