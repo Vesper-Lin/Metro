@@ -234,10 +234,7 @@ public class AddElement {
 
     }
 
-
-
-
-
+    
     public static class DraggableRectangle extends ImageView {
         double mouseX;
         double mouseY;
