@@ -1,5 +1,8 @@
 package comp1110.ass2;
-
+/**
+This class generates the object Token which gives control to a player to play.
+ @author Ganaraj Rao
+ */
 public class Token {
     private static int token =0;
 

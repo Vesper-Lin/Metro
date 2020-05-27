@@ -82,7 +82,8 @@ public class Board {
      * If they are placed, they have a corresponding neighbor, which will continue the loop.
      *
      * @author Ganaraj Rao
-     * @param positions:
+     *
+     * param positions:
      * @return True is there is neighbouring tile available; if no neighbouring tile is available returns false.
      */
 
@@ -272,7 +273,6 @@ public class Board {
     }
 
     public HashMap<String, Boolean> getBoardMap(String placementSequence){
-        boolean occupied;
         ArrayList<String> tilePlaced = new ArrayList<>();
         ArrayList<String> positions = new ArrayList<>();
         slice(placementSequence, tilePlaced);
@@ -280,7 +280,7 @@ public class Board {
         HashMap<String,Boolean> boardMap = new HashMap<>();
         for(int row=0;row<TOTAL_ROW;row++){
             for(int col=0;col<TOTAL_COL;col++){
-              String s = String.valueOf(row)+String.valueOf(col);
+              String s = row +String.valueOf(col);
               boardMap.put(s,false);
             }
         }
