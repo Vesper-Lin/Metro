@@ -61,7 +61,11 @@ public class Viewer extends Application {
 
 
     /**
-     * @param root1
+     * This method is to draw the game board and stations in the window.
+     *
+     * @param root1 the root group to draw board and stations
+     * @author Yuxuan Lin
+     * @author Jiawei Fan
      */
     void drawBoard(Group root1) {
         root1.getChildren().remove(board);
