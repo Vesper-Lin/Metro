@@ -1,7 +1,6 @@
 package comp1110.ass2.gui;
 
 import comp1110.ass2.Metro;
-import comp1110.ass2.Placement;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -16,10 +15,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
@@ -40,10 +35,11 @@ public class Viewer extends Application {
     private static final int VIEWER_HEIGHT = 768;
     private static final int RIGHT_ANGLE = 90;
     private int numeberOfPlayer;
+    private Boolean isAdvancedBot=false;
     private StringBuilder placementStringBuilder=new StringBuilder();
     private String[] totalHandArray =new String[6];
 
-    private static final String URI_BASE = "assets/"; 
+    private static final String URI_BASE = "assets/";
 
     private final Group root1 = new Group();
     private final Group root2 = new Group();
@@ -54,6 +50,7 @@ public class Viewer extends Application {
     private final Group validPlaces =new Group();
     private TextField textField;
     private TextField textField2;
+    private TextField textField3;
 
 
 //    static class DrawPiece extends ImageView{
@@ -303,7 +300,111 @@ public class Viewer extends Application {
         AddElement.addFlag(root,flagGroup,placementStringBuilder.length()/6);
     }
 
+    public void addFunction2(Stage primaryStage,Group root,Scene scene)
+    {
+        root.getChildren().add(validPlaces);
+        drawBoard(root);
+        Button button = new Button("Draw");
+        button.setStyle("-fx-base: pink;");
+        button.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                String drawnTile=Metro.drawFromDeck(placementStringBuilder.toString(),AddElement.stringArrayToString(totalHandArray));
+                if (drawnTile.equals(""))
+                {
+                    AddElement.addGameOver(root);
+                }
+                int numberOfPlacement=placementStringBuilder.toString().length()/6;
+                int turnIndex=numberOfPlacement%numeberOfPlayer;
+                isAdvancedBot=false;
+                totalHandArray[turnIndex]=drawnTile;
+                AddElement.DraggableRectangle3 b=new AddElement.DraggableRectangle3(root,drawnTile,placementStringBuilder,numeberOfPlayer,validPlaces,totalHandArray,turnIndex,button,scoreGroup,flagGroup, isAdvancedBot);
+                validPlaces.getChildren().add(b);
+            }
+        });
+        button.setLayoutX(11.2*SQUARE_SIZE);
+        button.setLayoutY(10*SQUARE_SIZE);
+        validPlaces.getChildren().add(button);
+        for (int i=1;i<=numeberOfPlayer;i++)
+        {
+            String playerNumber=i+"";
+            AddElement.addText(root,"player "+playerNumber,10.1,1.3*i,20,Color.PINK);
+        }
+        Button button2 = new Button("Restart");
+        button2.setStyle("-fx-base: pink;");
+        button2.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                primaryStage.setScene(scene);
+                root.getChildren().clear();
+                numeberOfPlayer=0;
+                placementStringBuilder=new StringBuilder();
+                totalHandArray= new String[6];
+                isAdvancedBot=false;
+                validPlaces.getChildren().clear();
+            }
+        });
+        button2.setLayoutX(12*SQUARE_SIZE);
+        button2.setLayoutY(0);
+        root.getChildren().add(button2);
+        AddElement.addText(root,"Current Score",11.7,0.8,15,Color.DEEPPINK);
+        AddElement.addText(root,"Currenet Hand",10.8,9.8,15,Color.DEEPPINK);
+        AddElement.addScore(root,scoreGroup,"",numeberOfPlayer);
+        AddElement.addFlag(root,flagGroup,placementStringBuilder.length()/6);
+    }
 
+    public void addFunction3(Stage primaryStage,Group root,Scene scene)
+    {
+        root.getChildren().add(validPlaces);
+        drawBoard(root);
+        Button button = new Button("Draw");
+        button.setStyle("-fx-base: pink;");
+        button.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                String drawnTile=Metro.drawFromDeck(placementStringBuilder.toString(),AddElement.stringArrayToString(totalHandArray));
+                if (drawnTile.equals(""))
+                {
+                    AddElement.addGameOver(root);
+                }
+                int numberOfPlacement=placementStringBuilder.toString().length()/6;
+                int turnIndex=numberOfPlacement%numeberOfPlayer;
+                isAdvancedBot=true;
+                totalHandArray[turnIndex]=drawnTile;
+                AddElement.DraggableRectangle3 b=new AddElement.DraggableRectangle3(root,drawnTile,placementStringBuilder,numeberOfPlayer,validPlaces,totalHandArray,turnIndex,button,scoreGroup,flagGroup, isAdvancedBot);
+                validPlaces.getChildren().add(b);
+            }
+        });
+        button.setLayoutX(11.2*SQUARE_SIZE);
+        button.setLayoutY(10*SQUARE_SIZE);
+        validPlaces.getChildren().add(button);
+        for (int i=1;i<=numeberOfPlayer;i++)
+        {
+            String playerNumber=i+"";
+            AddElement.addText(root,"player "+playerNumber,10.1,1.3*i,20,Color.PINK);
+        }
+        Button button2 = new Button("Restart");
+        button2.setStyle("-fx-base: pink;");
+        button2.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                primaryStage.setScene(scene);
+                root.getChildren().clear();
+                numeberOfPlayer=0;
+                placementStringBuilder=new StringBuilder();
+                totalHandArray= new String[6];
+                isAdvancedBot=false;
+                validPlaces.getChildren().clear();
+            }
+        });
+        button2.setLayoutX(12*SQUARE_SIZE);
+        button2.setLayoutY(0);
+        root.getChildren().add(button2);
+        AddElement.addText(root,"Current Score",11.7,0.8,15,Color.DEEPPINK);
+        AddElement.addText(root,"Currenet Hand",10.8,9.8,15,Color.DEEPPINK);
+        AddElement.addScore(root,scoreGroup,"",numeberOfPlayer);
+        AddElement.addFlag(root,flagGroup,placementStringBuilder.length()/6);
+    }
     @Override
     public void start(Stage primaryStage) {
         Scene scene1 = new Scene(root1, VIEWER_WIDTH, VIEWER_HEIGHT);
@@ -314,14 +415,17 @@ public class Viewer extends Application {
         background.setFitWidth(VIEWER_HEIGHT);
         background.setFitHeight(VIEWER_HEIGHT);
         root2.getChildren().add(background);
-        AddElement.addText(root2,"Welcome!",11.1,1.0,50,Color.PINK);
-        AddElement.addText(root2,"Please choose playing with",11.1,1.8,20,Color.PINK);
-        AddElement.addText(root2,"people or with computer",11.1,2.3,20,Color.PINK);
-        AddElement.addText(root2,"Number of real players",11.1,4.0,20,Color.PINK);
-        AddElement.addText(root2,"(please type between 2-6)",11.1,5.0,20,Color.PINK);
-        AddElement.addText(root2,"Or",12.5,6.5,20,Color.PINK);
-        AddElement.addText(root2,"Number of player and bots",11.1,7.8,20,Color.PINK);
-        AddElement.addText(root2,"(please type between 2-6)",11.1,8.8,20,Color.PINK);
+        AddElement.addText(root2,"Welcome!",11.0,1.0,50,Color.PINK);
+        AddElement.addText(root2,"Please choose playing with",11.0,1.8,20,Color.PINK);
+        AddElement.addText(root2,"people or with computer",11.0,2.3,20,Color.PINK);
+        AddElement.addText(root2,"Number of real players",11.0,4.0,20,Color.PINK);
+        AddElement.addText(root2,"(please type between 2-6)",11.0,5.0,20,Color.PINK);
+        AddElement.addText(root2,"Or",12.5,5.5,20,Color.PINK);
+        AddElement.addText(root2,"Number of player and AI",11.0,6.0,20,Color.PINK);
+        AddElement.addText(root2,"(please type between 2-6)",11.0,7.0,20,Color.PINK);
+        AddElement.addText(root2,"Or",12.5,7.5,20,Color.PINK);
+        AddElement.addText(root2,"player advanced AI numbner",11.0,8.0,20,Color.PINK);
+        AddElement.addText(root2,"(please type between 2-6)",11.0,9.0,20,Color.PINK);
         textField = new TextField();
         textField.setText("2");
         textField.setPrefWidth(100);
@@ -355,15 +459,48 @@ public class Viewer extends Application {
             @Override
             public void handle(ActionEvent e) {
                 numeberOfPlayer=Integer.parseInt(textField2.getText());
-                root2.getChildren().clear();
+                if (numeberOfPlayer<2||numeberOfPlayer>6)
+                {
+                    primaryStage.setScene(scene2);
+                    primaryStage.show();
+                }
+                else {
+                    primaryStage.setScene(scene1);
+                    addFunction2(primaryStage,root1,scene2);
+                }
             }
         });
         HBox hb2 = new HBox();
         hb2.getChildren().addAll( textField2, button2);
         hb2.setSpacing(10);
         hb2.setLayoutX(SQUARE_SIZE*11.1);
-        hb2.setLayoutY(SQUARE_SIZE*8);
+        hb2.setLayoutY(SQUARE_SIZE*6.2);
         root2.getChildren().add(hb2);
+        textField3 = new TextField();
+        textField3.setText("2");
+        textField3.setPrefWidth(100);
+        Button button3 = new Button("Set");
+        button3.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                numeberOfPlayer=Integer.parseInt(textField3.getText());
+                if (numeberOfPlayer<2||numeberOfPlayer>6)
+                {
+                    primaryStage.setScene(scene2);
+                    primaryStage.show();
+                }
+                else {
+                    primaryStage.setScene(scene1);
+                    addFunction3(primaryStage,root1,scene2);
+                }
+            }
+        });
+        HBox hb3 = new HBox();
+        hb3.getChildren().addAll( textField3, button3);
+        hb3.setSpacing(10);
+        hb3.setLayoutX(SQUARE_SIZE*11.1);
+        hb3.setLayoutY(SQUARE_SIZE*8.2);
+        root2.getChildren().add(hb3);
         primaryStage.setScene(scene2);
         primaryStage.show();
     }

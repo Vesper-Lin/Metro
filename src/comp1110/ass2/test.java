@@ -3,6 +3,7 @@ package comp1110.ass2;
 import comp1110.ass2.gui.AddElement;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class test {
     public static void main(String[] args) {
@@ -35,6 +36,7 @@ public class test {
         aaaaa.append("b");
         System.out.println(aaaaa.toString());
         System.out.println(Deck.getInitialDeck().size());
+        System.out.println(new Random().nextInt(3));
     }
 
 
