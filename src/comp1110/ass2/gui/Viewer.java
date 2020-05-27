@@ -45,14 +45,13 @@ public class Viewer extends Application {
     private Boolean isAdvancedBot = false;
     private StringBuilder placementStringBuilder = new StringBuilder();
     private String[] totalHandArray = new String[6];
-    private static final int MIN_PLAYER_NUMBER = 6;
+    private static final int MIN_PLAYER_NUMBER = 2;
     private static final int MAX_PLAYER_NUMBER = 6;
     private static final String URI_BASE = "assets/";
-
+    private final Group root= new Group();
     private final Group root1 = new Group();
     private final Group root2 = new Group();
     private final Group board = new Group();
-    private final Group controls = new Group();
     private final Group scoreGroup = new Group();
     private final Group flagGroup = new Group();
     private final Group validPlaces = new Group();
@@ -198,8 +197,6 @@ public class Viewer extends Application {
      */
     void makePlacement(String placement, Group root) {
         // FIXME Task 4: implement the simple placement viewer
-        root.getChildren().remove(board);
-        ;
         int numberOfPiece = placement.length() / Placement.LENGTH_OF_ONE_PlACEMENT;
         for (int i = 0; i < numberOfPiece; i++) {
             String type = placement.substring(Placement.LENGTH_OF_ONE_PlACEMENT * i, Placement.LENGTH_OF_ONE_PlACEMENT * i + 4);
@@ -213,9 +210,8 @@ public class Viewer extends Application {
             piece.setLayoutY(row1 * SQUARE_SIZE);
             piece.setFitHeight(SQUARE_SIZE);
             piece.setFitWidth(SQUARE_SIZE);
-            board.getChildren().add(piece);
+            root.getChildren().add(piece);
         }
-        drawBoard(root);
     }
 
 
@@ -235,19 +231,22 @@ public class Viewer extends Application {
         textField = new TextField();
         textField.setPrefWidth(300);
         Button button = new Button("Refresh");
-        button.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                makePlacement(textField.getText(), root);
-                textField.clear();
-            }
-        });
         HBox hb = new HBox();
         hb.getChildren().addAll(label0, textField, button);
         hb.setSpacing(10);
         hb.setLayoutX(130);
         hb.setLayoutY(VIEWER_HEIGHT - 50);
-        board.getChildren().add(hb);
+        root.getChildren().add(hb);
+        button.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                root.getChildren().clear();
+                drawBoard(root);
+                makePlacement(textField.getText(), root);
+                textField.clear();
+                root.getChildren().add(hb);
+            }
+        });
     }
 
     /**
@@ -262,8 +261,6 @@ public class Viewer extends Application {
      * @author Jiawei Fan
      */
     public void addFunction(Stage primaryStage, Group root, Scene scene) {
-        //makeControls(root); refresh to see the placement has been commented here becase it is not useful anymore,but if want to use it, just uncomment this line and run again.
-        //once refresh the placement, viewer.class needs to be run again because the placement has conflicts with the placement on the board
         root.getChildren().add(validPlaces); //validPlaces contains valid rectangles which tile can put on their location, it will be explained further later
         drawBoard(root);
         Button button = new Button("Draw");
@@ -326,7 +323,6 @@ public class Viewer extends Application {
      * @author Jiawei Fan
      */
     public void addFunction2(Stage primaryStage, Group root, Scene scene) {
-        //makeControls(root);
         root.getChildren().add(validPlaces);
         drawBoard(root);
         Button button = new Button("Draw");
@@ -387,7 +383,6 @@ public class Viewer extends Application {
      * @author Jiawei Fan
      */
     public void addFunction3(Stage primaryStage, Group root, Scene scene) {
-        //makeControls(root);
         root.getChildren().add(validPlaces);
         drawBoard(root);
         Button button = new Button("Draw");
@@ -448,6 +443,7 @@ public class Viewer extends Application {
     public void start(Stage primaryStage) {
         Scene scene1 = new Scene(root1, VIEWER_WIDTH, VIEWER_HEIGHT);//set two different scenes which contains two different roots
         Scene scene2 = new Scene(root2, VIEWER_WIDTH, VIEWER_HEIGHT);
+        Scene scene3= new Scene(root,VIEWER_WIDTH,VIEWER_HEIGHT);
         primaryStage.setTitle("Metro Game Viewer");
         ImageView background = new ImageView();
         background.setImage(new Image(this.getClass().getResource(URI_BASE + "tile_back_cover.jpg").toString()));
@@ -534,6 +530,18 @@ public class Viewer extends Application {
         hb3.setLayoutX(SQUARE_SIZE * 11.1);
         hb3.setLayoutY(SQUARE_SIZE * 8.2);
         root2.getChildren().add(hb3);
+        Button button4=new Button("Visualise Placement");
+        button4.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                primaryStage.setScene(scene3);
+                drawBoard(root);
+                makeControls(root);
+            }
+        });
+        button4.setLayoutX(11.7*SQUARE_SIZE);
+        button4.setLayoutY(10.0*SQUARE_SIZE);
+        root2.getChildren().add(button4);
         primaryStage.setScene(scene2);
         primaryStage.show();
     }
