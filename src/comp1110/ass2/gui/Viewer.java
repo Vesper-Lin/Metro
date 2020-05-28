@@ -48,7 +48,7 @@ public class Viewer extends Application {
     private static final int MIN_PLAYER_NUMBER = 2;
     private static final int MAX_PLAYER_NUMBER = 6;
     private static final String URI_BASE = "assets/";
-    private final Group root= new Group();
+    private final Group root = new Group();
     private final Group root1 = new Group();
     private final Group root2 = new Group();
     private final Group board = new Group();
@@ -198,23 +198,29 @@ public class Viewer extends Application {
      * Draw a placement in the window, removing any previously drawn one
      *
      * @param placement A valid placement string
+     * @author Jiawei Fan
+     * @author Yuxuan Lin
      */
     void makePlacement(String placement, Group root) {
         // FIXME Task 4: implement the simple placement viewer
-        int numberOfPiece = placement.length() / Placement.LENGTH_OF_ONE_PlACEMENT;
-        for (int i = 0; i < numberOfPiece; i++) {
-            String type = placement.substring(Placement.LENGTH_OF_ONE_PlACEMENT * i, Placement.LENGTH_OF_ONE_PlACEMENT * i + 4);
-            ImageView piece = new ImageView();
-            piece.setImage(new Image(this.getClass().getResource("assets/" + type + ".jpg").toString()));
-            String rowString = placement.substring(Placement.LENGTH_OF_ONE_PlACEMENT * i + 4, Placement.LENGTH_OF_ONE_PlACEMENT * i + 5);
-            String colString = placement.substring(Placement.LENGTH_OF_ONE_PlACEMENT * i + 5, Placement.LENGTH_OF_ONE_PlACEMENT* i + Placement.LENGTH_OF_ONE_PlACEMENT);
-            int row1 = Integer.parseInt(rowString) + 1;
-            int col1 = Integer.parseInt(colString) + 1;
-            piece.setLayoutX(col1 * SQUARE_SIZE);
-            piece.setLayoutY(row1 * SQUARE_SIZE);
-            piece.setFitHeight(SQUARE_SIZE);
-            piece.setFitWidth(SQUARE_SIZE);
-            root.getChildren().add(piece);
+        if (Metro.isPlacementSequenceValid(placement)) {
+            int numberOfPiece = placement.length() / Placement.LENGTH_OF_ONE_PlACEMENT;
+            for (int i = 0; i < numberOfPiece; i++) {
+                String type = placement.substring(Placement.LENGTH_OF_ONE_PlACEMENT * i, Placement.LENGTH_OF_ONE_PlACEMENT * i + 4);
+                ImageView piece = new ImageView();
+                piece.setImage(new Image(this.getClass().getResource("assets/" + type + ".jpg").toString()));
+                String rowString = placement.substring(Placement.LENGTH_OF_ONE_PlACEMENT * i + 4, Placement.LENGTH_OF_ONE_PlACEMENT * i + 5);
+                String colString = placement.substring(Placement.LENGTH_OF_ONE_PlACEMENT * i + 5, Placement.LENGTH_OF_ONE_PlACEMENT * i + Placement.LENGTH_OF_ONE_PlACEMENT);
+                int row1 = Integer.parseInt(rowString) + 1;
+                int col1 = Integer.parseInt(colString) + 1;
+                piece.setLayoutX(col1 * SQUARE_SIZE);
+                piece.setLayoutY(row1 * SQUARE_SIZE);
+                piece.setFitHeight(SQUARE_SIZE);
+                piece.setFitWidth(SQUARE_SIZE);
+                root.getChildren().add(piece);
+            }
+        } else {
+            System.out.println("invalid placement");
         }
     }
 
@@ -241,15 +247,12 @@ public class Viewer extends Application {
         hb.setLayoutX(130);
         hb.setLayoutY(VIEWER_HEIGHT - 50);
         root.getChildren().add(hb);
-        button.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                root.getChildren().clear();
-                drawBoard(root);
-                makePlacement(textField.getText(), root);
-                textField.clear();
-                root.getChildren().add(hb);
-            }
+        button.setOnAction(e -> {
+            root.getChildren().clear();
+            drawBoard(root);
+            makePlacement(textField.getText(), root);
+            textField.clear();
+            root.getChildren().add(hb);
         });
     }
 
@@ -269,21 +272,18 @@ public class Viewer extends Application {
         drawBoard(root);
         Button button = new Button("Draw");
         button.setStyle("-fx-base: pink;");
-        button.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                String drawnTile = Metro.drawFromDeck(placementStringBuilder.toString(), AddElement.stringArrayToString(totalHandArray));
-                //draw a tile each time "Draw" button is clicked
-                if (drawnTile.equals("")) {//game over when there is no more tile in the deck
-                    AddElement.addGameOver(root);
-                }
-                int numberOfPlacement = placementStringBuilder.toString().length() / Placement.LENGTH_OF_ONE_PlACEMENT;
-                int turnIndex = numberOfPlacement % numeberOfPlayer;//indicate which player should place tile
-                totalHandArray[turnIndex] = drawnTile;
-                AddElement.DraggableRectangle b = new AddElement.DraggableRectangle(root, drawnTile, placementStringBuilder, numeberOfPlayer, validPlaces, totalHandArray, turnIndex, button, scoreGroup, flagGroup);
-                //by passing all the needed information, DraggableRectangle will deal with the tiles
-                validPlaces.getChildren().add(b);
+        button.setOnAction(e -> {
+            String drawnTile = Metro.drawFromDeck(placementStringBuilder.toString(), AddElement.stringArrayToString(totalHandArray));
+            //draw a tile each time "Draw" button is clicked
+            if (drawnTile.equals("")) {//game over when there is no more tile in the deck
+                AddElement.addGameOver(root);
             }
+            int numberOfPlacement = placementStringBuilder.toString().length() / Placement.LENGTH_OF_ONE_PlACEMENT;
+            int turnIndex = numberOfPlacement % numeberOfPlayer;//indicate which player should place tile
+            totalHandArray[turnIndex] = drawnTile;
+            AddElement.DraggableRectangle b = new AddElement.DraggableRectangle(root, drawnTile, placementStringBuilder, numeberOfPlayer, validPlaces, totalHandArray, turnIndex, button, scoreGroup, flagGroup);
+            //by passing all the needed information, DraggableRectangle will deal with the tiles
+            validPlaces.getChildren().add(b);
         });
         button.setLayoutX(11.2 * SQUARE_SIZE);
         button.setLayoutY(10 * SQUARE_SIZE);
@@ -295,16 +295,13 @@ public class Viewer extends Application {
         }
         Button button2 = new Button("Restart");
         button2.setStyle("-fx-base: pink;");
-        button2.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                primaryStage.setScene(scene);
-                root.getChildren().clear();
-                numeberOfPlayer = 0;//set all parameters to initial conditions
-                placementStringBuilder = new StringBuilder();
-                totalHandArray = new String[MAX_PLAYER_NUMBER];
-                validPlaces.getChildren().clear();
-            }
+        button2.setOnAction(e -> {
+            primaryStage.setScene(scene);
+            root.getChildren().clear();
+            numeberOfPlayer = 0;//set all parameters to initial conditions
+            placementStringBuilder = new StringBuilder();
+            totalHandArray = new String[MAX_PLAYER_NUMBER];
+            validPlaces.getChildren().clear();
         });
         button2.setLayoutX(12 * SQUARE_SIZE);//set "draw again" button
         button2.setLayoutY(0);
@@ -331,20 +328,17 @@ public class Viewer extends Application {
         drawBoard(root);
         Button button = new Button("Draw");
         button.setStyle("-fx-base: pink;");
-        button.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                String drawnTile = Metro.drawFromDeck(placementStringBuilder.toString(), AddElement.stringArrayToString(totalHandArray));
-                if (drawnTile.equals("")) {
-                    AddElement.addGameOver(root);
-                }
-                int numberOfPlacement = placementStringBuilder.toString().length() / Placement.LENGTH_OF_ONE_PlACEMENT;
-                int turnIndex = numberOfPlacement % numeberOfPlayer;
-                isAdvancedBot = false;//this boolean is initiliased to be false, indicating that it is simple AI
-                totalHandArray[turnIndex] = drawnTile;
-                AddElement.DraggableRectangle3 b = new AddElement.DraggableRectangle3(root, drawnTile, placementStringBuilder, numeberOfPlayer, validPlaces, totalHandArray, turnIndex, button, scoreGroup, flagGroup, isAdvancedBot);
-                validPlaces.getChildren().add(b);
+        button.setOnAction(e -> {
+            String drawnTile = Metro.drawFromDeck(placementStringBuilder.toString(), AddElement.stringArrayToString(totalHandArray));
+            if (drawnTile.equals("")) {
+                AddElement.addGameOver(root);
             }
+            int numberOfPlacement = placementStringBuilder.toString().length() / Placement.LENGTH_OF_ONE_PlACEMENT;
+            int turnIndex = numberOfPlacement % numeberOfPlayer;
+            isAdvancedBot = false;//this boolean is initiliased to be false, indicating that it is simple AI
+            totalHandArray[turnIndex] = drawnTile;
+            AddElement.DraggableRectangle3 b = new AddElement.DraggableRectangle3(root, drawnTile, placementStringBuilder, numeberOfPlayer, validPlaces, totalHandArray, turnIndex, button, scoreGroup, flagGroup, isAdvancedBot);
+            validPlaces.getChildren().add(b);
         });
         button.setLayoutX(11.2 * SQUARE_SIZE);
         button.setLayoutY(10 * SQUARE_SIZE);
@@ -355,17 +349,14 @@ public class Viewer extends Application {
         }
         Button button2 = new Button("Restart");
         button2.setStyle("-fx-base: pink;");
-        button2.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                primaryStage.setScene(scene);
-                root.getChildren().clear();
-                numeberOfPlayer = 0;
-                placementStringBuilder = new StringBuilder();
-                totalHandArray = new String[6];
-                isAdvancedBot = false;
-                validPlaces.getChildren().clear();
-            }
+        button2.setOnAction(e -> {
+            primaryStage.setScene(scene);
+            root.getChildren().clear();
+            numeberOfPlayer = 0;
+            placementStringBuilder = new StringBuilder();
+            totalHandArray = new String[6];
+            isAdvancedBot = false;
+            validPlaces.getChildren().clear();
         });
         button2.setLayoutX(12 * SQUARE_SIZE);
         button2.setLayoutY(0);
@@ -391,20 +382,17 @@ public class Viewer extends Application {
         drawBoard(root);
         Button button = new Button("Draw");
         button.setStyle("-fx-base: pink;");
-        button.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                String drawnTile = Metro.drawFromDeck(placementStringBuilder.toString(), AddElement.stringArrayToString(totalHandArray));
-                if (drawnTile.equals("")) {
-                    AddElement.addGameOver(root);
-                }
-                int numberOfPlacement = placementStringBuilder.toString().length() / Placement.LENGTH_OF_ONE_PlACEMENT;
-                int turnIndex = numberOfPlacement % numeberOfPlayer;
-                isAdvancedBot = true;//the only difference is here,this boolean is set to be true
-                totalHandArray[turnIndex] = drawnTile;
-                AddElement.DraggableRectangle3 b = new AddElement.DraggableRectangle3(root, drawnTile, placementStringBuilder, numeberOfPlayer, validPlaces, totalHandArray, turnIndex, button, scoreGroup, flagGroup, isAdvancedBot);
-                validPlaces.getChildren().add(b);
+        button.setOnAction(e -> {
+            String drawnTile = Metro.drawFromDeck(placementStringBuilder.toString(), AddElement.stringArrayToString(totalHandArray));
+            if (drawnTile.equals("")) {
+                AddElement.addGameOver(root);
             }
+            int numberOfPlacement = placementStringBuilder.toString().length() / Placement.LENGTH_OF_ONE_PlACEMENT;
+            int turnIndex = numberOfPlacement % numeberOfPlayer;
+            isAdvancedBot = true;//the only difference is here,this boolean is set to be true
+            totalHandArray[turnIndex] = drawnTile;
+            AddElement.DraggableRectangle3 b = new AddElement.DraggableRectangle3(root, drawnTile, placementStringBuilder, numeberOfPlayer, validPlaces, totalHandArray, turnIndex, button, scoreGroup, flagGroup, isAdvancedBot);
+            validPlaces.getChildren().add(b);
         });
         button.setLayoutX(11.2 * SQUARE_SIZE);
         button.setLayoutY(10 * SQUARE_SIZE);
@@ -415,17 +403,14 @@ public class Viewer extends Application {
         }
         Button button2 = new Button("Restart");
         button2.setStyle("-fx-base: pink;");
-        button2.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                primaryStage.setScene(scene);
-                root.getChildren().clear();
-                numeberOfPlayer = 0;
-                placementStringBuilder = new StringBuilder();
-                totalHandArray = new String[MAX_PLAYER_NUMBER];
-                isAdvancedBot = false;
-                validPlaces.getChildren().clear();
-            }
+        button2.setOnAction(e -> {
+            primaryStage.setScene(scene);
+            root.getChildren().clear();
+            numeberOfPlayer = 0;
+            placementStringBuilder = new StringBuilder();
+            totalHandArray = new String[MAX_PLAYER_NUMBER];
+            isAdvancedBot = false;
+            validPlaces.getChildren().clear();
         });
         button2.setLayoutX(12 * SQUARE_SIZE);
         button2.setLayoutY(0);
@@ -447,7 +432,7 @@ public class Viewer extends Application {
     public void start(Stage primaryStage) {
         Scene scene1 = new Scene(root1, VIEWER_WIDTH, VIEWER_HEIGHT);//set two different scenes which contains two different roots
         Scene scene2 = new Scene(root2, VIEWER_WIDTH, VIEWER_HEIGHT);
-        Scene scene3= new Scene(root,VIEWER_WIDTH,VIEWER_HEIGHT);
+        Scene scene3 = new Scene(root, VIEWER_WIDTH, VIEWER_HEIGHT);
         primaryStage.setTitle("Metro Game Viewer");
         ImageView background = new ImageView();
         background.setImage(new Image(this.getClass().getResource(URI_BASE + "tile_back_cover.jpg").toString()));
@@ -469,17 +454,14 @@ public class Viewer extends Application {
         textField.setText("2");//initialise the textfield to be 2
         textField.setPrefWidth(100);
         Button button = new Button("Set");
-        button.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                numeberOfPlayer = Integer.parseInt(textField.getText());
-                if (numeberOfPlayer < MIN_PLAYER_NUMBER || numeberOfPlayer > MAX_PLAYER_NUMBER) {//if the number of player is invalid, need type the number again
-                    primaryStage.setScene(scene2);
-                    primaryStage.show();
-                } else {//if the number of player is valid, go to next scene
-                    primaryStage.setScene(scene1);
-                    addFunction(primaryStage, root1, scene2);//this is for real players
-                }
+        button.setOnAction(e -> {
+            numeberOfPlayer = Integer.parseInt(textField.getText());
+            if (numeberOfPlayer < MIN_PLAYER_NUMBER || numeberOfPlayer > MAX_PLAYER_NUMBER) {//if the number of player is invalid, need type the number again
+                primaryStage.setScene(scene2);
+                primaryStage.show();
+            } else {//if the number of player is valid, go to next scene
+                primaryStage.setScene(scene1);
+                addFunction(primaryStage, root1, scene2);//this is for real players
             }
         });
         HBox hb = new HBox();
@@ -492,17 +474,14 @@ public class Viewer extends Application {
         textField2.setText("2");
         textField2.setPrefWidth(100);
         Button button2 = new Button("Set");
-        button2.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                numeberOfPlayer = Integer.parseInt(textField2.getText());
-                if (numeberOfPlayer < MIN_PLAYER_NUMBER || numeberOfPlayer > MAX_PLAYER_NUMBER) {
-                    primaryStage.setScene(scene2);
-                    primaryStage.show();
-                } else {
-                    primaryStage.setScene(scene1);
-                    addFunction2(primaryStage, root1, scene2);
-                }
+        button2.setOnAction(e -> {
+            numeberOfPlayer = Integer.parseInt(textField2.getText());
+            if (numeberOfPlayer < MIN_PLAYER_NUMBER || numeberOfPlayer > MAX_PLAYER_NUMBER) {
+                primaryStage.setScene(scene2);
+                primaryStage.show();
+            } else {
+                primaryStage.setScene(scene1);
+                addFunction2(primaryStage, root1, scene2);
             }
         });
         HBox hb2 = new HBox();
@@ -515,17 +494,14 @@ public class Viewer extends Application {
         textField3.setText("2");
         textField3.setPrefWidth(100);
         Button button3 = new Button("Set");
-        button3.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent e) {
-                numeberOfPlayer = Integer.parseInt(textField3.getText());
-                if (numeberOfPlayer < MIN_PLAYER_NUMBER || numeberOfPlayer > MAX_PLAYER_NUMBER) {
-                    primaryStage.setScene(scene2);
-                    primaryStage.show();
-                } else {
-                    primaryStage.setScene(scene1);
-                    addFunction3(primaryStage, root1, scene2);
-                }
+        button3.setOnAction(e -> {
+            numeberOfPlayer = Integer.parseInt(textField3.getText());
+            if (numeberOfPlayer < MIN_PLAYER_NUMBER || numeberOfPlayer > MAX_PLAYER_NUMBER) {
+                primaryStage.setScene(scene2);
+                primaryStage.show();
+            } else {
+                primaryStage.setScene(scene1);
+                addFunction3(primaryStage, root1, scene2);
             }
         });
         HBox hb3 = new HBox();
@@ -534,17 +510,14 @@ public class Viewer extends Application {
         hb3.setLayoutX(SQUARE_SIZE * 11.1);
         hb3.setLayoutY(SQUARE_SIZE * 8.2);
         root2.getChildren().add(hb3);
-        Button button4=new Button("Visualise Placement");
-        button4.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                primaryStage.setScene(scene3);
-                drawBoard(root);
-                makeControls(root);
-            }
+        Button button4 = new Button("Visualise Placement");//this is for task 4 visualise the placement
+        button4.setOnAction(actionEvent -> {
+            primaryStage.setScene(scene3);
+            drawBoard(root);
+            makeControls(root);
         });
-        button4.setLayoutX(11.7*SQUARE_SIZE);
-        button4.setLayoutY(10.0*SQUARE_SIZE);
+        button4.setLayoutX(11.7 * SQUARE_SIZE);
+        button4.setLayoutY(10.0 * SQUARE_SIZE);
         root2.getChildren().add(button4);
         primaryStage.setScene(scene2);
         primaryStage.show();

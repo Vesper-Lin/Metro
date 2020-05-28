@@ -2,9 +2,13 @@ package comp1110.ass2;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 
+/**
+ * This class is to show all the station information and methods related.
+ *
+ * @author Jiawei Fan
+ */
 public class Station {
     //represents stations on board
 
@@ -39,16 +43,20 @@ public class Station {
         return playerStationMap;
     }
 
-    public static ArrayList<String> getBoardCoordinates()
-    {
-        ArrayList<String> coordinateList=new ArrayList<>();
-        for (int i=0;i<8;i++)
-        {
-            for (int j=0;j<8;j++)
-            {
-                String row=i+"";
-                String column=j+"";
-                String coordinate=row+column;
+    /**
+     * This method is to get all the coordinates of the places on the board
+     * except the coordinates of the central stations.
+     *
+     * @return an array contains all the places.
+     * @author Jiawei Fan
+     */
+    public static ArrayList<String> getBoardCoordinates() {
+        ArrayList<String> coordinateList = new ArrayList<>();
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                String row = i + "";
+                String column = j + "";
+                String coordinate = row + column;
                 coordinateList.add(coordinate);
             }
         }

@@ -1,24 +1,17 @@
 package comp1110.ass2;
 
+/**
+ * This class extends Tile.class and it is used to add in tile exit and entry information.
+ *
+ * @author Jiawei Fan
+ */
 public class TileEntryAndExit extends Tile {
 
-    private int entry;
     private int exit;
 
-    public TileEntryAndExit(String placement, int entry, int exit) {
+    public TileEntryAndExit(String placement, int exit) {
         super(placement);
-        this.entry = entry;
         this.exit = exit;
-    }
-
-    /**
-     * get entry of this tile
-     *
-     * @return an int representing the entry
-     * @author Jiawei Fan
-     */
-    public int getEntry() {
-        return entry;
     }
 
     /**

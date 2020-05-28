@@ -4,10 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
+/**
+ * This class is used to deal with the borad and placement.
+ *
+ * @author Ganaraj Rao
+ * @author Jiawei Fan
+ */
 public class Board {
     static int LENGTH_OF_PIECE = 6;
-    static int TOTAL_ROW = 8;
-    static int TOTAL_COL = 8;
 
     /**
      * This method will divide the long placement sequense in to piece placement,
@@ -73,6 +77,13 @@ public class Board {
         return overlap;
     }
 
+    /**
+     * This method will check is the placement string is empty
+     *
+     * @param placementSequence a string representing the placement
+     * @return True if this string is empty
+     * @author Ganaraj Rao
+     */
     public boolean isEmpty(String placementSequence) {
         boolean isEmpty = false;
         if (placementSequence.length() == 0) {
@@ -120,77 +131,62 @@ public class Board {
         }
         return finalStatus;
     }
-/**
- * This method checks if any tiles are placed, next to the edges loop back to itself.
- * This will be allowed only if it could not have been placed elsewhere.
- *
- * @param positions: Contains of all the positions of tiles on the board.
- * @param tilePlaced: Contains all the tile types placed on the board.
- *
- *@return: Returns true if the placement is appropriate. Else returns false.
- *
- * @author :Ganaraj Rao
-*/
+
+    /**
+     * This method checks if any tiles are placed, next to the edges loop back to itself.
+     * This will be allowed only if it could not have been placed elsewhere.
+     *
+     * @param positions:  Contains of all the positions of tiles on the board.
+     * @param tilePlaced: Contains all the tile types placed on the board.
+     * @return: Returns true if the placement is appropriate. Else returns false.
+     * @author :Ganaraj Rao
+     */
     public boolean checkEdges(ArrayList<String> positions, ArrayList<String> tilePlaced) {
-        boolean edgeCheck = true;
         //create a map of the board with positions as key and tile on position as value
         HashMap<String, String> boardMap = getMap(positions, tilePlaced);
         //get the edge tiles
         ArrayList<String> edgeTiles = getEdgeTiles();
 
-        //System.out.println(edgeTiles);
         //check if any tile is placed on the edge. If yes, check for loop back
         int tileNumber = 0;
         for (String pos : positions) {
             if (edgeTiles.contains(pos)) {
                 String tile = boardMap.get(pos);
                 if (tile.equals("dddd") && tileNumber == 0) {
-                    edgeCheck = true;
+                    return true;
                 } else if (pos.charAt(0) == '0' && tile.charAt(0) == 'd') {
-                    if (!lengthCheck(positions)) {
-                        edgeCheck = false;
-                        return edgeCheck;
+                    if (lengthCheck(positions)) {
+                        return false;
                     }
                 } else if (pos.charAt(1) == '7' && tile.charAt(1) == 'd') {
-                    if (!lengthCheck(positions)) {
+                    if (lengthCheck(positions)) {
                         return false;
                     }
                 } else if (pos.charAt(0) == '7' && tile.charAt(2) == 'd') {
-                    if (!lengthCheck(positions)) {
-                        edgeCheck = false;
-                        return edgeCheck;
+                    if (lengthCheck(positions)) {
+                        return false;
                     }
-
-
                 } else if (pos.charAt(1) == '0' && tile.charAt(3) == 'd') {
-                    if (!lengthCheck(positions)) {
-                        edgeCheck = false;
-                        return edgeCheck;
+                    if (lengthCheck(positions)) {
+                        return false;
                     }
                 }
-
             }
             tileNumber++;
         }
-
-
-        return edgeCheck;
+        return true;
     }
+
     /**
      * This method checks if any tiles are placed, next to the corners loop back to itself or
      * connect neighbouring tiles.
      * This will be allowed only if it could not have been placed elsewhere.
      *
-     * @param positions: Contains of all the positions of tiles on the board.
+     * @param positions:  Contains of all the positions of tiles on the board.
      * @param tilePlaced: Contains all the tile types placed on the board.
-     *
-     *@return: Returns true if the placement is appropriate. Else returns false.
-     *
+     * @return true if the placement is appropriate. Else returns false.
      * @author :Ganaraj Rao
      */
-
-
-
     public boolean cornerCheck(ArrayList<String> positions, ArrayList<String> tilePlaced) {
         //create a map of the board with positions as key and tile on position as value
         HashMap<String, String> boardMap = getMap(positions, tilePlaced);
@@ -214,25 +210,23 @@ public class Board {
         }
         return true;
     }
+
     /**
      * This method checks if any all board is full, in other words has all 60 elements.
      *
      * @param positions: Contains of all the positions of tiles on the board.
-     *@return: Returns true if the placementsequence has a length of 60.
-     *
+     * @return: Returns true if the placementsequence has a length of 60.
      * @author :Ganaraj Rao
      */
 
-    private boolean lengthCheck(ArrayList<String> positions){
-        return positions.size() == 60;
-
+    private boolean lengthCheck(ArrayList<String> positions) {
+        return positions.size() != 60;
     }
+
     /**
      * This method returns an Array<List></> containing all the positions of corner on the board
      *
-     *
-     *@return: An ArrayList<></> containing all the corner positions of the board.
-     *
+     * @return: An ArrayList<></> containing all the corner positions of the board.
      * @author :Ganaraj Rao
      */
 
@@ -245,14 +239,14 @@ public class Board {
         return corners;
 
     }
+
     /**
      * This method generates a HashMap representing the current board from the ArrayLists
      * representings tiles on board and their positions.
-     * @param positions: An ArrayList containing the position of tiles on board
+     *
+     * @param positions:  An ArrayList containing the position of tiles on board
      * @param tilePlaced: An ArrayList containing all the tiletypes on the board
-     *
-     *@return: A HashMap representing the current board.
-     *
+     * @return: A HashMap representing the current board.
      * @author :Ganaraj Rao
      */
 
@@ -263,12 +257,11 @@ public class Board {
         }
         return boardMap;
     }
+
     /**
      * This method returns an Array<List></> containing all the positions of edges on the board
      *
-     *
-     *@return: An ArrayList<></> containing all the edge positions of the board.
-     *
+     * @return: An ArrayList<></> containing all the edge positions of the board.
      * @author :Ganaraj Rao
      */
 
@@ -279,13 +272,11 @@ public class Board {
             String s3 = i + "7";
             String s1 = "7" + i;
             String s2 = i + "0";
-
             edgeTiles.add(s);
             edgeTiles.add(s1);
             edgeTiles.add(s2);
             edgeTiles.add(s3);
         }
-
         return edgeTiles;
     }
 
@@ -293,9 +284,7 @@ public class Board {
      * This method creates a list of all tile types in the tilePlaced arraylist.
      *
      * @param tilePlaced: Arraylist containing pieceplacement
-     * @param tiles: An Array list which hold the types of tiles
-     *
-     *
+     * @param tiles:      An Array list which hold the types of tiles
      * @author :Ganaraj Rao
      */
 
@@ -313,7 +302,7 @@ public class Board {
      * @param tilePlaced A ArrayList contaning the tile that has been placed
      * @return true if all tiles on board have neighbors
      * otherwise, return false
-     * @ Jiawei Fan
+     * @author Jiawei Fan
      */
     public boolean allHaveNeighbours(ArrayList<String> tilePlaced) {
 
@@ -334,34 +323,6 @@ public class Board {
             }
         }
         return true;
-    }
-    /**
-     * This method generates a Boolean HashMap representing the current board from the ArrayLists
-     * representings tiles on board and their positions.
-     * @param placementSequence: A string representing the current position of the board
-     *
-     *@return: A Boolean HashMap representing the current board.
-     *
-     * @author :Ganaraj Rao
-     */
-
-
-    public HashMap<String, Boolean> getBoardMap(String placementSequence){
-        ArrayList<String> tilePlaced = new ArrayList<>();
-        ArrayList<String> positions = new ArrayList<>();
-        slice(placementSequence, tilePlaced);
-        getPositions(tilePlaced, positions);
-        HashMap<String, Boolean> boardMap = new HashMap<>();
-        for (int row = 0; row < TOTAL_ROW; row++) {
-            for (int col = 0; col < TOTAL_COL; col++) {
-                String s = row + String.valueOf(col);
-                boardMap.put(s, false);
-            }
-        }
-        for (String pos : positions) {
-            boardMap.put(pos, true);
-        }
-        return boardMap;
     }
 }
 

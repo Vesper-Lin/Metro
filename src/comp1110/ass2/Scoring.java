@@ -146,7 +146,7 @@ public class Scoring {
                 if (direction.equals(nextDirection)) {//if the direction of neighbor matches with the track direction,the neighbor is valid neighbor
                     int nextEntry = ExitEntry.getNextEntry(tile.getExit());//get entry number of the next tile
                     int nextExit = getNextExit(testTile, nextEntry);//get exit number of the next tile
-                    return new TileEntryAndExit(testTile, nextEntry, nextExit);
+                    return new TileEntryAndExit(testTile, nextExit);
                 }
             }
         }
@@ -182,7 +182,7 @@ public class Scoring {
             startEntry = 2;
         }
         int nextExit = getNextExit(startTile, startEntry);//get exit of start tile
-        TileEntryAndExit firstTile = new TileEntryAndExit(startTile, startEntry, nextExit);//store the placement,entry,exit information of start tile in a TileEntryAndExit
+        TileEntryAndExit firstTile = new TileEntryAndExit(startTile, nextExit);//store the placement,entry,exit information of start tile in a TileEntryAndExit
         track.add(firstTile);//add start tile to the Track
         TileEntryAndExit nextTile = findValidNeighbor(firstTile, placement);//find next neighbor
         if (nextTile == null) {
@@ -244,6 +244,7 @@ public class Scoring {
      *                         placement,entry and exit of the track.
      * @return true is the tile contains a track back to a edge station
      * otherwise,return false
+     * @author Jiawei Fan
      */
     public static boolean isNextToEdge(TileEntryAndExit tileEntryAndExit) {
         String tile = tileEntryAndExit.getPlacement();

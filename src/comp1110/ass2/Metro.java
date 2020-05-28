@@ -3,6 +3,12 @@ package comp1110.ass2;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * This class contains several useful method for the Metro game.
+ *
+ * @author Jiawei Fan
+ * @author Ganaraj Rao
+ */
 public class Metro {
     /**
      * Task 2
@@ -16,22 +22,10 @@ public class Metro {
      *
      * @param piecePlacement A String representing the piece to be placed
      * @return True if this string is well-formed
+     * @author Ganaraj Rao
      */
-
-    /**
-     * Two methods used to decided whether the first four character are letters
-     * between 'a' and 'd' and the last two digits are between 0 and 7
-     */
-
-
     public static boolean isPiecePlacementWellFormed(String piecePlacement) {
         // FIXME Task 2: determine whether a piece placement is well-formed
-        /**
-         * Some fields are created below which are accessible for this method
-         * @param piecePlacement: a 6 character long string
-         * @return True if well formed
-         *          False if not well formed
-         */
         int number_of_char = 6;//used to decide the string contains exactly six characters
         boolean wellFormed = false;
         if (piecePlacement.length() == number_of_char) {
@@ -42,19 +36,16 @@ public class Metro {
                 if (tracks.charAt(char_pos) >= 97 && tracks.charAt(char_pos) <= 100) {
                     wellFormed = true;
                 } else {
-                    wellFormed = false;
-                    return wellFormed;
+                    return false;
                 }
             }
             for (int pos = 0; pos <= 1; pos++) {
                 if (Character.getNumericValue(position.charAt(pos)) >= 0 && Character.getNumericValue(position.charAt(pos)) <= 7) {
                     wellFormed = true;
                 } else {
-                    wellFormed = false;
-                    return wellFormed;
+                    return false;
                 }
             }
-
         }
         return wellFormed;
 
@@ -173,6 +164,7 @@ public class Metro {
      * @param piece             a four-character String representing the tile to be placed
      * @param numberOfPlayers   The number of players in the game
      * @return A valid placement of the given tile
+     * @author Jiawei Fan
      */
     public static String generateMove(String placementSequence, String piece, int numberOfPlayers) {
         // FIXME Task 9: generate a valid move

@@ -18,6 +18,11 @@ import javafx.util.Duration;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * This class is supplementary for Viewer.Class and contains many useful methods working for visualising the game.
+ *
+ * @author Jiawei Fan
+ */
 public class AddElement {
     private static final int SQUARE_SIZE = 70;
     private static final String URI_BASE = "assets/";
@@ -48,7 +53,7 @@ public class AddElement {
      * tile in the deck. The code only contains an addText method, the class name is
      * just to make it more clear.
      *
-     * @param root
+     * @param root root group
      * @author Jiawei Fan
      */
     public static void addGameOver(Group root) {
@@ -233,7 +238,7 @@ public class AddElement {
         ArrayList<String> validPlace = Placement.getFinalValidPlace(placementStringBuilder.toString(), drawnTile, numberOfPlayer);//get valid places to put the tile based on the current placement and the drawn tile
         int additionalScore = 0;
         int currentPlayerIndex = (placementStringBuilder.length() / Placement.LENGTH_OF_ONE_PlACEMENT) % numberOfPlayer;
-        int scoreArray[] = Metro.getScore(placementStringBuilder.toString(), numberOfPlayer);
+        int[] scoreArray = Metro.getScore(placementStringBuilder.toString(), numberOfPlayer);
         int currentScore = scoreArray[currentPlayerIndex];
         if (validPlace.size() == 0) {//game over if there is no valid place to place the tile
             addGameOver(root);
@@ -255,7 +260,7 @@ public class AddElement {
     }
 
     /**
-     * This method comes to the placement stage for the advande AI player. This method will place the chosen tile to the board.
+     * This method comes to the placement stage for the advanced AI player. This method will place the chosen tile to the board.
      * This method contains some animations which makes the placement process look nicer.
      *
      * @param root                       a root group
@@ -330,7 +335,22 @@ public class AddElement {
         }
     }
 
-
+    /**
+     * This class is the most important class for the game, which implements the functionalities that
+     * tiles can be dragged from an initial place to the board, once user clicks draw button, this method
+     * is called so that a new draggable tile is shown on the screen and can be dragged to the board.
+     * All credits to Harriet who is the tutor of our group and a member of 2020 S1 COMP6710 teaching group,
+     * Harriet demontrates the triangle example very clearly during the lab seesion, which helps me a lot in writing this class.
+     * In this class, a litte bit recursive concept is applied so that the game can be running to the end.
+     * Also, as for task 12,I give real player a chance to rotate the tile 90 degrees clockwise when they place a tile
+     * they can not change it anymore in other turns because it will make no sense for the game if all tiles can be rotated at all time by all players.
+     * Actullay, if the AI can click the mouse, their tile can be rotated, but they can't. It's a human win!
+     * By the way. DraggableRectangle and DraggableRectangle2 are for all real players and DraggableRectangle3,DraggableRectangle4 are for playing with AI.
+     * These 4 classes might can be simplified to one by adding a new sigature to the class, but i'm too busy
+     * recently and have tried my best to complete all the tasks. It's sad my teammate did not help much.
+     *
+     * @author Jiawei Fan
+     */
     public static class DraggableRectangle extends ImageView {
         double mouseX;
         double mouseY;
@@ -348,70 +368,79 @@ public class AddElement {
             this.setOnMousePressed(event -> {
                 mouseX = this.getLayoutX() - event.getSceneX();
                 mouseY = this.getLayoutY() - event.getSceneY();
-                ArrayList<String> validPlace = Placement.getFinalValidPlace(placementStringBuilder.toString(), tile, numberOfPlayer);
+                ArrayList<String> validPlace = Placement.getFinalValidPlace(placementStringBuilder.toString(), tile, numberOfPlayer);//get valid places that tiles can be put on
                 if (validPlace.size() == 0) {
-                    addGameOver(root);
+                    addGameOver(root);//game over if there is no more valid places
                 }
-                drawValidRectangles(validRectangle, validPlace);
+                drawValidRectangles(validRectangle, validPlace);//draw the places that can be put on tiles, by the way, its color is in pink. One rule i made is that once user
+                //drags the tile, the tile must be placed on board and once the tile is dragged, pink valid places are shown.
             });
 
             this.setOnMouseDragged(event ->
             {
                 this.setLayoutX(event.getSceneX() + mouseX);
                 this.setLayoutY(event.getSceneY() + mouseY);
-                validRectangle.getChildren().remove(button);
+                validRectangle.getChildren().remove(button);//once the tile is dragged, the draw button is removed
             });
 
             this.setOnMouseReleased(event ->
             {
-                Rectangle closest = cloestRectangle(this.getLayoutX(), this.getLayoutY(), Placement.getFinalValidPlace(placementStringBuilder.toString(), tile, numberOfPlayer));
+                Rectangle closest = cloestRectangle(this.getLayoutX(), this.getLayoutY(), Placement.getFinalValidPlace(placementStringBuilder.toString(), tile, numberOfPlayer));//find the cloest rectangle
                 this.setLayoutX(closest.getLayoutX());
                 this.setLayoutY(closest.getLayoutY());
                 validRectangle.getChildren().clear();
-                ImageView image1 = new ImageView(this.getClass().getResource(URI_BASE + tile + ".jpg").toString());
+                ImageView image1 = new ImageView(this.getClass().getResource(URI_BASE + tile + ".jpg").toString());//get the imageView of the tile
                 image1.setLayoutX(closest.getLayoutX());
                 image1.setLayoutY(closest.getLayoutY());
                 image1.setFitWidth(SQUARE_SIZE);
                 image1.setFitHeight(SQUARE_SIZE);
                 root.getChildren().add(image1);
-                totalHandArray[index] = null;
-                this.setOnMousePressed(null);
+                totalHandArray[index] = null;//because the tile is already on the board
+                image1.setOnMousePressed(event1 ->
+                {
+                    image1.setRotate(90.0);//this is for task 12,allow the user to rotate 90 degrees clockwise for each placement
+
+                });
+                this.setOnMousePressed(null);//once the tile is placed, ensure this tile can not be dragged more
                 this.setOnMouseDragged(null);
                 this.setOnMouseReleased(null);
-                String row = ((int) (this.getLayoutY() / SQUARE_SIZE - 1)) + "";
+                String row = ((int) (this.getLayoutY() / SQUARE_SIZE - 1)) + "";//-1 becase actual coordinate shown is 1 unit different to the placement coordinate
                 String col = ((int) (this.getLayoutX() / SQUARE_SIZE - 1)) + "";
                 placementStringBuilder.append(tile);
                 placementStringBuilder.append(row);
                 placementStringBuilder.append(col);
-                int turnIndex = (placementStringBuilder.length() / 6) % numberOfPlayer;
-                addFlag(root, flagGroup, turnIndex);
-                if (totalHandArray[turnIndex] != null) {
+                int turnIndex = (placementStringBuilder.length() / Placement.LENGTH_OF_ONE_PlACEMENT) % numberOfPlayer;//change turn index to the next player
+                addFlag(root, flagGroup, turnIndex);//change flag to the next player
+                if (totalHandArray[turnIndex] != null) {//if next player holds tiles on hand, kind of recursively using DraggableRectanble class
                     validRectangle.getChildren().add(new AddElement.DraggableRectangle(root, totalHandArray[turnIndex], placementStringBuilder, numberOfPlayer, validRectangle, totalHandArray, turnIndex, button1, scoreGroup, flagGroup));
                 } else {
-                    validRectangle.getChildren().add(button1);
+                    validRectangle.getChildren().add(button1);//if next player has no tiles on hand, add the draw button in so that the player can draw a new tile
                 }
                 addScore(root, scoreGroup, placementStringBuilder.toString(), numberOfPlayer);
             });
 
 
-            String drawnTile = Metro.drawFromDeck(placementStringBuilder.toString(), AddElement.stringArrayToString(totalHandArray));
-            if (drawnTile.equals("")) {
+            String drawnTile = Metro.drawFromDeck(placementStringBuilder.toString(), AddElement.stringArrayToString(totalHandArray));//this tile is for draw again option
+            if (drawnTile.equals("")) {//game over if there is no more tile
                 addGameOver(root);
             }
-            button.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent e) {
-                    validRectangle.getChildren().clear();
-                    DraggableRectangle2 a = new DraggableRectangle2(root, drawnTile, placementStringBuilder, numberOfPlayer, validRectangle, totalHandArray, button1, button, scoreGroup, flagGroup);
-                    validRectangle.getChildren().add(a);
-                }
+            button.setOnAction(e -> {
+                validRectangle.getChildren().clear();
+                DraggableRectangle2 a = new DraggableRectangle2(root, drawnTile, placementStringBuilder, numberOfPlayer, validRectangle, totalHandArray, button1, button, scoreGroup, flagGroup);//once pressed draw again, this line executes
+                validRectangle.getChildren().add(a);
             });
-            button.setLayoutX(12.5 * SQUARE_SIZE);
+            button.setLayoutX(12.5 * SQUARE_SIZE);//"draw again" button layout
             button.setLayoutY(10 * SQUARE_SIZE);
             validRectangle.getChildren().add(button);
         }
     }
 
+    /**
+     * This class is is similiar to DraggableRectangle.class, the different is that this class is for the tile from the draw again option.
+     * Readers can only read the lines that i comment because other ones are pretty the same as DraggableRectangle.class.
+     *
+     * @author Jiawei Fan
+     */
     public static class DraggableRectangle2 extends ImageView {
         double mouseX;
         double mouseY;
@@ -422,7 +451,7 @@ public class AddElement {
             this.setFitHeight(SQUARE_SIZE);
             this.setFitWidth(SQUARE_SIZE);
             this.setImage(image);
-            this.setLayoutX(12.5 * SQUARE_SIZE);
+            this.setLayoutX(12.5 * SQUARE_SIZE);//different layout as the draggableRectangle
             this.setLayoutY(8.5 * SQUARE_SIZE);
             this.setOnMousePressed(event -> {
                 mouseX = this.getLayoutX() - event.getSceneX();
@@ -453,6 +482,11 @@ public class AddElement {
                 this.setLayoutX(closest.getLayoutX());
                 this.setLayoutY(closest.getLayoutY());
                 validRectangle.getChildren().clear();
+                image1.setOnMousePressed(event1 ->
+                {
+                    image1.setRotate(90.0);//this is for task 12,allow the user to rotate 90 degrees clockwise for each placement
+
+                });
                 this.setOnMousePressed(null);
                 this.setOnMouseDragged(null);
                 this.setOnMouseReleased(null);
@@ -461,13 +495,13 @@ public class AddElement {
                 placementStringBuilder.append(tile);
                 placementStringBuilder.append(row);
                 placementStringBuilder.append(col);
-                int turnIndex = (placementStringBuilder.length() / 6) % numberOfPlayer;
+                int turnIndex = (placementStringBuilder.length() / Placement.LENGTH_OF_ONE_PlACEMENT) % numberOfPlayer;
                 addScore(root, scoreGroup, placementStringBuilder.toString(), numberOfPlayer);
                 addFlag(root, flagGroup, turnIndex);
                 if (totalHandArray[turnIndex] != null) {
                     validRectangle.getChildren().clear();
-                    validRectangle.getChildren().remove(button1);
-                    validRectangle.getChildren().add(new AddElement.DraggableRectangle(root, totalHandArray[turnIndex], placementStringBuilder, numberOfPlayer, validRectangle, totalHandArray, turnIndex, button1, scoreGroup, flagGroup));
+                    validRectangle.getChildren().remove(button1);//remove the draw again button
+                    validRectangle.getChildren().add(new AddElement.DraggableRectangle(root, totalHandArray[turnIndex], placementStringBuilder, numberOfPlayer, validRectangle, totalHandArray, turnIndex, button1, scoreGroup, flagGroup));//go to next player;s turn
                 } else {
                     validRectangle.getChildren().add(button1);
                 }
@@ -477,7 +511,13 @@ public class AddElement {
         }
     }
 
-
+    /**
+     * This class is is similiar to DraggableRectangle.class and DraggableRectangle2.class. But this class is for playing with AI.
+     * Note that player 1 is real player and other players are AI.
+     * Readers can only read the lines that i comment because other ones are pretty the same as DraggableRectangle.class.
+     *
+     * @author Jiawei Fan
+     */
     public static class DraggableRectangle3 extends ImageView {
         double mouseX;
         double mouseY;
@@ -522,6 +562,11 @@ public class AddElement {
                 image1.setFitHeight(SQUARE_SIZE);
                 root.getChildren().add(image1);
                 totalHandArray[index] = null;
+                image1.setOnMousePressed(event1 ->
+                {
+                    image1.setRotate(90.0);//this is for task 12,allow the user to rotate 90 degrees clockwise for each placement
+
+                });
                 this.setOnMousePressed(null);
                 this.setOnMouseDragged(null);
                 this.setOnMouseReleased(null);
@@ -533,10 +578,8 @@ public class AddElement {
                 int turnIndex = (placementStringBuilder.length() / 6) % numberOfPlayer;
                 addFlag(root, flagGroup, turnIndex);
                 addScore(root, scoreGroup, placementStringBuilder.toString(), numberOfPlayer);
-                //recursive function n-1times
                 AddElement a = new AddElement();
-                System.out.println(11111);
-                a.addComputerPlacement(root, placementStringBuilder, numberOfPlayer, validRectangle, totalHandArray, button1, scoreGroup, flagGroup, isAdvancedBot);
+                a.addComputerPlacement(root, placementStringBuilder, numberOfPlayer, validRectangle, totalHandArray, button1, scoreGroup, flagGroup, isAdvancedBot);//after player 1 placed the tile, player 2 (AI) goes to place
             });
 
 
@@ -544,13 +587,10 @@ public class AddElement {
             if (drawnTile.equals("")) {
                 addGameOver(root);
             }
-            button.setOnAction(new EventHandler<ActionEvent>() {
-                @Override
-                public void handle(ActionEvent e) {
-                    validRectangle.getChildren().clear();
-                    DraggableRectangle4 a = new DraggableRectangle4(root, drawnTile, placementStringBuilder, numberOfPlayer, validRectangle, totalHandArray, button1, button, scoreGroup, flagGroup, isAdvancedBot);
-                    validRectangle.getChildren().add(a);
-                }
+            button.setOnAction(e -> {
+                validRectangle.getChildren().clear();
+                DraggableRectangle4 a = new DraggableRectangle4(root, drawnTile, placementStringBuilder, numberOfPlayer, validRectangle, totalHandArray, button1, button, scoreGroup, flagGroup, isAdvancedBot);//player 1 choose to draw again
+                validRectangle.getChildren().add(a);
             });
             button.setLayoutX(12.5 * SQUARE_SIZE);
             button.setLayoutY(10 * SQUARE_SIZE);
@@ -558,6 +598,13 @@ public class AddElement {
         }
     }
 
+    /**
+     * Again this class is similiar to the other three DraggbleRectangle class. This class is for player 1, who is the only real player,
+     * to draw again and place the tile.
+     * Readers can skip reading this class because it is pretty the same as other three. The difference is minor and commented.
+     *
+     * @author Jiawei Fan
+     */
     public static class DraggableRectangle4 extends ImageView {
         double mouseX;
         double mouseY;
@@ -568,7 +615,7 @@ public class AddElement {
             this.setFitHeight(SQUARE_SIZE);
             this.setFitWidth(SQUARE_SIZE);
             this.setImage(image);
-            this.setLayoutX(12.5 * SQUARE_SIZE);
+            this.setLayoutX(12.5 * SQUARE_SIZE);//different layout
             this.setLayoutY(8.5 * SQUARE_SIZE);
             this.setOnMousePressed(event -> {
                 mouseX = this.getLayoutX() - event.getSceneX();
@@ -599,6 +646,11 @@ public class AddElement {
                 this.setLayoutX(closest.getLayoutX());
                 this.setLayoutY(closest.getLayoutY());
                 validRectangle.getChildren().clear();
+                image1.setOnMousePressed(event1 ->
+                {
+                    image1.setRotate(90.0);//this is for task 12,allow the user to rotate 90 degrees clockwise for each placement
+
+                });
                 this.setOnMousePressed(null);
                 this.setOnMouseDragged(null);
                 this.setOnMouseReleased(null);
@@ -607,7 +659,7 @@ public class AddElement {
                 placementStringBuilder.append(tile);
                 placementStringBuilder.append(row);
                 placementStringBuilder.append(col);
-                int turnIndex = (placementStringBuilder.length() / 6) % numberOfPlayer;
+                int turnIndex = (placementStringBuilder.length() / Placement.LENGTH_OF_ONE_PlACEMENT) % numberOfPlayer;
                 addScore(root, scoreGroup, placementStringBuilder.toString(), numberOfPlayer);
                 addFlag(root, flagGroup, turnIndex);
                 AddElement a = new AddElement();
@@ -617,12 +669,24 @@ public class AddElement {
         }
     }
 
+    /**
+     * @param root                   root group
+     * @param placementStringBuilder stringBuilder representing the placement
+     * @param numberOfPlayer         an int representing number of players
+     * @param validRectangle         group validRectangle
+     * @param totalHandArray         String[] representing the hands for all players
+     * @param button1                a button
+     * @param scoreGroup             score group
+     * @param flagGroup              flag group
+     * @param isAdvancedBot          true if the AI is advanced; false if not
+     * @throws NullPointerException at later stage of the game(the board is nearly full), this excpetion may occur.
+     * @author Jiawei Fan
+     */
     public void addComputerPlacement(Group root, StringBuilder placementStringBuilder, int numberOfPlayer, Group validRectangle, String[] totalHandArray, Button button1, Group scoreGroup, Group flagGroup, Boolean isAdvancedBot) throws NullPointerException {
-        System.out.println(22222);
         Random random = new Random();
-        int numberOfPlacement = placementStringBuilder.length() / 6;
+        int numberOfPlacement = placementStringBuilder.length() / Placement.LENGTH_OF_ONE_PlACEMENT;
         int turnIndex = numberOfPlacement % numberOfPlayer;
-        if (turnIndex == 0) {
+        if (turnIndex == 0) {//if its real player1's turn
             if (totalHandArray[turnIndex] == null) {
                 validRectangle.getChildren().add(button1);
             } else {
@@ -630,35 +694,49 @@ public class AddElement {
                 validRectangle.getChildren().add(b);
             }
         } else {
-            if (totalHandArray[turnIndex] == null) {
+            if (totalHandArray[turnIndex] == null) {//if this AI does not have a tile on hand
                 String drawnTile = Metro.drawFromDeck(placementStringBuilder.toString(), AddElement.stringArrayToString(totalHandArray));
                 if (drawnTile.equals("")) {
                     AddElement.addGameOver(root);
                 }
-                if (!isAdvancedBot) {
-                    compChoice(root, placementStringBuilder, numberOfPlayer, validRectangle, totalHandArray, button1, scoreGroup, flagGroup, random, drawnTile, false);
+                if (!isAdvancedBot) {//if it is just simple AI
+                    compChoice(root, placementStringBuilder, numberOfPlayer, validRectangle, totalHandArray, button1, scoreGroup, flagGroup, random, drawnTile);
                 } else {
-                    System.out.println(33332);
-                    compChoice2(root, placementStringBuilder, numberOfPlayer, validRectangle, totalHandArray, button1, scoreGroup, flagGroup, drawnTile, true);
+                    compChoice2(root, placementStringBuilder, numberOfPlayer, validRectangle, totalHandArray, button1, scoreGroup, flagGroup, drawnTile);
                 }
             } else {
                 if (!isAdvancedBot) {
-                    compChoice(root, placementStringBuilder, numberOfPlayer, validRectangle, totalHandArray, button1, scoreGroup, flagGroup, random, totalHandArray[turnIndex], false);
+                    compChoice(root, placementStringBuilder, numberOfPlayer, validRectangle, totalHandArray, button1, scoreGroup, flagGroup, random, totalHandArray[turnIndex]);
                 } else {
-                    System.out.println(33333);
-                    compChoice2(root, placementStringBuilder, numberOfPlayer, validRectangle, totalHandArray, button1, scoreGroup, flagGroup, totalHandArray[turnIndex], true);
+                    compChoice2(root, placementStringBuilder, numberOfPlayer, validRectangle, totalHandArray, button1, scoreGroup, flagGroup, totalHandArray[turnIndex]);
                 }
             }
         }
     }
 
-    private void compChoice(Group root, StringBuilder placementStringBuilder, int numberOfPlayer, Group validRectangle, String[] totalHandArray, Button button1, Group scoreGroup, Group flagGroup, Random random, String drawnTile, Boolean isAdvancedBot) throws NullPointerException {
-        int turnIndex = (placementStringBuilder.length() / 6) % numberOfPlayer;
-        ImageView putTile = new ImageView();
+    /**
+     * This method is for helping AI decide which place to place the tile. Actullay it is random because this AI is simple AI.
+     *
+     * @param root                   root group
+     * @param placementStringBuilder stringBuilder containing the placement information
+     * @param numberOfPlayer         an int representing the number of players
+     * @param validRectangle         valid rectangle group
+     * @param totalHandArray         string[] representing the hands in all players' hand
+     * @param button1                a button
+     * @param scoreGroup             score group
+     * @param flagGroup              flag groupo
+     * @param random                 random object
+     * @param drawnTile              string representing the tile to be placed
+     * @throws NullPointerException at later stage of the game(the board is nearly full), this excpetion may occur.
+     * @author Jiawei Fan
+     */
+    private void compChoice(Group root, StringBuilder placementStringBuilder, int numberOfPlayer, Group validRectangle, String[] totalHandArray, Button button1, Group scoreGroup, Group flagGroup, Random random, String drawnTile) throws NullPointerException {
+        int turnIndex = (placementStringBuilder.length() / Placement.LENGTH_OF_ONE_PlACEMENT) % numberOfPlayer;
+        ImageView putTile = new ImageView();//get a new imageView for the drawn tile
         putTile.setImage(new Image(this.getClass().getResource(URI_BASE + drawnTile + ".jpg").toString()));
         putTile.setFitWidth(SQUARE_SIZE);
         putTile.setFitHeight(SQUARE_SIZE);
-        putTile.setLayoutX(11 * SQUARE_SIZE);
+        putTile.setLayoutX(11 * SQUARE_SIZE);//give it a initial place
         putTile.setLayoutY(8.5 * SQUARE_SIZE);
         validRectangle.getChildren().add(putTile);
         int wetherDrawAgain = random.nextInt(2);
@@ -667,28 +745,45 @@ public class AddElement {
             totalHandArray[turnIndex] = drawnTile;
             String drawnTile2 = Metro.drawFromDeck(placementStringBuilder.toString(), AddElement.stringArrayToString(totalHandArray));
             if (drawnTile2.equals("")) {
-                AddElement.addGameOver(root);
+                AddElement.addGameOver(root);//game over if there is no more tile
             }
             ImageView putTile2 = new ImageView();
             putTile2.setImage(new Image(this.getClass().getResource(URI_BASE + drawnTile2 + ".jpg").toString()));
             putTile2.setFitWidth(SQUARE_SIZE);
             putTile2.setFitHeight(SQUARE_SIZE);
-            givePlacement(root, drawnTile2, placementStringBuilder, numberOfPlayer, putTile2);
+            givePlacement(root, drawnTile2, placementStringBuilder, numberOfPlayer, putTile2);//give placement to this tile, it contains an animation
         } else {
             givePlacement(root, drawnTile, placementStringBuilder, numberOfPlayer, putTile);
             totalHandArray[turnIndex] = null;
             validRectangle.getChildren().clear();
             //place this tile
         }
-        turnIndex = (placementStringBuilder.length() / 6) % numberOfPlayer;
-        addScore(root, scoreGroup, placementStringBuilder.toString(), numberOfPlayer);
-        addFlag(root, flagGroup, turnIndex);
-        checkIndex(root, placementStringBuilder, numberOfPlayer, validRectangle, totalHandArray, button1, scoreGroup, flagGroup, isAdvancedBot);
+        turnIndex = (placementStringBuilder.length() / Placement.LENGTH_OF_ONE_PlACEMENT) % numberOfPlayer;
+        addScore(root, scoreGroup, placementStringBuilder.toString(), numberOfPlayer);//update score
+        addFlag(root, flagGroup, turnIndex);//update flag
+        checkIndex(root, placementStringBuilder, numberOfPlayer, validRectangle, totalHandArray, button1, scoreGroup, flagGroup, false);//check index to see if next is real player 1 or other AI
     }
 
-    private void compChoice2(Group root, StringBuilder placementStringBuilder, int numberOfPlayer, Group validRectangle, String[] totalHandArray, Button button1, Group scoreGroup, Group flagGroup, String drawnTile, Boolean isAdvancedBot) throws NullPointerException {
-        int turnIndex = (placementStringBuilder.length() / 6) % numberOfPlayer;
-        System.out.println(44444);
+    /**
+     * This method is for advanced AI player, it will give a good placement for the AI by applying a bit greedy algorithm.
+     * Again, apologise for the repetive code, this method is very similair to compChoice 1, it i have time, i can merge
+     * this two methods into one. Readers can only read the commented lines. The signature random is gone because advanced
+     * AI does not decide the placement randomly.
+     *
+     * @param root                   root group
+     * @param placementStringBuilder stringBuilder containing the placement information
+     * @param numberOfPlayer         an int representing the number of players
+     * @param validRectangle         valid rectangle group
+     * @param totalHandArray         string[] representing the hands in all players' hand
+     * @param button1                a button
+     * @param scoreGroup             score group
+     * @param flagGroup              flag group
+     * @param drawnTile              string representing the tile to be placed
+     * @throws NullPointerException at later stage of the game(the board is nearly full), this excpetion may occur.
+     * @author Jiawei Fan
+     */
+    private void compChoice2(Group root, StringBuilder placementStringBuilder, int numberOfPlayer, Group validRectangle, String[] totalHandArray, Button button1, Group scoreGroup, Group flagGroup, String drawnTile) throws NullPointerException {
+        int turnIndex = (placementStringBuilder.length() / Placement.LENGTH_OF_ONE_PlACEMENT) % numberOfPlayer;
         ImageView putTile = new ImageView();
         putTile.setImage(new Image(this.getClass().getResource(URI_BASE + drawnTile + ".jpg").toString()));
         putTile.setFitWidth(SQUARE_SIZE);
@@ -696,12 +791,11 @@ public class AddElement {
         putTile.setLayoutX(11 * SQUARE_SIZE);
         putTile.setLayoutY(8.5 * SQUARE_SIZE);
         validRectangle.getChildren().add(putTile);
-        String highestAdditionalScoreCoordinates = getHighestAdditionalScoreCoordinates(root, drawnTile, placementStringBuilder, numberOfPlayer);
-        if (highestAdditionalScoreCoordinates.equals("")) {
-            System.out.println(66666);
+        String highestAdditionalScoreCoordinates = getHighestAdditionalScoreCoordinates(root, drawnTile, placementStringBuilder, numberOfPlayer);//get the coordinate of highest place, if no place can gain 5 more points, draw again
+        if (highestAdditionalScoreCoordinates.equals("")) {//if no place gain 5 more points
             validRectangle.getChildren().clear();
             totalHandArray[turnIndex] = drawnTile;
-            String drawnTile2 = Metro.drawFromDeck(placementStringBuilder.toString(), AddElement.stringArrayToString(totalHandArray));
+            String drawnTile2 = Metro.drawFromDeck(placementStringBuilder.toString(), AddElement.stringArrayToString(totalHandArray));//draw again
             if (drawnTile2.equals("")) {
                 AddElement.addGameOver(root);
             }
@@ -709,31 +803,45 @@ public class AddElement {
             putTile2.setImage(new Image(this.getClass().getResource(URI_BASE + drawnTile2 + ".jpg").toString()));
             putTile2.setFitWidth(SQUARE_SIZE);
             putTile2.setFitHeight(SQUARE_SIZE);
-            System.out.println(77777);
-            String highestAdditionalScoreCoordinates2 = getHighestAdditionalScoreCoordinates(root, drawnTile2, placementStringBuilder, numberOfPlayer);
+            String highestAdditionalScoreCoordinates2 = getHighestAdditionalScoreCoordinates(root, drawnTile2, placementStringBuilder, numberOfPlayer);//get highest place to place the tile because AI can not draw again
             giveGoodPlacement(root, drawnTile2, placementStringBuilder, numberOfPlayer, putTile2, highestAdditionalScoreCoordinates2);
         } else {
             giveGoodPlacement(root, drawnTile, placementStringBuilder, numberOfPlayer, putTile, highestAdditionalScoreCoordinates);
             totalHandArray[turnIndex] = null;
             validRectangle.getChildren().clear();
         }
-        turnIndex = (placementStringBuilder.length() / 6) % numberOfPlayer;
+        turnIndex = (placementStringBuilder.length() / Placement.LENGTH_OF_ONE_PlACEMENT) % numberOfPlayer;
         addScore(root, scoreGroup, placementStringBuilder.toString(), numberOfPlayer);
         addFlag(root, flagGroup, turnIndex);
-        checkIndex(root, placementStringBuilder, numberOfPlayer, validRectangle, totalHandArray, button1, scoreGroup, flagGroup, isAdvancedBot);
+        checkIndex(root, placementStringBuilder, numberOfPlayer, validRectangle, totalHandArray, button1, scoreGroup, flagGroup, true);
     }
 
+    /**
+     * This method is to check the current index to see if it is 0, which means it is real player1's turn to place a tile.
+     * If it is AI's turn, this method applied a bit concept of recursion to go to next AI's turn.
+     *
+     * @param root                   root group
+     * @param placementStringBuilder stringBuilder containing the placement information
+     * @param numberOfPlayer         an int representing the number of players
+     * @param validRectangle         valid rectangle group
+     * @param totalHandArray         string[] representing the hands in all players' hand
+     * @param button1                a button
+     * @param scoreGroup             score group
+     * @param flagGroup              flag group
+     * @param isAdvancedBot          true if the AI is advanced, false if not
+     * @author Jiawei Fan
+     */
     private void checkIndex(Group root, StringBuilder placementStringBuilder, int numberOfPlayer, Group validRectangle, String[] totalHandArray, Button button1, Group scoreGroup, Group flagGroup, Boolean isAdvancedBot) {
-        int turnIndex = (placementStringBuilder.length() / 6) % numberOfPlayer;
+        int turnIndex = (placementStringBuilder.length() / Placement.LENGTH_OF_ONE_PlACEMENT) % numberOfPlayer;
         if (turnIndex == 0) {
-            if (totalHandArray[turnIndex] == null) {
-                validRectangle.getChildren().add(button1);
+            if (totalHandArray[turnIndex] == null) {//check hand
+                validRectangle.getChildren().add(button1);//put in the draw button so that player 1 can draw
             } else {
                 DraggableRectangle3 d = new DraggableRectangle3(root, totalHandArray[0], placementStringBuilder, numberOfPlayer, validRectangle, totalHandArray, turnIndex, button1, scoreGroup, flagGroup, isAdvancedBot);
                 validRectangle.getChildren().add(d);
             }
         } else {
-            addComputerPlacement(root, placementStringBuilder, numberOfPlayer, validRectangle, totalHandArray, button1, scoreGroup, flagGroup, isAdvancedBot);
+            addComputerPlacement(root, placementStringBuilder, numberOfPlayer, validRectangle, totalHandArray, button1, scoreGroup, flagGroup, isAdvancedBot);//this is the place recursion concept is applied
         }
     }
 }

@@ -2,12 +2,16 @@ package comp1110.ass2;
 
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Map;
 
+/**
+ * This class deals with all the things related to the placement and it contains many
+ * useful method for the placement.
+ *
+ * @author Jiawei Fan
+ */
 public class Placement {
     /* This class is intended to handle the methods and checks related to the placing of tiles*/
-    public static String piecePlacement;
     public static final int LENGTH_OF_ONE_PlACEMENT = 6;
     public static final int LENGTH_OF_TILE_TYPE = 4;
 
@@ -134,21 +138,37 @@ public class Placement {
         return "";//two tiles are not neightbors, actually this will never be reached becaue isNeighbor method will be called as the precondition of this method in another main.
     }
 
-    public static int[]  getStartStationForThisPlayer (String placement, int numberOfPlayer)
-    {
+    /**
+     * This method is going to return an int array wichi contains the start station for a player,
+     * it is based on the current placement and the number of players in the game.
+     *
+     * @param placement      current placement
+     * @param numberOfPlayer an int representing the number of players
+     * @return an int[] containing the start station for play of this turn
+     * @author Jiawei Fan
+     */
+    public static int[] getStartStationForThisPlayer(String placement, int numberOfPlayer) {
         int numberOfPlacement = placement.length() / Placement.LENGTH_OF_ONE_PlACEMENT;//number of placements already placed
         int remaindarPlacementNumber = numberOfPlacement % numberOfPlayer;//extra placements, which is also the index of Player
-        int playerNumber=remaindarPlacementNumber+1;
-        Map<String, int[]> stationMap= Station.getInitialStationMap();
-        String numberOfPlayerString=numberOfPlayer+"";
-        String playerNumberString=playerNumber+"";
-        return stationMap.get(numberOfPlayerString+playerNumberString);
+        int playerNumber = remaindarPlacementNumber + 1;
+        Map<String, int[]> stationMap = Station.getInitialStationMap();
+        String numberOfPlayerString = numberOfPlayer + "";
+        String playerNumberString = playerNumber + "";
+        return stationMap.get(numberOfPlayerString + playerNumberString);
     }
 
-    public static ArrayList<String> getSpareStartStation(String placement,int nuberOfPlayer)
-    {
-        ArrayList<String> spareStartStation=new ArrayList<>();
-        int[] startStation=getStartStationForThisPlayer(placement,nuberOfPlayer);
+    /**
+     * This method is to further determine the spare start station where player can place a
+     * start tile next to it.
+     *
+     * @param placement     string representing the placement
+     * @param nuberOfPlayer int representing the number of players
+     * @return an arrayList contaning all the spare start stations
+     * @author Jiawei Fan
+     */
+    public static ArrayList<String> getSpareStartStation(String placement, int nuberOfPlayer) {
+        ArrayList<String> spareStartStation = new ArrayList<>();
+        int[] startStation = getStartStationForThisPlayer(placement, nuberOfPlayer);
         for (int value : startStation) {
             if (!placement.contains(StationNumber.fromStationNumber(value))) {
                 spareStartStation.add(StationNumber.fromStationNumber(value));
@@ -157,104 +177,111 @@ public class Placement {
         return spareStartStation;
     }
 
-    public static boolean isLoopBacktoEdge(String piecePlacement)
-    {
-        if (piecePlacement.contains("0")||piecePlacement.contains("7"))
-        {
-            String row=piecePlacement.substring(4,5);
-            String column=piecePlacement.substring(5,6);
-            if (row.equals("0")&&column.compareTo("7")<0&&column.compareTo("0")>0)
-            {
-                return piecePlacement.substring(0,1).equals("d");
+    /**
+     * This method is used to decide if the placement containing pieces that
+     * are looping back to the edge stations.
+     *
+     * @param piecePlacement string representing the current placement
+     * @return true if there are tiles looping back to edge stations
+     * @author Jiawei Fan
+     */
+    public static boolean isLoopBacktoEdge(String piecePlacement) {
+        if (piecePlacement.contains("0") || piecePlacement.contains("7")) {
+            String row = piecePlacement.substring(4, 5);
+            String column = piecePlacement.substring(5, 6);
+            if (row.equals("0") && column.compareTo("7") < 0 && column.compareTo("0") > 0) {
+                return piecePlacement.substring(0, 1).equals("d");
             }
-            if (column.equals("7")&&row.compareTo("7")<0&&row.compareTo("0")>0)
-            {
-                return piecePlacement.substring(1,2).equals("d");
+            if (column.equals("7") && row.compareTo("7") < 0 && row.compareTo("0") > 0) {
+                return piecePlacement.substring(1, 2).equals("d");
             }
-            if (row.equals("7")&&column.compareTo("0")>0&&column.compareTo("7")<0)
-            {
-                return piecePlacement.substring(2,3).equals("d");
+            if (row.equals("7") && column.compareTo("0") > 0 && column.compareTo("7") < 0) {
+                return piecePlacement.substring(2, 3).equals("d");
             }
-            if (column.equals("0")&&row.compareTo("0")>0&&row.compareTo("7")<0)
-            {
-                return piecePlacement.substring(3,4).equals("d");
+            if (column.equals("0") && row.compareTo("0") > 0 && row.compareTo("7") < 0) {
+                return piecePlacement.substring(3, 4).equals("d");
             }
-            if (row.equals("0")&&column.equals("0"))
-            {
-                return piecePlacement.substring(3,4).equals("b")||piecePlacement.substring(0,1).equals("c")||piecePlacement.substring(3,4).equals("d")||piecePlacement.substring(0,1).equals("d");
+            if (row.equals("0") && column.equals("0")) {
+                return piecePlacement.substring(3, 4).equals("b") || piecePlacement.substring(0, 1).equals("c") || piecePlacement.substring(3, 4).equals("d") || piecePlacement.substring(0, 1).equals("d");
             }
-            if (row.equals("0")&&column.equals("7"))
-            {
-                return piecePlacement.substring(0,1).equals("b")||piecePlacement.substring(1,2).equals("c")||piecePlacement.substring(0,1).equals("d")||piecePlacement.substring(1,2).equals("d");
+            if (row.equals("0") && column.equals("7")) {
+                return piecePlacement.substring(0, 1).equals("b") || piecePlacement.substring(1, 2).equals("c") || piecePlacement.substring(0, 1).equals("d") || piecePlacement.substring(1, 2).equals("d");
             }
-            if (row.equals("7")&&column.equals("7"))
-            {
-                return piecePlacement.substring(1,2).equals("b")||piecePlacement.substring(2,3).equals("c")||piecePlacement.substring(1,2).equals("d")||piecePlacement.substring(2,3).equals("d");
+            if (row.equals("7") && column.equals("7")) {
+                return piecePlacement.substring(1, 2).equals("b") || piecePlacement.substring(2, 3).equals("c") || piecePlacement.substring(1, 2).equals("d") || piecePlacement.substring(2, 3).equals("d");
             }
-            if (row.equals("7")&&column.equals("0"))
-            {
-                return piecePlacement.substring(2,3).equals("b")||piecePlacement.substring(3,4).equals("c")||piecePlacement.substring(2,3).equals("d")||piecePlacement.substring(3,4).equals("d");
+            if (row.equals("7") && column.equals("0")) {
+                return piecePlacement.substring(2, 3).equals("b") || piecePlacement.substring(3, 4).equals("c") || piecePlacement.substring(2, 3).equals("d") || piecePlacement.substring(3, 4).equals("d");
             }
         }
         return false;
     }
 
-    public static boolean hasNeighbor(String piecePlacement,String placement)
-    {
-        int numberOfPlacements=placement.length()/6;
-        for (int i=0;i<numberOfPlacements;i++)
-        {
-            String testPlacement=placement.substring(6*i,6*i+6);
-            if (isNeighbour(piecePlacement,testPlacement))
-            {
+    /**
+     * This method is to determine if the piece placement has neighbors in the placement.
+     *
+     * @param piecePlacement piece placement string of length 6
+     * @param placement      current placement string
+     * @return true is the piece placement has neighbors, so it is valid
+     * @author Jiawei Fan
+     */
+    public static boolean hasNeighbor(String piecePlacement, String placement) {
+        int numberOfPlacements = placement.length() / Placement.LENGTH_OF_ONE_PlACEMENT;
+        for (int i = 0; i < numberOfPlacements; i++) {
+            String testPlacement = placement.substring(Placement.LENGTH_OF_ONE_PlACEMENT * i, Placement.LENGTH_OF_ONE_PlACEMENT * i + Placement.LENGTH_OF_ONE_PlACEMENT);
+            if (isNeighbour(piecePlacement, testPlacement)) {
                 return true;
             }
         }
         return false;
     }
 
+    /**
+     * This method is to determine if a piece placement is simple valid or not.
+     * simple valid means if it is next to edge station it is not loop back to edge station or has a neighbor and if it is not next to edge, it has neighbors
+     *
+     * @param placement      String representing current placement on the board
+     * @param piecePlacement the piece which is going to be placed
+     * @return true if it is simple valid, false if not
+     * @author Jiawei Fan
+     */
 
-
-    //simple valid means if it is next to edge station it is not loop back to edge station or has a neighbor and if it is not next to edge, it has neighbors
-    public static boolean isSimpleValid(String placement,String piecePlacement)
-    {
-        if (piecePlacement.contains("0")||piecePlacement.contains("7"))
-        {
+    public static boolean isSimpleValid(String placement, String piecePlacement) {
+        if (piecePlacement.contains("0") || piecePlacement.contains("7")) {
             return !isLoopBacktoEdge(piecePlacement);
-        }
-        else
-        {
+        } else {
             return hasNeighbor(piecePlacement, placement);
         }
     }
 
-
-
-    public static ArrayList<String> getValidMovePlace(String placement, String piece, int numberOfPlayer)
-    {
-        ArrayList<String> boardCoordinates=Station.getBoardCoordinates();
+    /**
+     * This method is going to get the valid place for the tiles to be places,but has not
+     * considered the case that the piece can not be placed else where. So it returns initial
+     * valid places which need to be refined later.
+     *
+     * @param placement      string representing the placement
+     * @param piece          String of length 4 representing the test piece
+     * @param numberOfPlayer int representing the number of players
+     * @return ArrayList containg the valid places 
+     * @author Jiawei Fan
+     */
+    public static ArrayList<String> getValidMovePlace(String placement, String piece, int numberOfPlayer) {
+        ArrayList<String> boardCoordinates = Station.getBoardCoordinates();
         boardCoordinates.removeIf(placement::contains);
-        ArrayList<String> spareStartStation=getSpareStartStation(placement,numberOfPlayer);
-        ArrayList<String> aboardCoordinates = new ArrayList<>(boardCoordinates);
-        for (String coordinate:boardCoordinates)
-        {
-            if (coordinate.contains("0")||coordinate.contains("7"))
-            {
-                String testPiece=piece+coordinate;
-                if (!spareStartStation.contains(coordinate))
-                {
-                    if (!hasNeighbor(testPiece, placement))
-                    {
-                        aboardCoordinates.remove(coordinate);
+        ArrayList<String> spareStartStation = getSpareStartStation(placement, numberOfPlayer);
+        ArrayList<String> aboardCoordinates = new ArrayList<>(boardCoordinates);//get all the coordinates
+        for (String coordinate : boardCoordinates) {
+            if (coordinate.contains("0") || coordinate.contains("7")) {//firstly test the coordinates of edge
+                String testPiece = piece + coordinate;
+                if (!spareStartStation.contains(coordinate)) {
+                    if (!hasNeighbor(testPiece, placement)) {
+                        aboardCoordinates.remove(coordinate);//
                     }
                 }
-
-            }
-            else
-            {
-                String testPiecePlacement= placement +piece+coordinate;
-                if (!Metro.isPlacementSequenceValid(testPiecePlacement))
-                {
+            } else {//then test the coordinates of inner board
+                String testPiecePlacement = placement + piece + coordinate;
+                if (!Metro.isPlacementSequenceValid(testPiecePlacement)) {//this is i reviewed task 6,innder board case is fine but task 6 does not consider edge carefully
+                    // although task6 passes the test, it is not perfect and will fail test where more cases are tested
                     aboardCoordinates.remove(coordinate);
                 }
             }
@@ -262,22 +289,37 @@ public class Placement {
         return aboardCoordinates;
     }
 
-    public static boolean cannotPlaceElsewhere(String placement, String piece, int numberOfPlayer)
-    {
-        ArrayList<String> validPlaces=getValidMovePlace(placement,piece,numberOfPlayer);
-        for (String each:validPlaces)
-        {
-            if (isSimpleValid(placement,piece+each))
-            {
+    /**
+     * This method is to determine the case that a piece cannot ba placed elsewhere so that it is
+     * valid for it to place in some cases(e.g.,looping back to edge)
+     *
+     * @param placement      string representing the current placement
+     * @param piece          piece to be placed, it is a string of length 4
+     * @param numberOfPlayer int representing the number of player
+     * @return true if the piece cannot be placed anywhere
+     * @author Jiawei Fan
+     */
+    public static boolean cannotPlaceElsewhere(String placement, String piece, int numberOfPlayer) {
+        ArrayList<String> validPlaces = getValidMovePlace(placement, piece, numberOfPlayer);
+        for (String each : validPlaces) {
+            if (isSimpleValid(placement, piece + each)) {//once there is a valid place, it is not the case the tile cannot be placed elsewhere
                 return false;
             }
         }
         return true;
     }
 
-    public static ArrayList<String> getFinalValidPlace(String placement, String piece, int numberOfPlayer)
-    {
-       ArrayList<String> validMove=getValidMovePlace(placement,piece,numberOfPlayer);
+    /**
+     * This method is to determine the final valid places based to the initial valid places for a piece,
+     *
+     * @param placement      current placement
+     * @param piece          a string representing the type of this tile
+     * @param numberOfPlayer an int representing the number of players
+     * @return an arraylist of valid places to place this tile\
+     * @author Jiawei Fan
+     */
+    public static ArrayList<String> getFinalValidPlace(String placement, String piece, int numberOfPlayer) {
+        ArrayList<String> validMove = getValidMovePlace(placement, piece, numberOfPlayer);
         if (!cannotPlaceElsewhere(placement, piece, numberOfPlayer)) {
             validMove.removeIf(each -> !isSimpleValid(placement, piece + each));
         }

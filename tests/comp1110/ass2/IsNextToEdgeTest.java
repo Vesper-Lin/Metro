@@ -17,39 +17,39 @@ import static org.junit.Assert.assertTrue;
  */
 public class IsNextToEdgeTest {
     public static final TileEntryAndExit[] notNextToEdge = new TileEntryAndExit[]{
-            new TileEntryAndExit("aaaa54", 4, 3),
-            new TileEntryAndExit("bcbc73", 3, 2),
-            new TileEntryAndExit("aacb62", 1, 4),
-            new TileEntryAndExit("baac22", 3, 8),
-            new TileEntryAndExit("bcbc73", 2, 3),
-            new TileEntryAndExit("ccda12", 4, 1),
-            new TileEntryAndExit("adbb21", 6, 3),
-            new TileEntryAndExit("bcbc73", 2, 3),
-            new TileEntryAndExit("bcbc33", 2, 4)
+            new TileEntryAndExit("aaaa54", 3),
+            new TileEntryAndExit("bcbc73", 2),
+            new TileEntryAndExit("aacb62", 4),
+            new TileEntryAndExit("baac22", 8),
+            new TileEntryAndExit("bcbc73", 3),
+            new TileEntryAndExit("ccda12", 1),
+            new TileEntryAndExit("adbb21", 3),
+            new TileEntryAndExit("bcbc73", 3),
+            new TileEntryAndExit("bcbc33", 4)
     };
 
     public static final TileEntryAndExit[] isNextToEdge = new TileEntryAndExit[]{
-            new TileEntryAndExit("aaaa40", 4, 7),
-            new TileEntryAndExit("bcbc30", 2, 7),
-            new TileEntryAndExit("aacb02", 2, 1),
-            new TileEntryAndExit("baac04", 4, 1),
-            new TileEntryAndExit("bcbc47", 8, 3),
-            new TileEntryAndExit("ccda67", 6, 3),
-            new TileEntryAndExit("adbb71", 2, 5),
-            new TileEntryAndExit("bcbc73", 4, 5),
-            new TileEntryAndExit("bcbc75", 6, 5)
+            new TileEntryAndExit("aaaa40", 7),
+            new TileEntryAndExit("bcbc30", 7),
+            new TileEntryAndExit("aacb02", 1),
+            new TileEntryAndExit("baac04", 1),
+            new TileEntryAndExit("bcbc47", 3),
+            new TileEntryAndExit("ccda67", 3),
+            new TileEntryAndExit("adbb71", 5),
+            new TileEntryAndExit("bcbc73", 5),
+            new TileEntryAndExit("bcbc75", 5)
     };
 
     public static final TileEntryAndExit[] isNextToEdgeButWrongExit = new TileEntryAndExit[]{
-            new TileEntryAndExit("aaaa40", 4, 3),
-            new TileEntryAndExit("bcbc30", 3, 6),
-            new TileEntryAndExit("aacb02", 1, 3),
-            new TileEntryAndExit("baac04", 3, 5),
-            new TileEntryAndExit("bcbc47", 2, 4),
-            new TileEntryAndExit("ccda67", 4, 6),
-            new TileEntryAndExit("adbb71", 6, 7),
-            new TileEntryAndExit("bcbc73", 2, 3),
-            new TileEntryAndExit("bcbc75", 2, 1)
+            new TileEntryAndExit("aaaa40", 3),
+            new TileEntryAndExit("bcbc30", 6),
+            new TileEntryAndExit("aacb02", 3),
+            new TileEntryAndExit("baac04", 5),
+            new TileEntryAndExit("bcbc47", 4),
+            new TileEntryAndExit("ccda67", 6),
+            new TileEntryAndExit("adbb71", 7),
+            new TileEntryAndExit("bcbc73", 3),
+            new TileEntryAndExit("bcbc75", 1)
     };
 
 
@@ -58,7 +58,7 @@ public class IsNextToEdgeTest {
 
     private void test(TileEntryAndExit tile, Boolean expected) {
         boolean out = Scoring.isNextToEdge(tile);
-        assertEquals("expected " + expected + ", but got " + out+" for "+tile.getPlacement()+" with exit: "+tile.getExit(), out, (boolean) expected);
+        assertEquals("expected " + expected + ", but got " + out+" for "+tile.getPlacement()+" with exit: "+tile.getExit(), out, expected);
     }
 
     @Test

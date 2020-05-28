@@ -34,11 +34,12 @@ public class PlayerStation extends Player {
      *
      * @param numberOfPlayer an int representing the number of players
      * @return An ArrayList<PlayerStation> contains all player's info in the game
+     * @author Jiawei Fan
      */
     public static ArrayList<PlayerStation> getPlayerStationArrayList(int numberOfPlayer) {
         String playerKey1 = numberOfPlayer + "";//convert int to a String
         Map<String, int[]> stationMap = Station.getInitialStationMap();//get the stationmap
-        ArrayList<PlayerStation> playerStations = new ArrayList<>();
+        var playerStations = new ArrayList<PlayerStation>();
         for (int i = 1; i <= numberOfPlayer; i++) {
             //for each player,get the station owned information
             String playerKey2 = i + "";//convert int to a String

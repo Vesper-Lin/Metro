@@ -3,6 +3,11 @@ package comp1110.ass2;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * This class is for dealing with the deck.
+ *
+ * @author Jiawei Fan
+ */
 public class Deck {
     /**
      * This method is helpful when adding the known tiles into the deck, by using a for loop, passing
@@ -11,14 +16,12 @@ public class Deck {
      * @param currentDeck      current deck which contains tiles
      * @param tileType         a 4-length long String whichs represent the type of the tile to be added
      * @param numberOfThisType the number of this type of tiles to be added
-     * @return new  ArrayList<String> which contains the new added tiles at the end
      * @author Jiawei Fan
      */
-    public static ArrayList<String> addIntoDeck(ArrayList<String> currentDeck, String tileType, int numberOfThisType) {
+    public static void addIntoDeck(ArrayList<String> currentDeck, String tileType, int numberOfThisType) {
         for (int i = 0; i < numberOfThisType; i++) {
             currentDeck.add(tileType);
         }
-        return currentDeck;
     }
 
     /**
@@ -92,14 +95,14 @@ public class Deck {
      */
     public static ArrayList<String> getCurrentDeck(String placementSequence, String totalHands) {
         ArrayList<String> initialDeck = getInitialDeck();//get initial deck
-        int pieceNumberOnBoard = placementSequence.length() / 6;
-        int pieceNumberOnHand = totalHands.length() / 4;
+        int pieceNumberOnBoard = placementSequence.length() / Placement.LENGTH_OF_ONE_PlACEMENT;
+        int pieceNumberOnHand = totalHands.length() / Placement.LENGTH_OF_TILE_TYPE;
         for (int i = 0; i < pieceNumberOnBoard; i++) {//remove each piece which is already put on board from the initial deck
-            String testPiece = placementSequence.substring(6 * i, 6 * i + 4);
+            String testPiece = placementSequence.substring(Placement.LENGTH_OF_ONE_PlACEMENT * i, Placement.LENGTH_OF_ONE_PlACEMENT * i + 4);
             initialDeck.remove(testPiece);
         }
         for (int i = 0; i < pieceNumberOnHand; i++) {//remove each piece which is held on players' hand from the initial deck
-            String testPiece = totalHands.substring(4 * i, 4 * i + 4);
+            String testPiece = totalHands.substring(Placement.LENGTH_OF_TILE_TYPE * i, Placement.LENGTH_OF_TILE_TYPE * i + 4);
             initialDeck.remove(testPiece);
         }
         return initialDeck;//initial deck has been modified that it doesn't contain pieces
@@ -119,8 +122,7 @@ public class Deck {
      */
     public static String drawFromCurrentDeck(String placementSequence, String totalHands) {
         ArrayList<String> currentDeck = getCurrentDeck(placementSequence, totalHands);//get the current deck
-        if (currentDeck.size()==0)
-        {
+        if (currentDeck.size() == 0) {
             return "";
         }
         Random random = new Random();//get a random object
