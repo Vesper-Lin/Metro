@@ -262,7 +262,7 @@ public class Placement {
      * @param placement      string representing the placement
      * @param piece          String of length 4 representing the test piece
      * @param numberOfPlayer int representing the number of players
-     * @return ArrayList containg the valid places 
+     * @return ArrayList containg the valid places
      * @author Jiawei Fan
      */
     public static ArrayList<String> getValidMovePlace(String placement, String piece, int numberOfPlayer) {
