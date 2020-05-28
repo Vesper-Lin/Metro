@@ -117,8 +117,17 @@ public class Board {
         }
         return finalStatus;
     }
-
-
+/**
+ * This method checks if any tiles are placed, next to the edges loop back to itself.
+ * This will be allowed only if it could not have been placed elsewhere.
+ *
+ * @param positions: Contains of all the positions of tiles on the board.
+ * @param tilePlaced: Contains all the tile types placed on the board.
+ *
+ *@return: Returns true if the placement is appropriate. Else returns false.
+ *
+ * @author :Ganaraj Rao
+*/
     public boolean checkEdges(ArrayList<String> positions, ArrayList<String> tilePlaced) {
        boolean edgeCheck = true;
        //create a map of the board with positions as key and tile on position as value
@@ -169,6 +178,21 @@ public class Board {
 
         return edgeCheck;
     }
+    /**
+     * This method checks if any tiles are placed, next to the corners loop back to itself or
+     * connect neighbouring tiles.
+     * This will be allowed only if it could not have been placed elsewhere.
+     *
+     * @param positions: Contains of all the positions of tiles on the board.
+     * @param tilePlaced: Contains all the tile types placed on the board.
+     *
+     *@return: Returns true if the placement is appropriate. Else returns false.
+     *
+     * @author :Ganaraj Rao
+     */
+
+
+
     public boolean cornerCheck(ArrayList<String> positions, ArrayList<String> tilePlaced) {
         //create a map of the board with positions as key and tile on position as value
         HashMap<String,String> boardMap = getMap(positions,tilePlaced);
@@ -196,11 +220,27 @@ public class Board {
         }
         return true;
     }
+    /**
+     * This method checks if any all board is full, in other words has all 60 elements.
+     *
+     * @param positions: Contains of all the positions of tiles on the board.
+     *@return: Returns true if the placementsequence has a length of 60.
+     *
+     * @author :Ganaraj Rao
+     */
 
     private boolean lengthCheck(ArrayList<String> positions){
         return positions.size() == 60;
 
     }
+    /**
+     * This method returns an Array<List></> containing all the positions of corner on the board
+     *
+     *
+     *@return: An ArrayList<></> containing all the corner positions of the board.
+     *
+     * @author :Ganaraj Rao
+     */
 
     private ArrayList<String> getCorners() {
         ArrayList<String> corners = new ArrayList<>();
@@ -211,6 +251,16 @@ public class Board {
         return corners;
 
     }
+    /**
+     * This method generates a HashMap representing the current board from the ArrayLists
+     * representings tiles on board and their positions.
+     * @param positions: An ArrayList containing the position of tiles on board
+     * @param tilePlaced: An ArrayList containing all the tiletypes on the board
+     *
+     *@return: A HashMap representing the current board.
+     *
+     * @author :Ganaraj Rao
+     */
 
     private HashMap<String, String> getMap(ArrayList<String> positions, ArrayList<String> tilePlaced) {
         HashMap<String, String> boardMap = new HashMap<>();
@@ -219,6 +269,14 @@ public class Board {
         }
         return boardMap;
     }
+    /**
+     * This method returns an Array<List></> containing all the positions of edges on the board
+     *
+     *
+     *@return: An ArrayList<></> containing all the edge positions of the board.
+     *
+     * @author :Ganaraj Rao
+     */
 
     public static ArrayList<String> getEdgeTiles(){
         ArrayList<String> edgeTiles = new ArrayList<>();
@@ -237,7 +295,16 @@ public class Board {
         return edgeTiles;
     }
 
-//TODO: write the comment
+    /**
+     * This method creates a list of all tile types in the tilePlaced arraylist.
+     *
+     * @param tilePlaced: Arraylist containing pieceplacement
+     * @param tiles: An Array list which hold the types of tiles
+     *
+     *
+     * @author :Ganaraj Rao
+     */
+
     public void getTiles(ArrayList<String> tilePlaced, ArrayList<String> tiles) {
         for (String s:tilePlaced) {
             tiles.add(s.substring(0,4));
@@ -271,6 +338,16 @@ public class Board {
         }
         return true;
     }
+    /**
+     * This method generates a Boolean HashMap representing the current board from the ArrayLists
+     * representings tiles on board and their positions.
+     * @param placementSequence: A string representing the current position of the board
+     *
+     *@return: A Boolean HashMap representing the current board.
+     *
+     * @author :Ganaraj Rao
+     */
+
 
     public HashMap<String, Boolean> getBoardMap(String placementSequence){
         ArrayList<String> tilePlaced = new ArrayList<>();
