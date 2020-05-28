@@ -139,45 +139,6 @@ public class Placement {
     }
 
     /**
-     * This method is going to return an int array wichi contains the start station for a player,
-     * it is based on the current placement and the number of players in the game.
-     *
-     * @param placement      current placement
-     * @param numberOfPlayer an int representing the number of players
-     * @return an int[] containing the start station for play of this turn
-     * @author Jiawei Fan
-     */
-    public static int[] getStartStationForThisPlayer(String placement, int numberOfPlayer) {
-        int numberOfPlacement = placement.length() / Placement.LENGTH_OF_ONE_PlACEMENT;//number of placements already placed
-        int remaindarPlacementNumber = numberOfPlacement % numberOfPlayer;//extra placements, which is also the index of Player
-        int playerNumber = remaindarPlacementNumber + 1;
-        Map<String, int[]> stationMap = Station.getInitialStationMap();
-        String numberOfPlayerString = numberOfPlayer + "";
-        String playerNumberString = playerNumber + "";
-        return stationMap.get(numberOfPlayerString + playerNumberString);
-    }
-
-    /**
-     * This method is to further determine the spare start station where player can place a
-     * start tile next to it.
-     *
-     * @param placement     string representing the placement
-     * @param nuberOfPlayer int representing the number of players
-     * @return an arrayList contaning all the spare start stations
-     * @author Jiawei Fan
-     */
-    public static ArrayList<String> getSpareStartStation(String placement, int nuberOfPlayer) {
-        ArrayList<String> spareStartStation = new ArrayList<>();
-        int[] startStation = getStartStationForThisPlayer(placement, nuberOfPlayer);
-        for (int value : startStation) {
-            if (!placement.contains(StationNumber.fromStationNumber(value))) {
-                spareStartStation.add(StationNumber.fromStationNumber(value));
-            }
-        }
-        return spareStartStation;
-    }
-
-    /**
      * This method is used to decide if the placement containing pieces that
      * are looping back to the edge stations.
      *
@@ -268,17 +229,9 @@ public class Placement {
     public static ArrayList<String> getValidMovePlace(String placement, String piece, int numberOfPlayer) {
         ArrayList<String> boardCoordinates = Station.getBoardCoordinates();
         boardCoordinates.removeIf(placement::contains);
-        ArrayList<String> spareStartStation = getSpareStartStation(placement, numberOfPlayer);
         ArrayList<String> aboardCoordinates = new ArrayList<>(boardCoordinates);//get all the coordinates
         for (String coordinate : boardCoordinates) {
-            if (coordinate.contains("0") || coordinate.contains("7")) {//firstly test the coordinates of edge
-                String testPiece = piece + coordinate;
-                if (!spareStartStation.contains(coordinate)) {
-                    if (!hasNeighbor(testPiece, placement)) {
-                        aboardCoordinates.remove(coordinate);//
-                    }
-                }
-            } else {//then test the coordinates of inner board
+            if (!(coordinate.contains("0") || coordinate.contains("7"))) {//then test the coordinates of inner board
                 String testPiecePlacement = placement + piece + coordinate;
                 if (!Metro.isPlacementSequenceValid(testPiecePlacement)) {//this is i reviewed task 6,innder board case is fine but task 6 does not consider edge carefully
                     // although task6 passes the test, it is not perfect and will fail test where more cases are tested

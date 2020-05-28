@@ -307,7 +307,7 @@ public class Viewer extends Application {
         button2.setLayoutY(0);
         root.getChildren().add(button2);
         AddElement.addText(root, "Current Score", 11.7, 0.8, 15, Color.DEEPPINK);
-        AddElement.addText(root, "Currenet Hand", 10.8, 9.8, 15, Color.DEEPPINK);
+        AddElement.addText(root, "Current Hand", 10.8, 9.8, 15, Color.DEEPPINK);
         AddElement.addScore(root, scoreGroup, "", numeberOfPlayer);
         AddElement.addFlag(root, flagGroup, placementStringBuilder.length() / Placement.LENGTH_OF_ONE_PlACEMENT);
     }
@@ -362,7 +362,7 @@ public class Viewer extends Application {
         button2.setLayoutY(0);
         root.getChildren().add(button2);
         AddElement.addText(root, "Current Score", 11.7, 0.8, 15, Color.DEEPPINK);
-        AddElement.addText(root, "Currenet Hand", 10.8, 9.8, 15, Color.DEEPPINK);
+        AddElement.addText(root, "Current Hand", 10.8, 9.8, 15, Color.DEEPPINK);
         AddElement.addScore(root, scoreGroup, "", numeberOfPlayer);
         AddElement.addFlag(root, flagGroup, placementStringBuilder.length() / 6);
     }
@@ -416,7 +416,7 @@ public class Viewer extends Application {
         button2.setLayoutY(0);
         root.getChildren().add(button2);
         AddElement.addText(root, "Current Score", 11.7, 0.8, 15, Color.DEEPPINK);
-        AddElement.addText(root, "Currenet Hand", 10.8, 9.8, 15, Color.DEEPPINK);
+        AddElement.addText(root, "Current Hand", 10.8, 9.8, 15, Color.DEEPPINK);
         AddElement.addScore(root, scoreGroup, "", numeberOfPlayer);
         AddElement.addFlag(root, flagGroup, placementStringBuilder.length() / 6);
     }
