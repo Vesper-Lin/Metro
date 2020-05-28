@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
-public class Positiontests {
+public class PositionTests {
     Board board = new Board();
     @Test
     //check for valid cases
