@@ -8,7 +8,7 @@ import static org.junit.Assert.assertTrue;
 
 public class IsPlacementSequenceValidTest {
     @Rule
-    public Timeout globalTimeout = Timeout.millis(1000000000);
+    public Timeout globalTimeout = Timeout.millis(1000);
 
     @Test
     public void testEmptyBoard() {
