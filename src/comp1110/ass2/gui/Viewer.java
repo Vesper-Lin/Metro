@@ -448,7 +448,7 @@ public class Viewer extends Application {
         AddElement.addText(root2, "Number of player and AI", 11.0, 6.0, 20, Color.PINK);
         AddElement.addText(root2, "(please type between 2-6)", 11.0, 7.0, 20, Color.PINK);
         AddElement.addText(root2, "Or", 12.5, 7.5, 20, Color.PINK);
-        AddElement.addText(root2, "player advanced AI numbner", 11.0, 8.0, 20, Color.PINK);
+        AddElement.addText(root2, "player advanced AI number", 11.0, 8.0, 20, Color.PINK);
         AddElement.addText(root2, "(please type between 2-6)", 11.0, 9.0, 20, Color.PINK);
         textField = new TextField();
         textField.setText("2");//initialise the textfield to be 2
