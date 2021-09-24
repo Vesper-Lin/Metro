@@ -1,4 +1,4 @@
-<p align="center"><img height="300" src="https://github.com/Vesper-Lin/Metro/blob/master/game_ui.jpg" alt="Cars4Sale logo"></p>
+<p align="center"><img src="https://github.com/Vesper-Lin/Metro/blob/master/game_ui.jpg" alt="Cars4Sale logo"></p>
 
 ## Metro
 
