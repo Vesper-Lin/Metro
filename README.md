@@ -1,4 +1,8 @@
-# COMP1110 Assignment 2 S1 2020 - Metro
+<p align="center"><img height="300" src="https://github.com/Vesper-Lin/Metro/blob/master/game_ui.jpg" alt="Cars4Sale logo"></p>
+
+## Metro
+
+ANU COMP1110 : Structured Programming - Group Project
 
 ## Academic Honesty and Integrity
 
